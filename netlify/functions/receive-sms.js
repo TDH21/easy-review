@@ -1,11 +1,5 @@
-/**
- * Twilio webhook — receives inbound SMS replies from customers.
- * Configure your Twilio number's "A message comes in" webhook to point here.
- * Expected message format: "<rating> <optional comment>"
- * Example: "5 Great service!"
- */
-
 const { URLSearchParams } = require('url');
+const { createClient } = require('@supabase/supabase-js');
 
 // Converts Twilio's E.164 Australian format (+61XXXXXXXXX) to local format (0XXXXXXXXX)
 function normaliseAustralianPhone(phone) {
@@ -22,9 +16,8 @@ exports.handler = async (event) => {
   const from = normaliseAustralianPhone(params.get('From') || '');
   const messageBody = (params.get('Body') || '').trim();
 
-  // Parse rating and optional comment from the message
+  // Parse rating (1-5) and optional comment
   const match = messageBody.match(/^([1-5])\s*(.*)/s);
-
   let rating = null;
   let comment = '';
 
@@ -33,27 +26,44 @@ exports.handler = async (event) => {
     comment = match[2].trim();
   }
 
-  // TODO: look up the pending review_request by phone number from your data store
-  // Example: const reviewRequest = await db.findReviewRequestByPhone(from);
-  const reviewRequest = null; // replace with real lookup
+  // Initialise Supabase client
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
 
-  if (!reviewRequest) {
-    console.warn(`No matching review_request found for phone: ${from}`);
+  // Look up the most recent pending review_request for this phone number
+  const { data: reviewRequest, error: lookupError } = await supabase
+    .from('review_requests')
+    .select('id')
+    .eq('phone', from)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (lookupError) {
+    console.warn(`No review_request found for phone: ${from}`, lookupError.message);
   }
 
-  const review = {
-    phone: from,
-    reviewRequestId: reviewRequest ? reviewRequest.id : null,
-    rating,
-    body: comment || messageBody,
-    raw: messageBody,
-    createdAt: new Date().toISOString()
-  };
+  // Save the review to Supabase
+  const { error: insertError } = await supabase
+    .from('reviews')
+    .insert([{
+      phone: from,
+      review_request_id: reviewRequest ? reviewRequest.id : null,
+      rating,
+      body: comment || messageBody,
+      raw: messageBody,
+      created_at: new Date().toISOString(),
+    }]);
 
-  // TODO: persist review (e.g. to a database, Airtable, or Netlify Blobs)
-  console.log('New review received:', JSON.stringify(review));
+  if (insertError) {
+    console.error('Supabase insert error:', insertError.message);
+  } else {
+    console.log(`Review saved — phone: ${from}, rating: ${rating}`);
+  }
 
-  // Respond with a TwiML acknowledgement
+  // Always respond to Twilio with TwiML
   const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Message>Thank you for your feedback${rating ? ` (${rating}/5)` : ''}! We really appreciate it.</Message>
@@ -62,6 +72,6 @@ exports.handler = async (event) => {
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'text/xml' },
-    body: twiml
+    body: twiml,
   };
 };
