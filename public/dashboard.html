@@ -619,7 +619,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Phone Number</label>
-              <input class="form-input" id="sendPhone" type="tel" placeholder="+61 4XX XXX XXX" />
+              <input class="form-input" id="sendPhone" type="tel" placeholder="0487 110 872" />
             </div>
           </div>
           <button class="send-btn-hero" onclick="sendReviewRequest()">Send SMS Request ✉️</button>
@@ -834,10 +834,18 @@
       }
     }
 
+    function toE164(phone) {
+      let p = phone.replace(/[\s\-().]/g, '');
+      if (p.startsWith('0') && p.length === 10) return '+61' + p.slice(1);
+      if (p.startsWith('+')) return p;
+      return p;
+    }
+
     async function sendReviewRequest() {
       const name = document.getElementById('sendName').value.trim();
-      const phone = document.getElementById('sendPhone').value.trim();
-      if (!name || !phone) { showNotification('Please enter a name and phone number', false); return; }
+      const rawPhone = document.getElementById('sendPhone').value.trim();
+      if (!name || !rawPhone) { showNotification('Please enter a name and phone number', false); return; }
+      const phone = toE164(rawPhone);
 
       const btn = document.querySelector('.send-btn');
       btn.textContent = 'Sending...';
