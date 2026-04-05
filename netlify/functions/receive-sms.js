@@ -1,20 +1,15 @@
 const { URLSearchParams } = require('url');
 const { createClient } = require('@supabase/supabase-js');
 
-// Converts Twilio's E.164 Australian format (+61XXXXXXXXX) to local format (0XXXXXXXXX)
-function normaliseAustralianPhone(phone) {
-  if (phone.startsWith('+61') && phone.length === 12) {
-    return '0' + phone.slice(3);
-  }
-  return phone;
-}
-
 exports.handler = async (event) => {
   // Twilio sends POST with application/x-www-form-urlencoded
   const params = new URLSearchParams(event.body || '');
 
-  const from = normaliseAustralianPhone(params.get('From') || '');
+  // Keep phone in E.164 format (+61XXXXXXXXX) — matches what send-sms stores
+  const from = params.get('From') || '';
   const messageBody = (params.get('Body') || '').trim();
+
+  console.log('Incoming SMS from:', from, '| Body:', messageBody);
 
   // Parse rating (1-5) and optional comment
   const match = messageBody.match(/^([1-5])\s*(.*)/s);
@@ -24,6 +19,15 @@ exports.handler = async (event) => {
   if (match) {
     rating = parseInt(match[1], 10);
     comment = match[2].trim();
+  }
+
+  if (!rating) {
+    console.warn('No valid rating found in message:', messageBody);
+    const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Message>Sorry, we didn't get that. Please reply with a number from 1 to 5. Example: 5</Message>
+</Response>`;
+    return { statusCode: 200, headers: { 'Content-Type': 'text/xml' }, body: twiml };
   }
 
   // Initialise Supabase client
@@ -42,10 +46,10 @@ exports.handler = async (event) => {
     .single();
 
   if (lookupError) {
-    console.warn(`No review_request found for phone: ${from}`, lookupError.message);
+    console.warn('No review_request found for:', from, lookupError.message);
   }
 
-  // Save the review using the correct column names from the reviews table
+  // Save the review
   const { error: insertError } = await supabase
     .from('reviews')
     .insert([{
@@ -53,20 +57,20 @@ exports.handler = async (event) => {
       customer_name: reviewRequest ? reviewRequest.customer_name : null,
       business_name: reviewRequest ? reviewRequest.business_name : null,
       rating: rating,
-      comment: comment || messageBody,
+      comment: comment || null,
       created_at: new Date().toISOString(),
     }]);
 
   if (insertError) {
     console.error('Supabase insert error:', insertError.message);
   } else {
-    console.log(`Review saved — phone: ${from}, rating: ${rating}`);
+    console.log('Review saved — phone:', from, '| rating:', rating);
   }
 
-  // Always respond to Twilio with TwiML
+  // Reply to customer
   const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Message>Thank you for your feedback${rating ? ` (${rating}/5)` : ''}! We really appreciate it.</Message>
+  <Message>Thank you for your ${rating}/5 rating! We really appreciate your feedback. 🙏</Message>
 </Response>`;
 
   return {
