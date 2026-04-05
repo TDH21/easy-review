@@ -1,4 +1,5 @@
 const twilio = require('twilio');
+const { createClient } = require('@supabase/supabase-js');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -27,7 +28,6 @@ exports.handler = async (event) => {
   }
 
   const client = twilio(accountSid, authToken);
-
   const message = `Hi ${name}, thanks for visiting! We'd love your feedback. Reply to this message with your rating (1-5) and a comment. Example: "5 Great service!"`;
 
   try {
@@ -36,6 +36,25 @@ exports.handler = async (event) => {
       from: fromNumber,
       to: phone
     });
+
+    // Save the review request to Supabase so we can match it when the customer replies
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    const { error: insertError } = await supabase
+      .from('review_requests')
+      .insert([{
+        customer_name: name,
+        customer_phone: phone,
+        status: 'sent',
+        created_at: new Date().toISOString(),
+      }]);
+
+    if (insertError) {
+      console.error('Supabase insert error:', insertError.message);
+    }
 
     return {
       statusCode: 200,
