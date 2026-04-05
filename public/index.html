@@ -1,110 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Easy Review</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy Review — Get More 5-Star Reviews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #f0ebe2;
+      --gold: #c8a96e;
+      --gold-light: #e8d5aa;
+      --green: #2d6a4f;
+      --green-light: #52b788;
+      --text: #1a1a1a;
+      --muted: #6b6560;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5%;
+      background: rgba(245, 242, 237, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200, 169, 110, 0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--black); color: var(--white);
+      padding: 0.6rem 1.4rem; border-radius: 100px;
+      text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--green); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
       min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200, 169, 110, 0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(45, 106, 79, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(200, 169, 110, 0.12);
+      border: 1px solid rgba(200, 169, 110, 0.3);
+      color: var(--gold);
+      padding: 0.4rem 1rem; border-radius: 100px;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      max-width: 900px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-top: 1.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--black); color: var(--white);
+      padding: 0.9rem 2rem; border-radius: 100px;
+      text-decoration: none; font-size: 1rem; font-weight: 500;
+      transition: all 0.2s;
+      border: 2px solid var(--black);
+    }
+
+    .btn-primary:hover {
+      background: var(--green); border-color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(45, 106, 79, 0.25);
+    }
+
+    .btn-secondary {
+      color: var(--text); text-decoration: none;
+      font-size: 0.95rem; font-weight: 400;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .btn-secondary:hover { color: var(--gold); }
+
+    /* PHONE MOCKUP */
+    .hero-visual {
+      margin-top: 4rem;
+      position: relative;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .phone-wrap {
+      display: flex; gap: 1.5rem; align-items: flex-end;
+      justify-content: center;
+    }
+
+    .phone {
+      width: 200px;
+      background: var(--black);
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .phone-screen {
+      background: #1a1a1a;
+      border-radius: 20px;
       padding: 1rem;
+      min-height: 280px;
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+
+    .sms-bubble {
+      background: #2a2a2a;
+      border-radius: 14px 14px 14px 4px;
+      padding: 0.75rem 1rem;
+      font-size: 0.72rem;
+      color: #e0e0e0;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
     }
-    h1 { font-size: 1.75rem; margin-bottom: 0.5rem; color: #1a1a1a; }
-    p { color: #666; margin-bottom: 1.5rem; }
-    label { display: block; font-weight: 500; margin-bottom: 0.4rem; color: #333; }
-    input {
-      width: 100%;
-      padding: 0.65rem 0.85rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-    input:focus { outline: none; border-color: #4f46e5; }
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      background: #4f46e5;
+
+    .sms-bubble.reply {
+      background: var(--green);
+      border-radius: 14px 14px 4px 14px;
       color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
+      text-align: right;
+      margin-left: auto;
+      max-width: 80%;
     }
-    button:hover { background: #4338ca; }
-    .status { margin-top: 1rem; text-align: center; font-size: 0.9rem; color: #666; }
-    .status.success { color: #16a34a; }
-    .status.error { color: #dc2626; }
+
+    .sms-time {
+      font-size: 0.6rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .stars-row {
+      display: flex; gap: 3px; margin-top: 0.4rem;
+    }
+
+    .star { color: var(--gold); font-size: 0.9rem; }
+
+    /* STATS STRIP */
+    .stats {
+      background: var(--black);
+      padding: 3rem 5%;
+      display: flex; justify-content: center; gap: 0;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 0 3rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem; font-weight: 800;
+      color: var(--gold);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      font-weight: 300;
+    }
+
+    /* HOW IT WORKS */
+    .section { padding: 7rem 5%; }
+
+    .section-tag {
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 700px;
+    }
+
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 4rem;
+      background: rgba(200, 169, 110, 0.1);
+      border: 1px solid rgba(200, 169, 110, 0.15);
+      border-radius: 20px; overflow: hidden;
+    }
+
+    .step {
+      background: var(--white);
+      padding: 2.5rem;
+      transition: background 0.2s;
+    }
+
+    .step:hover { background: var(--cream); }
+
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      color: rgba(200, 169, 110, 0.2);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: var(--cream);
+      border-radius: 16px; padding: 2rem;
+      border: 1px solid rgba(200, 169, 110, 0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      font-size: 2rem; margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+
+    .price-card {
+      border-radius: 20px; padding: 2.5rem;
+      border: 1px solid rgba(200, 169, 110, 0.2);
+      background: var(--white);
+      transition: transform 0.2s;
+    }
+
+    .price-card:hover { transform: translateY(-4px); }
+
+    .price-card.featured {
+      background: var(--black); color: var(--white);
+      border-color: var(--black);
+      position: relative;
+    }
+
+    .price-card.featured .price-muted { color: rgba(255,255,255,0.5); }
+    .price-card.featured .price-feature { color: rgba(255,255,255,0.8); }
+    .price-card.featured .price-feature::before { color: var(--gold-light); }
+
+    .popular-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--black);
+      font-size: 0.7rem; font-weight: 700;
+      padding: 0.25rem 0.75rem; border-radius: 100px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    .price-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+
+    .price-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      line-height: 1;
+    }
+
+    .price-muted { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .price-divider {
+      height: 1px; background: rgba(200, 169, 110, 0.15);
+      margin: 1.5rem 0;
+    }
+
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .price-feature {
+      font-size: 0.88rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .price-feature::before { content: '✓'; color: var(--green-light); font-weight: 700; }
+
+    .price-btn {
+      display: block; text-align: center;
+      margin-top: 2rem; padding: 0.8rem;
+      border-radius: 100px; font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; transition: all 0.2s;
+      border: 2px solid currentColor;
+    }
+
+    .price-card:not(.featured) .price-btn {
+      color: var(--black); border-color: rgba(0,0,0,0.15);
+    }
+
+    .price-card:not(.featured) .price-btn:hover {
+      background: var(--black); color: var(--white); border-color: var(--black);
+    }
+
+    .price-card.featured .price-btn {
+      background: var(--gold); color: var(--black); border-color: var(--gold);
+    }
+
+    .price-card.featured .price-btn:hover {
+      background: var(--gold-light); border-color: var(--gold-light);
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: var(--black);
+      margin: 0 5% 5rem;
+      border-radius: 28px;
+      padding: 5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200, 169, 110, 0.15), transparent);
+    }
+
+    .cta-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.05;
+      color: var(--white); position: relative;
+    }
+
+    .cta-section h2 em { font-style: normal; color: var(--gold); }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.5); margin-top: 1rem;
+      font-size: 1.05rem; position: relative;
+    }
+
+    .cta-form {
+      display: flex; gap: 0.75rem; justify-content: center;
+      margin-top: 2.5rem; position: relative;
+    }
+
+    .cta-input {
+      padding: 0.9rem 1.5rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.07);
+      color: var(--white); font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      width: 280px; outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cta-input::placeholder { color: rgba(255,255,255,0.3); }
+    .cta-input:focus { border-color: var(--gold); }
+
+    .cta-btn {
+      background: var(--gold); color: var(--black);
+      padding: 0.9rem 1.75rem; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 600;
+      border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(200, 169, 110, 0.15);
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .steps { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .stats { flex-direction: column; gap: 2rem; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 0; }
+      .stat:last-child { border-bottom: none; }
+      .cta-section { padding: 3rem 2rem; margin: 0 1rem 3rem; }
+      .cta-form { flex-direction: column; align-items: center; }
+      .cta-input { width: 100%; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Easy Review</h1>
-    <p>Send a review request via SMS to your customer.</p>
 
-    <label for="name">Customer Name</label>
-    <input type="text" id="name" placeholder="Jane Smith">
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Easy<span>Review</span></div>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="#get-started" class="nav-cta">Get started free</a>
+  </nav>
 
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" placeholder="+1 555 000 0000">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">⭐ Trusted by local businesses across Australia</div>
+    <h1>Turn customers into<br /><em>5-star reviews</em></h1>
+    <p>Send a quick SMS after every visit. Customers reply with their rating in seconds. Reviews go up, reputation grows.</p>
+    <div class="hero-actions">
+      <a href="#get-started" class="btn-primary">Start for free</a>
+      <a href="#how" class="btn-secondary">See how it works →</a>
+    </div>
 
-    <button onclick="sendRequest()">Send Review Request</button>
-    <div class="status" id="status"></div>
+    <div class="hero-visual">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sms-time">Today 2:34 PM</div>
+            <div class="sms-bubble">Hi Sarah! Thanks for visiting us today. We'd love your feedback — reply with a rating from 1–5. Example: "5 Great service!"</div>
+            <div class="sms-bubble reply">5 Absolutely loved it! 🙌<div class="stars-row">⭐⭐⭐⭐⭐</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><span class="stat-num">3s</span><span class="stat-label">Time to request a review</span></div>
+    <div class="stat"><span class="stat-num">68%</span><span class="stat-label">SMS open rate vs 20% email</span></div>
+    <div class="stat"><span class="stat-num">4.8★</span><span class="stat-label">Average rating for users</span></div>
+    <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Automated — zero effort</span></div>
   </div>
 
-  <script>
-    async function sendRequest() {
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const status = document.getElementById('status');
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-tag">How it works</div>
+    <h2 class="section-title">Three steps to a better reputation</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Send the request</h3>
+        <p>Enter your customer's name and mobile number. Hit send. They receive a friendly SMS from your business in seconds.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Customer replies</h3>
+        <p>They simply reply with a number from 1 to 5 — no app, no login, no friction. It couldn't be simpler.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>You see the results</h3>
+        <p>Ratings land in your dashboard instantly. Track your score over time and identify what's working.</p>
+      </div>
+    </div>
+  </section>
 
-      if (!name || !phone) {
-        status.textContent = 'Please fill in all fields.';
-        status.className = 'status error';
-        return;
-      }
+  <!-- FEATURES -->
+  <section class="section" id="features" style="background: var(--cream);">
+    <div class="section-tag">Features</div>
+    <h2 class="section-title">Everything you need, nothing you don't</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>SMS — not email</h3>
+        <p>SMS gets opened. Email gets ignored. Your review requests land in the same place as messages from friends and family.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant results</h3>
+        <p>Ratings appear in your dashboard the moment the customer replies. No delays, no manual updates needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Simple dashboard</h3>
+        <p>See your average rating, review history, and trends at a glance. Built for business owners, not data scientists.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🇦🇺</div>
+        <h3>Built for Australia</h3>
+        <p>Australian phone numbers, Australian time zones, Australian business culture. No fiddling with international settings.</p>
+      </div>
+    </div>
+  </section>
 
-      status.textContent = 'Sending...';
-      status.className = 'status';
+  <!-- PRICING -->
+  <section class="section" id="pricing">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">Simple pricing, no surprises</h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">Free</div>
+        <div class="price-muted">Forever — no card needed</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="price-feature">50 SMS requests/month</li>
+          <li class="price-feature">Basic dashboard</li>
+          <li class="price-feature">1 business location</li>
+          <li class="price-feature">Email support</li>
+        </ul>
+        <a href="#get-started" class="price-btn">Get started</a>
+      </div>
 
-      try {
-        const res = await fetch('/.netlify/functions/send-sms', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, phone })
-        });
+      <div class="price-card featured">
+        <div class="popular-badge">Most popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amount">$49<span style="font-size:1rem;font-weight:400;">/mo</span></div>
+        <div class="price-muted">Everything you need to scale</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="price-feature">500 SMS requests/month</li>
+          <li class="price-feature">Full dashboard & analytics</li>
+          <li class="price-feature">3 business locations</li>
+          <li class="price-feature">Priority support</li>
+          <li class="price-feature">Google Review integration</li>
+        </ul>
+        <a href="#get-started" class="price-btn">Start free trial</a>
+      </div>
 
-        const data = await res.json();
+      <div class="price-card">
+        <div class="price-name">Pro</div>
+        <div class="price-amount">$99<span style="font-size:1rem;font-weight:400;">/mo</span></div>
+        <div class="price-muted">For multi-location businesses</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="price-feature">Unlimited SMS requests</li>
+          <li class="price-feature">Advanced analytics</li>
+          <li class="price-feature">Unlimited locations</li>
+          <li class="price-feature">Dedicated account manager</li>
+          <li class="price-feature">API access</li>
+        </ul>
+        <a href="#get-started" class="price-btn">Contact us</a>
+      </div>
+    </div>
+  </section>
 
-        if (res.ok) {
-          status.textContent = 'Review request sent successfully!';
-          status.className = 'status success';
-          document.getElementById('name').value = '';
-          document.getElementById('phone').value = '';
-        } else {
-          status.textContent = data.error || 'Something went wrong.';
-          status.className = 'status error';
-        }
-      } catch (err) {
-        status.textContent = 'Network error. Please try again.';
-        status.className = 'status error';
-      }
-    }
-  </script>
+  <!-- CTA -->
+  <div class="cta-section" id="get-started">
+    <h2>Ready to get more <em>5-star reviews?</em></h2>
+    <p>Join hundreds of Australian businesses growing their reputation with Easy Review.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="Your email address" />
+      <button class="cta-btn">Get started free</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Easy<span>Review</span></div>
+    <p>© 2026 Easy Review. Made in Australia 🇦🇺</p>
+  </footer>
+
 </body>
 </html>
