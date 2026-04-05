@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave a Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --surface: #1a1a1a; --border: rgba(255,255,255,0.08);
+      --white: #f5f2ed; --gold: #c8a96e; --gold-light: #e8d5aa;
+      --gold-dim: rgba(200,169,110,0.15); --muted: rgba(255,255,255,0.4);
+      --text: rgba(255,255,255,0.9); --green: #52b788; --red: #e07070;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--black); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    .page-bg { position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 20%, rgba(200,169,110,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(200,169,110,0.04) 0%, transparent 60%); pointer-events: none; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 480px; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+    .state { display: none; } .state.active { display: block; }
+    .loading-wrap { text-align: center; padding: 2rem 0; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .biz-header { text-align: center; margin-bottom: 2rem; }
+    .biz-logo { width: 72px; height: 72px; border-radius: 16px; background: var(--gold-dim); border: 1px solid rgba(200,169,110,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1rem; }
+    .biz-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem; }
+    .biz-sub { font-size: 0.875rem; color: var(--muted); }
+    .customer-greeting { font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem; font-weight: 500; }
+    .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+    .rating-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; text-align: center; }
+    .stars-wrap { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .star-btn { background: none; border: none; cursor: pointer; font-size: 2.5rem; color: rgba(255,255,255,0.1); transition: color 0.15s, transform 0.1s; line-height: 1; padding: 0.25rem; }
+    .star-btn:hover, .star-btn.selected { color: var(--gold); }
+    .star-btn:hover { transform: scale(1.15); }
+    .rating-text { text-align: center; font-size: 0.85rem; color: var(--muted); min-height: 1.2em; margin-top: 0.5rem; transition: color 0.2s; }
+    .form-group { margin-top: 1.5rem; }
+    .form-label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-bottom: 0.4rem; }
+    textarea { width: 100%; padding: 0.85rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 0.9rem; font-family: 'Inter', sans-serif; outline: none; resize: vertical; min-height: 110px; transition: border-color 0.15s; line-height: 1.6; }
+    textarea::placeholder { color: rgba(255,255,255,0.2); }
+    textarea:focus { border-color: rgba(200,169,110,0.5); }
+    .submit-btn { width: 100%; margin-top: 1.5rem; padding: 0.95rem; background: var(--gold); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; }
+    .submit-btn:hover:not(:disabled) { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,169,110,0.3); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .success-wrap { text-align: center; padding: 1.5rem 0; }
+    .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .success-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+    .success-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .error-wrap { text-align: center; padding: 1.5rem 0; }
+    .error-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .error-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; color: var(--white); margin-bottom: 0.5rem; }
+    .error-sub { font-size: 0.85rem; color: var(--muted); }
+    .powered-by { text-align: center; margin-top: 1.5rem; font-size: 0.72rem; color: rgba(255,255,255,0.15); }
+    .powered-by span { color: var(--gold); opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+  <div class="card">
+    <div class="state active" id="stateLoading">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <p style="color:var(--muted);font-size:0.875rem;">Loading your review page…</p>
+      </div>
+    </div>
+    <div class="state" id="stateForm">
+      <div class="biz-header">
+        <div class="biz-logo" id="bizLogo">⭐</div>
+        <div class="biz-name" id="bizName">Business Name</div>
+        <div class="biz-sub">We’d love to hear your feedback</div>
+        <div class="customer-greeting" id="customerGreeting"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="rating-label">How would you rate your experience?</div>
+      <div class="stars-wrap" id="starsWrap">
+        <button class="star-btn" data-value="1" onclick="selectStar(1)">★</button>
+        <button class="star-btn" data-value="2" onclick="selectStar(2)">★</button>
+        <button class="star-btn" data-value="3" onclick="selectStar(3)">★</button>
+        <button class="star-btn" data-value="4" onclick="selectStar(4)">★</button>
+        <button class="star-btn" data-value="5" onclick="selectStar(5)">★</button>
+      </div>
+      <div class="rating-text" id="ratingText">Tap a star to rate</div>
+      <div class="form-group">
+        <label class="form-label" for="comment">Your review <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
+        <textarea id="comment" placeholder="Tell us about your experience…"></textarea>
+      </div>
+      <button class="submit-btn" id="submitBtn" onclick="submitReview()">Submit Review</button>
+    </div>
+    <div class="state" id="stateSuccess">
+      <div class="success-wrap">
+        <div class="success-icon">🙏</div>
+        <div class="success-title">Thank you!</div>
+        <p class="success-sub" id="successMsg">Your review has been submitted. We really appreciate you taking the time.</p>
+      </div>
+    </div>
+    <div class="state" id="stateError">
+      <div class="error-wrap">
+        <div class="error-icon">🔗</div>
+        <div class="error-title" id="errorTitle">Link Unavailable</div>
+        <p class="error-sub" id="errorMsg">This review link is invalid or has already been used.</p>
+      </div>
+    </div>
+    <div class="powered-by">Powered by <span>EasyReview</span></div>
+  </div>
+  <script>
+    const RATING_LABELS = { 1: '😟 Poor', 2: '😐 Below average', 3: '🙂 Average', 4: '😊 Good', 5: '🤩 Excellent!' };
+    let selectedRating = 0, token = '', businessName = '';
+    function showState(id) { document.querySelectorAll('.state').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function selectStar(val) {
+      selectedRating = val;
+      document.querySelectorAll('.star-btn').forEach(btn => btn.classList.toggle('selected', parseInt(btn.dataset.value) <= val));
+      const t = document.getElementById('ratingText');
+      t.textContent = RATING_LABELS[val] || '';
+      t.style.color = val >= 4 ? 'var(--gold)' : val === 3 ? 'var(--muted)' : 'var(--red)';
+    }
+    async function submitReview() {
+      if (!selectedRating) { const t = document.getElementById('ratingText'); t.textContent = '⚠ Please select a star rating first'; t.style.color = 'var(--red)'; return; }
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Submitting…'; btn.disabled = true;
+      const comment = document.getElementById('comment').value.trim();
+      try {
+        const res = await fetch('/api/submit-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, rating: selectedRating, comment }) });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('successMsg').textContent = 'Your ' + selectedRating + '-star review has been submitted. ' + businessName + ' really appreciates your time! 🙏';
+          showState('stateSuccess');
+        } else { btn.textContent = 'Submit Review'; btn.disabled = false; const t = document.getElementById('ratingText'); t.textContent = '⚠ ' + (data.error || 'Something went wrong.'); t.style.color = 'var(--red)'; }
+      } catch { btn.textContent = 'Submit Review'; btn.disabled = false; }
+    }
+    async function init() {
+      const params = new URLSearchParams(window.location.search);
+      token = params.get('token');
+      if (!token) { showState('stateError'); document.getElementById('errorTitle').textContent = 'No Review Link Found'; document.getElementById('errorMsg').textContent = 'Please use the link sent to you via SMS.'; return; }
+      try {
+        const res = await fetch('/api/submit-review?token=' + encodeURIComponent(token));
+        const data = await res.json();
+        if (!res.ok) { showState('stateError'); document.getElementById('errorTitle').textContent = res.status === 410 ? (data.error || 'Link Unavailable') : 'Invalid Link'; document.getElementById('errorMsg').textContent = res.status === 410 ? 'This link has already been used or has expired.' : 'We couldn’t find a review request for this link.'; return; }
+        businessName = data.business_name || 'Easy Review';
+        document.getElementById('bizName').textContent = businessName;
+        if (data.customer_name) document.getElementById('customerGreeting').textContent = 'Hi ' + data.customer_name + '!';
+        document.title = 'Review ' + businessName;
+        showState('stateForm');
+      } catch { showState('stateError'); document.getElementById('errorMsg').textContent = 'Could not load review page. Please try again.'; }
+    }
+    init();
+  </script>
+</body>
+</html>
