@@ -1,0 +1,7 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[dev]
+  command = "echo 'No build command'"
+  port = 8888

@@ -1,0 +1,14 @@
+{
+  "name": "easy-review",
+  "version": "1.0.0",
+  "description": "SMS-based review collection system",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "twilio": "^4.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Review — Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    h1 { font-size: 1.75rem; color: #1a1a1a; }
+    a.btn {
+      padding: 0.5rem 1rem;
+      background: #4f46e5;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    a.btn:hover { background: #4338ca; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .stat-card .value { font-size: 2rem; font-weight: 700; color: #4f46e5; }
+    .stat-card .label { font-size: 0.85rem; color: #666; margin-top: 0.25rem; }
+    .reviews-list { display: flex; flex-direction: column; gap: 1rem; }
+    .review-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .review-name { font-weight: 600; color: #1a1a1a; }
+    .review-date { font-size: 0.8rem; color: #999; }
+    .review-rating { color: #f59e0b; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .review-text { color: #555; font-size: 0.95rem; }
+    .loading { text-align: center; color: #999; padding: 3rem 0; }
+    .empty { text-align: center; color: #aaa; padding: 3rem 0; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Dashboard</h1>
+      <a class="btn" href="/">+ New Request</a>
+    </header>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="value" id="total">—</div>
+        <div class="label">Total Reviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="value" id="avg-rating">—</div>
+        <div class="label">Average Rating</div>
+      </div>
+      <div class="stat-card">
+        <div class="value" id="this-month">—</div>
+        <div class="label">This Month</div>
+      </div>
+    </div>
+
+    <div class="reviews-list" id="reviews-list">
+      <div class="loading">Loading reviews...</div>
+    </div>
+  </div>
+
+  <script>
+    function stars(rating) {
+      const n = Math.round(Number(rating));
+      return '★'.repeat(Math.min(n, 5)) + '☆'.repeat(Math.max(0, 5 - n));
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric'
+      });
+    }
+
+    async function loadReviews() {
+      const list = document.getElementById('reviews-list');
+      try {
+        const res = await fetch('/.netlify/functions/get-reviews');
+        const data = await res.json();
+        const reviews = data.reviews || [];
+
+        document.getElementById('total').textContent = reviews.length;
+
+        if (reviews.length === 0) {
+          list.innerHTML = '<div class="empty">No reviews yet. Send your first request!</div>';
+          document.getElementById('avg-rating').textContent = '—';
+          document.getElementById('this-month').textContent = '0';
+          return;
+        }
+
+        const ratings = reviews.filter(r => r.rating).map(r => Number(r.rating));
+        const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : '—';
+        document.getElementById('avg-rating').textContent = avg;
+
+        const now = new Date();
+        const thisMonth = reviews.filter(r => {
+          const d = new Date(r.createdAt);
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        }).length;
+        document.getElementById('this-month').textContent = thisMonth;
+
+        list.innerHTML = reviews.map(r => `
+          <div class="review-card">
+            <div class="review-header">
+              <span class="review-name">${escHtml(r.name || r.phone || 'Anonymous')}</span>
+              <span class="review-date">${formatDate(r.createdAt)}</span>
+            </div>
+            ${r.rating ? `<div class="review-rating">${stars(r.rating)} ${r.rating}/5</div>` : ''}
+            ${r.body ? `<div class="review-text">${escHtml(r.body)}</div>` : ''}
+          </div>
+        `).join('');
+      } catch (err) {
+        list.innerHTML = '<div class="empty">Failed to load reviews.</div>';
+      }
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    loadReviews();
+  </script>
+</body>
+</html>
