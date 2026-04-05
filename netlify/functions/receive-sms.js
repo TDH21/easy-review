@@ -7,11 +7,19 @@
 
 const { URLSearchParams } = require('url');
 
+// Converts Twilio's E.164 Australian format (+61XXXXXXXXX) to local format (0XXXXXXXXX)
+function normaliseAustralianPhone(phone) {
+  if (phone.startsWith('+61') && phone.length === 12) {
+    return '0' + phone.slice(3);
+  }
+  return phone;
+}
+
 exports.handler = async (event) => {
   // Twilio sends POST with application/x-www-form-urlencoded
   const params = new URLSearchParams(event.body || '');
 
-  const from = params.get('From') || '';
+  const from = normaliseAustralianPhone(params.get('From') || '');
   const messageBody = (params.get('Body') || '').trim();
 
   // Parse rating and optional comment from the message
@@ -25,8 +33,17 @@ exports.handler = async (event) => {
     comment = match[2].trim();
   }
 
+  // TODO: look up the pending review_request by phone number from your data store
+  // Example: const reviewRequest = await db.findReviewRequestByPhone(from);
+  const reviewRequest = null; // replace with real lookup
+
+  if (!reviewRequest) {
+    console.warn(`No matching review_request found for phone: ${from}`);
+  }
+
   const review = {
     phone: from,
+    reviewRequestId: reviewRequest ? reviewRequest.id : null,
     rating,
     body: comment || messageBody,
     raw: messageBody,
