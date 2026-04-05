@@ -32,11 +32,11 @@ exports.handler = async (event) => {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  // Look up the most recent pending review_request for this phone number
+  // Look up the most recent review_request for this phone number
   const { data: reviewRequest, error: lookupError } = await supabase
     .from('review_requests')
-    .select('id')
-    .eq('phone', from)
+    .select('id, customer_name, business_name')
+    .eq('customer_phone', from)
     .order('created_at', { ascending: false })
     .limit(1)
     .single();
@@ -45,15 +45,15 @@ exports.handler = async (event) => {
     console.warn(`No review_request found for phone: ${from}`, lookupError.message);
   }
 
-  // Save the review to Supabase
+  // Save the review using the correct column names from the reviews table
   const { error: insertError } = await supabase
     .from('reviews')
     .insert([{
-      phone: from,
-      review_request_id: reviewRequest ? reviewRequest.id : null,
-      rating,
-      body: comment || messageBody,
-      raw: messageBody,
+      customer_phone: from,
+      customer_name: reviewRequest ? reviewRequest.customer_name : null,
+      business_name: reviewRequest ? reviewRequest.business_name : null,
+      rating: rating,
+      comment: comment || messageBody,
       created_at: new Date().toISOString(),
     }]);
 
