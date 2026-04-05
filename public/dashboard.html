@@ -482,6 +482,75 @@
       .main { margin-left: 0; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* SEND HERO */
+    .send-hero {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      background: linear-gradient(135deg, #1a1500 0%, var(--surface) 60%);
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .send-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .send-hero-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .send-hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .send-hero-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .send-hero-form { display: flex; flex-direction: column; gap: 0; }
+
+    .send-btn-hero {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .send-btn-hero:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,169,110,0.3); }
+
+    @media (max-width: 768px) {
+      .send-hero { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -534,6 +603,29 @@
 
     <!-- CONTENT -->
     <div class="content">
+
+      <!-- SEND REVIEW HERO -->
+      <div class="send-hero">
+        <div class="send-hero-left">
+          <div class="send-hero-label">Quick Action</div>
+          <h2 class="send-hero-title">Send a Review Request</h2>
+          <p class="send-hero-sub">Enter your customer's details and fire off an SMS in seconds.</p>
+        </div>
+        <div class="send-hero-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Customer Name</label>
+              <input class="form-input" id="sendName" type="text" placeholder="Jane Smith" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input class="form-input" id="sendPhone" type="tel" placeholder="+61 4XX XXX XXX" />
+            </div>
+          </div>
+          <button class="send-btn-hero" onclick="sendReviewRequest()">Send SMS Request ✉️</button>
+          <div class="send-success" id="sendSuccess">✓ Review request sent successfully!</div>
+        </div>
+      </div>
 
       <!-- STATS -->
       <div class="stats-grid">
@@ -600,30 +692,7 @@
             </div>
           </div>
 
-          <!-- SEND REVIEW REQUEST -->
-          <div class="card" id="sendSection">
-            <div class="card-header">
-              <div class="card-title">Send Review Request</div>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Customer Name</label>
-                  <input class="form-input" id="sendName" type="text" placeholder="Jane Smith" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Phone Number</label>
-                  <input class="form-input" id="sendPhone" type="tel" placeholder="+61 4XX XXX XXX" />
-                </div>
-              </div>
-              <button class="send-btn" onclick="sendReviewRequest()">
-                Send SMS Request ✉️
-              </button>
-              <div class="send-success" id="sendSuccess">
-                ✓ Review request sent successfully!
-              </div>
-            </div>
-          </div>
+
 
         </div>
       </div>
@@ -812,7 +881,7 @@
     }
 
     function scrollToSend() {
-      document.getElementById('sendSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.querySelector('.send-hero').scrollIntoView({ behavior: 'smooth', block: 'center' });
       document.getElementById('sendName').focus();
     }
 
