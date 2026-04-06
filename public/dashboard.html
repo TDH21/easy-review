@@ -236,6 +236,7 @@
     document.getElementById('embedCodeText').textContent='<!-- Easy Review Widget -->\n<div id="easy-review-widget"></div>\n<script src="'+SITE_URL+'/api/embed?id='+encodeURIComponent(BUSINESS_NAME)+'"><\/script>';
   }
   }
+  }
   function renderReviews(reviews){
     const el=document.getElementById('reviewsContent');
     if(!reviews||reviews.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No reviews yet</div><div class="empty-sub">Send your first review request to get started</div></div>';return;}
