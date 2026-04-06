@@ -5,3 +5,8 @@
 [dev]
   command = "echo 'No build command'"
   port = 8888
+
+[[redirects]]
+  from = "/api/send-sms"
+  to = "/.netlify/functions/send-sms"
+  status = 200
