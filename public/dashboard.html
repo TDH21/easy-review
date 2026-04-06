@@ -247,7 +247,7 @@
     const counts={5:0,4:0,3:0,2:0,1:0};
     reviews.forEach(r=>{if(counts[r.rating]!==undefined)counts[r.rating]++;});
     const max=Math.max(...Object.values(counts),1);
-    document.getElementById('ratingBars').innerHTML=[5,4,3,2,1].map(n=>`<div class="rating-row"><div class="rating-label-num">${n}</div><div class="rating-bar-wrap"><div class="rating-bar" style="width:${(counts[n]/max*100).toFixed(0)}%"></div></div><div class="rating-count">${counts[n]}</div></div>`).join('');
+    document.getElementById('ratingBars').innerHTML=[5,4,3,2,1].map(n=>'<div class="rating-row"><div class="rating-label-num">'+n+'</div><div class="rating-bar-wrap"><div class="rating-bar" style="width:'+(counts[n]/max*100).toFixed(0)+'%"></div></div><div class="rating-count">'+counts[n]+'</div></div>').join('');
   }
   function updateStats(reviews,requests){
     const total=reviews.length,avg=total?(reviews.reduce((s,r)=>s+r.rating,0)/total).toFixed(1):'—',five=reviews.filter(r=>r.rating===5).length;
