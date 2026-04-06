@@ -233,9 +233,8 @@
   function updateFeaturedCount(){
     const count=allReviews.filter(r=>r.featured).length;
     document.getElementById('featuredCount').textContent=count===0?'No featured reviews yet - toggle some below':count+' featured review'+(count!==1?'s':'')+' will appear on your website';
-    document.getElementById('embedCodeText').textContent='<!-- Easy Review Widget -->
-<div id="easy-review-widget"></div>
-<script src="'+SITE_URL+'/api/embed?id='+encodeURIComponent(BUSINESS_NAME)+'"><\/script>';
+    document.getElementById('embedCodeText').textContent='<!-- Easy Review Widget -->\n<div id="easy-review-widget"></div>\n<script src="'+SITE_URL+'/api/embed?id='+encodeURIComponent(BUSINESS_NAME)+'"><\/script>';
+  }
   }
   function renderReviews(reviews){
     const el=document.getElementById('reviewsContent');
