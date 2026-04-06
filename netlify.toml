@@ -10,3 +10,8 @@
   from = "/api/send-sms"
   to = "/.netlify/functions/send-sms"
   status = 200
+
+[[redirects]]
+  from = "/api/submit-review"
+  to = "/.netlify/functions/submit-review"
+  status = 200
