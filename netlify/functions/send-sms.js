@@ -26,10 +26,10 @@ exports.handler = async (event) => {
   const reviewLink = siteUrl + '/review.html?token=' + token;
   const message = `Hi ${name}! ${businessName} would love your feedback.\n\nTap here to leave a review:\n${reviewLink}\n\n(Link expires in 7 days)`;
 
-Tap here to leave a review:
-' + reviewLink + '
 
-(Link expires in 7 days)';
+
+
+
 
   const client = twilio(accountSid, authToken);
   try {
