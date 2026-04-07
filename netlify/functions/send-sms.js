@@ -24,7 +24,7 @@ exports.handler = async (event) => {
   const token = crypto.randomBytes(24).toString('hex');
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
   const reviewLink = siteUrl + '/review.html?token=' + token;
-  const message = 'Hi ' + name + '! ' + businessName + ' would love your feedback.
+  const message = `Hi ${name}! ${businessName} would love your feedback.\n\nTap here to leave a review:\n${reviewLink}\n\n(Link expires in 7 days)`;
 
 Tap here to leave a review:
 ' + reviewLink + '
