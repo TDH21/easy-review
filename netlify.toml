@@ -25,4 +25,9 @@
   from = "/api/embed"
   to = "/.netlify/functions/embed"
   status = 200
+
+[[redirects]]
+  from = "/api/update-featured"
+  to = "/.netlify/functions/update-featured"
+  status = 200
   
