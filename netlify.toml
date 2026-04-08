@@ -20,3 +20,9 @@
   from = "/api/get-reviews"
   to = "/.netlify/functions/get-reviews"
   status = 200
+
+[[redirects]]
+  from = "/api/embed"
+  to = "/.netlify/functions/embed"
+  status = 200
+  
