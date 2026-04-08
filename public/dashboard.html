@@ -233,7 +233,7 @@
   function formatDate(iso){return new Date(iso).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
   async function toggleFeatured(id,cur){
     const newVal=!cur;
-    await supabaseFetch('/rest/v1/reviews?id=eq.'+id,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify({featured:newVal})});
+    await fetch('/api/update-featured',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,featured:newVal})});
     const r=allReviews.find(x=>x.id===id);if(r)r.featured=newVal;
     updateFeaturedCount();
     showNotification(newVal?'⭐ Review featured on widget':'Review removed from widget');
