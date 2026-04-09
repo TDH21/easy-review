@@ -25,7 +25,7 @@
         --shadow: rgba(0,0,0,0.06);
       }
       body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
-      .sidebar { display: none; }
+      
       .sidebar-logo { padding: 1.75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 1.2rem; color: #ffffff; }
       .sidebar-logo span { color: var(--gold); }
       .sidebar-nav { flex: 1; padding: 1.5rem 0.75rem; display: flex; flex-direction: column; gap: 0.25rem; }
@@ -39,8 +39,8 @@
       .user-info { flex: 1; }
       .user-name { font-size: 0.82rem; font-weight: 500; color: #ffffff; }
       .user-plan { font-size: 0.72rem; color: rgba(255,255,255,0.35); }
-      .main { flex: 1; margin-left: 0; display: flex; flex-direction: column; }
-      .topbar { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+      .main { flex: 1; margin-left: 0; display: flex; flex-direction: column; max-width: 860px; margin: 0 auto; width: 100%; }
+      .topbar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 1.25rem 1.5rem; }
       .topbar-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 600; color: var(--black); }
       .topbar-actions { display: flex; gap: 0.75rem; align-items: center; }
       .btn { padding: 0.55rem 1.1rem; border-radius: 8px; font-size: 0.83rem; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; border: none; }
@@ -48,7 +48,7 @@
       .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
       .btn-primary { background: var(--gold); color: var(--black); font-weight: 600; }
       .btn-primary:hover { background: var(--gold-light); }
-      .content { padding: 2rem; flex: 1; }
+      .content { padding: 1.5rem; flex: 1; }
       .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
       .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; position: relative; overflow: hidden; transition: border-color 0.2s; box-shadow: 0 2px 8px var(--shadow); }
       .stat-card:hover { border-color: var(--gold); }
@@ -122,30 +122,11 @@
       .notification.show { transform: translateY(0); opacity: 1; }
       @keyframes spin { to { transform: rotate(360deg); } }
       @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } }
-      @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .send-hero { grid-template-columns: 1fr; } }
+      @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .send-hero { grid-template-columns: 1fr; } .content { padding: 1rem; } .form-row { grid-template-columns: 1fr; } }
     </style>  
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sidebar-logo">Easy<span>Review</span></div>
-  <nav class="sidebar-nav">
-    <div class="sidebar-section">Main</div>
-    <a class="nav-item active" href="#"><span class="nav-icon">📊</span> Overview</a>
-    <a class="nav-item" href="#"><span class="nav-icon">⭐</span> Reviews</a>
-    <a class="nav-item" href="#"><span class="nav-icon">📱</span> Send Request</a>
-    <div class="sidebar-section">Account</div>
-    <a class="nav-item" href="#"><span class="nav-icon">⚙️</span> Settings</a>
-    <a class="nav-item" href="index.html"><span class="nav-icon">🌐</span> View Website</a>
-    <a class="nav-item" href="#" onclick="handleLogout()"><span class="nav-icon">👋</span> Log out</a>
-  </nav>
-  <div class="sidebar-footer">
-    <div class="avatar">TH</div>
-    <div class="user-info">
-      <div class="user-name">Tim Harriden</div>
-      <div class="user-plan">Growth Plan</div>
-    </div>
-  </div>
-</aside>
+
 <div class="main">
   <div class="topbar">
     <div class="topbar-title">Overview</div>
@@ -166,14 +147,11 @@
           <div class="form-group">
             <label class="form-label">Customer Name</label>
             <input class="form-input" id="sendName" type="text" placeholder="Jane Smith" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone Number</label>
-            <input class="form-input" id="sendPhone" type="tel" placeholder="0487 110 872" />
-          </div>
-        </div>
-        <button class="send-btn-hero" onclick="sendReviewRequest()">Send Review Link ✉️</button>
-        <div class="send-success" id="sendSuccess">✓ Review link sent successfully!</div>
+          <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-top:0.2rem;">Manage reviews for Gecko Plumbing</div>
+      <button class="btn btn-outline" style="margin-top:0.75rem;" onclick="loadDashboard()">↻ Refresh</button>
+    </div>
       </div>
     </div>
     <div class="stats-grid">
@@ -198,44 +176,34 @@
           </div>
           <div id="reviewsContent"><div class="loading"><div class="spinner"></div> Loading reviews...</div></div>
         </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Rating Breakdown</div></div>
-          <div class="card-body"><div class="rating-bars" id="ratingBars"><div class="loading"><div class="spinner"></div></div></div></div>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-header">
+          <div class="card-title">Reviews</div>
+          <select class="btn btn-outline" style="font-size:0.78rem;" onchange="filterReviews(this.value)">
+            <option value="all">All ratings</option>
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="low">1-2 stars</option>
+            <option value="featured">Featured only</option>
+          </select>
         </div>
-        <div class="embed-card">
-          <div class="embed-header"><span>🔗</span><div class="embed-title">Website Widget</div></div>
-          <div class="embed-body">
-            <p class="embed-desc">Send your best reviews to your website. Toggle ⭐ on any review below, then paste this code into your site.</p>
-            <div class="embed-featured-count" id="featuredCount"></div>
-            <div class="code-block"><button class="copy-btn" onclick="copyEmbed()">Copy</button><span id="embedCodeText"></span></div>
-          </div>
+        <div id="reviewsContent"><div class="loading"><div class="spinner"></div> Loading reviews...</div></div>
+      </div>
+      <div class="stats-grid" style="margin-bottom:1.5rem;">
+        <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-label">Total Reviews</div><div class="stat-value" id="totalReviews">—</div><div class="stat-change neutral" id="totalChange">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-label">Average Rating</div><div class="stat-value" id="avgRating">—</div><div class="stat-change neutral" id="avgChange">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-label">5-Star Reviews</div><div class="stat-value" id="fiveStarCount">—</div><div class="stat-change neutral" id="fiveStarChange">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-label">Requests Sent</div><div class="stat-value" id="requestsSent">—</div><div class="stat-change neutral" id="requestsChange">Loading...</div></div>
+      </div>
+      <div class="embed-card" style="margin-bottom:2rem;">
+        <div class="embed-header"><span>🔗</span><div class="embed-title">Website Widget</div></div>
+        <div class="embed-body">
+          <p class="embed-desc">Send your best reviews to your website. Toggle ⭐ on any review below, then paste this code into your site.</p>
+          <div class="embed-featured-count" id="featuredCount"></div>
+          <div class="code-block"><button class="copy-btn" onclick="copyEmbed()">Copy</button><span id="embedCodeText"></span></div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div class="notification" id="notification"></div>
-<script>
-  const SUPABASE_URL = 'https://qcjyyqchtwhouylhktty.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjanlxcWNodHdob3V5bGhrdHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM4MzQ5OTIsImV4cCI6MjA1OTQxMDk5Mn0.bnIkPLXwqW2y-85GS8o-OyXLiRDUGXGDqpZcSSnPtO0';
-  const SITE_URL = 'https://easyreviewer.netlify.app';
-  const BUSINESS_NAME = 'Easy Review';
-  let allReviews = [];
-  async function supabaseFetch(path, options={}) {
-    const res = await fetch(SUPABASE_URL+path, {headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':options.prefer||''},...options});
-    if (options.method && options.method!=='GET') return res;
-    return res.json();
-  }
-  function starsHtml(r){let s='';for(let i=1;i<=5;i++)s+=i<=r?'<span class="stars">★</span>':'<span class="stars-empty">★</span>';return s;}
-  function badgeHtml(r){if(r===5)return'<span class="badge badge-5">'+r+'★</span>';if(r===4)return'<span class="badge badge-4">'+r+'★</span>';if(r===3)return'<span class="badge badge-3">'+r+'★</span>';return'<span class="badge badge-low">'+r+'★</span>';}
-  function formatDate(iso){return new Date(iso).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
-  async function toggleFeatured(id,cur){
-    const newVal=!cur;
-    await fetch('/api/update-featured',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,featured:newVal})});
-    const r=allReviews.find(x=>x.id===id);if(r)r.featured=newVal;
-    updateFeaturedCount();
     showNotification(newVal?'⭐ Review featured on widget':'Review removed from widget');
   }
   function updateFeaturedCount(){
