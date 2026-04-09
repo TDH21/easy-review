@@ -122,7 +122,7 @@
       .notification.show { transform: translateY(0); opacity: 1; }
       @keyframes spin { to { transform: rotate(360deg); } }
       @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } }
-      @media (max-width: 900px) { .sidebar { display: none !important; } .main { margin-left: 0 !important; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .send-hero { grid-template-columns: 1fr; } }
+      @media (max-width: 900px) { .sidebar { display: none !important; visibility: hidden !important; width: 0 !important; } .main { margin-left: 0 !important; width: 100% !important; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .send-hero { grid-template-columns: 1fr; } }
     </style>  
 </head>
 <body>
