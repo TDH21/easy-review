@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Easy Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f2ed;
+      --surface: #ffffff;
+      --border: #e0dbd4;
+      --black: #1a1a1a;
+      --gold: #c8a96e;
+      --gold-light: #d4b97e;
+      --gold-dim: rgba(200,169,110,0.15);
+      --muted: #6b6560;
+      --text: #1a1a1a;
+      --green: #52b788;
+      --red: #e07070;
+      --shadow: rgba(0,0,0,0.06);
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .topbar { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .topbar-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 600; color: var(--black); }
+    .topbar-title span { color: var(--gold); }
+    .topbar-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .btn { padding: 0.55rem 1.1rem; border-radius: 8px; font-size: 0.83rem; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; border: none; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-primary { background: var(--gold); color: var(--black); font-weight: 600; }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-danger { background: transparent; border: 1px solid rgba(224,112,112,0.4); color: var(--red); }
+    .btn-danger:hover { background: rgba(224,112,112,0.08); }
+    .content { padding: 2rem; max-width: 1100px; margin: 0 auto; }
+    .page-header { margin-bottom: 2rem; }
+    .page-header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 700; color: var(--black); margin-bottom: 0.4rem; }
+    .page-header p { font-size: 0.875rem; color: var(--muted); }
+    .admin-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.3); color: var(--gold); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.25rem 0.65rem; border-radius: 100px; margin-bottom: 1rem; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: 0 2px 8px var(--shadow); }
+    .stat-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .stat-value { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; color: var(--black); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px var(--shadow); }
+    .card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 0.9rem; font-weight: 600; color: var(--black); }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 0.85rem 1.5rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    tbody td { padding: 1rem 1.5rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--black); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #faf8f5; }
+    .linked-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 500; }
+    .linked-yes { background: rgba(82,183,136,0.12); color: var(--green); }
+    .linked-no  { background: rgba(224,112,112,0.12); color: var(--red); }
+    .edit-field { display: flex; align-items: center; gap: 0.5rem; }
+    .inline-input { padding: 0.35rem 0.6rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.83rem; font-family: 'Inter', sans-serif; color: var(--black); background: var(--bg); width: 160px; transition: border-color 0.15s; }
+    .inline-input:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .save-btn { padding: 0.3rem 0.7rem; background: var(--gold); color: var(--black); border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .save-btn:hover { background: var(--gold-light); }
+    .save-btn:disabled { opacity: 0.5; cursor: default; }
+    .embed-snippet { font-family: 'Courier New', monospace; font-size: 0.7rem; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; cursor: pointer; title: 'Click to copy'; }
+    .embed-snippet:hover { border-color: var(--gold); color: var(--gold); }
+    .loading { display: flex; align-items: center; justify-content: center; padding: 3rem; color: var(--muted); font-size: 0.85rem; gap: 0.5rem; }
+    .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+    .notification { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid rgba(82,183,136,0.3); border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.85rem; color: var(--black); box-shadow: 0 4px 20px var(--shadow); opacity: 0; transform: translateY(8px); transition: all 0.2s; pointer-events: none; }
+    .notification.show { opacity: 1; transform: translateY(0); }
+    .auth-email { font-size: 0.78rem; color: var(--muted); }
+    .row-saving { opacity: 0.5; pointer-events: none; }
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .content { padding: 1rem; }
+      thead th:nth-child(4), tbody td:nth-child(4) { display: none; }
+      thead th:nth-child(5), tbody td:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">Easy<span>Review</span> <span style="font-size:0.9rem;font-weight:400;color:var(--muted);font-family:Inter,sans-serif"> — Admin</span></div>
+  <div class="topbar-actions">
+    <button class="btn btn-outline" onclick="loadBusinesses()">↻ Refresh</button>
+    <button class="btn btn-outline" onclick="handleLogout()">Sign out</button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="page-header">
+    <div class="admin-badge">🔐 Admin Panel</div>
+    <h1>Businesses</h1>
+    <p>Manage all registered businesses on the Easy Review platform.</p>
+  </div>
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-label">Total Businesses</div><div class="stat-value" id="statTotal">—</div></div>
+    <div class="stat-card"><div class="stat-label">Linked to Auth User</div><div class="stat-value" id="statLinked">—</div></div>
+    <div class="stat-card"><div class="stat-label">Unlinked</div><div class="stat-value" id="statUnlinked">—</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">All Businesses</div>
+    </div>
+    <div id="tableWrap">
+      <div class="loading"><div class="spinner"></div> Loading…</div>
+    </div>
+  </div>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL    = 'https://qcjyyqchtwhouylhktty.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_f5d8j7AV1Jjk9GfblFpmoA_OTcBPL_S';
+  const SITE_URL        = 'https://easyreviewer.netlify.app';
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let currentSession = null;
+  let businesses = [];
+
+  // --- Auth helpers ---
+  function getAuthHeaders(extra = {}) {
+    return currentSession
+      ? { 'Authorization': 'Bearer ' + currentSession.access_token, ...extra }
+      : { ...extra };
+  }
+
+  function handle401() {
+    window.location.href = 'login.html';
+  }
+
+  async function initAuth() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'login.html'; return; }
+    currentSession = session;
+    loadBusinesses();
+  }
+
+  async function handleLogout() {
+    await sb.auth.signOut();
+    window.location.href = 'login.html';
+  }
+
+  // --- Load businesses ---
+  async function loadBusinesses() {
+    document.getElementById('tableWrap').innerHTML =
+      '<div class="loading"><div class="spinner"></div> Loading…</div>';
+
+    const res = await fetch('/api/admin-get-businesses', { headers: getAuthHeaders() });
+
+    if (res.status === 401) { handle401(); return; }
+    if (res.status === 403) {
+      document.getElementById('tableWrap').innerHTML =
+        '<div class="empty-state">Access denied — admin only.</div>';
+      return;
+    }
+
+    const json = await res.json();
+    businesses = json.businesses || [];
+
+    // Stats
+    const linked = businesses.filter(b => b.user_id).length;
+    document.getElementById('statTotal').textContent    = businesses.length;
+    document.getElementById('statLinked').textContent   = linked;
+    document.getElementById('statUnlinked').textContent = businesses.length - linked;
+
+    renderTable();
+  }
+
+  // --- Render table ---
+  function renderTable() {
+    if (businesses.length === 0) {
+      document.getElementById('tableWrap').innerHTML =
+        '<div class="empty-state">No businesses registered yet.</div>';
+      return;
+    }
+
+    const rows = businesses.map(b => {
+      const embedCode = `<script src="${SITE_URL}/api/embed?id=${encodeURIComponent(b.name)}"><\/script>`;
+      return `
+        <tr id="row-${b.id}">
+          <td>
+            <div class="edit-field">
+              <input class="inline-input" id="name-${b.id}" value="${esc(b.name)}" />
+            </div>
+          </td>
+          <td>
+            <div class="edit-field">
+              <input class="inline-input" id="slug-${b.id}" value="${esc(b.slug || '')}" />
+            </div>
+          </td>
+          <td>
+            <div class="edit-field">
+              <input class="inline-input" id="email-${b.id}" value="${esc(b.email || '')}" />
+            </div>
+            <div class="auth-email" style="margin-top:0.3rem;" title="Supabase Auth email">
+              ${b.auth_email ? '🔑 ' + esc(b.auth_email) : '<span style="color:var(--red)">No auth account</span>'}
+            </div>
+          </td>
+          <td>
+            <span class="linked-badge ${b.user_id ? 'linked-yes' : 'linked-no'}">
+              ${b.user_id ? '✓ Linked' : '✗ Unlinked'}
+            </span>
+          </td>
+          <td>
+            <div class="embed-snippet" onclick="copyText('${embedCode.replace(/'/g,"\\'")}', this)" title="Click to copy embed code">
+              &lt;script src=&hellip;embed?id=${esc(b.name)}&hellip;&gt;
+            </div>
+          </td>
+          <td>
+            <button class="save-btn" onclick="saveBusiness('${b.id}')">Save</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('tableWrap').innerHTML = `
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Business Name</th>
+              <th>Slug</th>
+              <th>Contact Email / Auth</th>
+              <th>Status</th>
+              <th>Embed Code</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  // --- Save a business ---
+  async function saveBusiness(id) {
+    const row = document.getElementById('row-' + id);
+    const name  = document.getElementById('name-'  + id).value.trim();
+    const slug  = document.getElementById('slug-'  + id).value.trim();
+    const email = document.getElementById('email-' + id).value.trim();
+
+    if (!name) { showNotification('Business name cannot be empty', false); return; }
+    if (!slug)  { showNotification('Slug cannot be empty', false); return; }
+
+    row.classList.add('row-saving');
+
+    const res = await fetch('/api/admin-update-business', {
+      method: 'POST',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ id, name, slug, email }),
+    });
+
+    row.classList.remove('row-saving');
+
+    if (res.status === 401) { handle401(); return; }
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      showNotification('Error: ' + (json.error || 'Save failed'), false);
+      return;
+    }
+
+    // Update local data
+    const idx = businesses.findIndex(b => b.id === id);
+    if (idx !== -1) Object.assign(businesses[idx], json.business);
+
+    showNotification('✓ Business updated');
+  }
+
+  // --- Utilities ---
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function copyText(text, el) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = el.innerHTML;
+      el.textContent = '✓ Copied!';
+      el.style.color = 'var(--green)';
+      setTimeout(() => { el.innerHTML = orig; el.style.color = ''; }, 1500);
+    });
+  }
+
+  function showNotification(msg, success = true) {
+    const n = document.getElementById('notification');
+    n.textContent = msg;
+    n.style.borderColor = success ? 'rgba(82,183,136,0.3)' : 'rgba(224,112,112,0.3)';
+    n.style.color = success ? 'var(--green)' : 'var(--red)';
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 3000);
+  }
+
+  initAuth();
+</script>
+</body>
+</html>

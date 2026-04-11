@@ -30,4 +30,19 @@
   from = "/api/update-featured"
   to = "/.netlify/functions/update-featured"
   status = 200
-  
+
+[[redirects]]
+  from = "/api/create-business"
+  to = "/.netlify/functions/create-business"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin-get-businesses"
+  to = "/.netlify/functions/admin-get-businesses"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin-update-business"
+  to = "/.netlify/functions/admin-update-business"
+  status = 200
+
