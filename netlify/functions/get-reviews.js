@@ -41,6 +41,7 @@ exports.handler = async (event) => {
           body: JSON.stringify({
                   reviews: reviews || [],
                   requestsSent: requests ? requests.length : 0,
+                  business: { id: business.id, name: business.name, slug: business.slug, email: business.email },
           }),
     };
 };

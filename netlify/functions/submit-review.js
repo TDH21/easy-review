@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { sendReviewNotification } = require('./_email');
 
 exports.handler = async (event) => {
   const headers = {
@@ -37,6 +38,19 @@ exports.handler = async (event) => {
     }]);
     if (insertError) { console.error('Insert error:', insertError.message); return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to save review' }) }; }
     await supabase.from('review_requests').update({ used: true }).eq('id', request.id);
+    // Send email notification to business
+    if (request.business_id) {
+      const { data: biz } = await supabase.from('businesses').select('email, name').eq('id', request.business_id).maybeSingle();
+      if (biz && biz.email) {
+        await sendReviewNotification({
+          to: biz.email,
+          businessName: biz.name || request.business_name,
+          customerName: request.customer_name,
+          rating: parseInt(rating, 10),
+          comment,
+        });
+      }
+    }
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
   }
 

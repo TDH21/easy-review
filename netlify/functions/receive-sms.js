@@ -1,5 +1,6 @@
 const { URLSearchParams } = require('url');
 const { createClient } = require('@supabase/supabase-js');
+const { sendReviewNotification } = require('./_email');
 
 exports.handler = async (event) => {
   // Twilio sends POST with application/x-www-form-urlencoded
@@ -66,6 +67,19 @@ exports.handler = async (event) => {
     console.error('Supabase insert error:', insertError.message);
   } else {
     console.log('Review saved — phone:', from, '| rating:', rating);
+    // Send email notification to business
+    if (reviewRequest && reviewRequest.business_id) {
+      const { data: biz } = await supabase.from('businesses').select('email, name').eq('id', reviewRequest.business_id).maybeSingle();
+      if (biz && biz.email) {
+        await sendReviewNotification({
+          to: biz.email,
+          businessName: biz.name || reviewRequest.business_name,
+          customerName: reviewRequest.customer_name,
+          rating,
+          comment: comment || null,
+        });
+      }
+    }
   }
 
   // Reply to customer

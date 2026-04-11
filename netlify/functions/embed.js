@@ -11,12 +11,19 @@ exports.handler = async (event) => {
 
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-  const { data: reviews, error } = await supabase
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(businessId);
+
+  const query = supabase
     .from('reviews')
     .select('customer_name, rating, comment, created_at')
-    .eq('business_name', decodeURIComponent(businessId))
     .eq('featured', true)
     .order('created_at', { ascending: false });
+
+  const { data: reviews, error } = await (
+    isUUID
+      ? query.eq('business_id', businessId)
+      : query.eq('business_name', decodeURIComponent(businessId))
+  );
 
   if (error || !reviews || reviews.length === 0) {
     return {
