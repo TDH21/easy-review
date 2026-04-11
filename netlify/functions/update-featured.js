@@ -16,18 +16,8 @@ exports.handler = async (event) => {
     const { id, featured } = body;
     if (id === undefined || featured === undefined) return { statusCode: 400, headers, body: JSON.stringify({ error: 'id and featured are required' }) };
 
-    // Resolve business_id: prefer auth, fall back to env var during transition
-    let businessId;
     const { business, errorResponse } = await getBusinessContext(event, headers);
-    if (errorResponse) {
-      if (process.env.BUSINESS_ID) {
-        businessId = process.env.BUSINESS_ID;
-      } else {
-        return errorResponse;
-      }
-    } else {
-      businessId = business.id;
-    }
+    if (errorResponse) return errorResponse;
 
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -35,7 +25,7 @@ exports.handler = async (event) => {
       .from('reviews')
       .update({ featured })
       .eq('id', id)
-      .eq('business_id', businessId);
+      .eq('business_id', business.id);
 
     if (error) {
           console.error('Supabase error:', error.message);

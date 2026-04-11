@@ -17,16 +17,11 @@ exports.handler = async (event) => {
   const fromNumber = process.env.TWILIO_PHONE_NUMBER;
   const siteUrl = process.env.SITE_URL || 'https://easyreviewer.netlify.app';
 
-  // Resolve business context: prefer auth, fall back to env vars during transition
-  let businessId, businessName;
   const { business, errorResponse } = await getBusinessContext(event, {});
-  if (errorResponse) {
-    businessId   = process.env.BUSINESS_ID   || null;
-    businessName = process.env.BUSINESS_NAME || 'Easy Review';
-  } else {
-    businessId   = business.id;
-    businessName = business.name;
-  }
+  if (errorResponse) return errorResponse;
+
+  const businessId   = business.id;
+  const businessName = business.name;
 
   if (!accountSid || !authToken || !fromNumber) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Twilio credentials not configured' }) };
