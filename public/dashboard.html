@@ -75,9 +75,10 @@
       .send-btn-hero { width: 100%; padding: 0.85rem; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; }
       .send-btn-hero:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,169,110,0.3); }
       .send-success { display: none; text-align: center; padding: 0.6rem; background: rgba(82,183,136,0.1); border: 1px solid rgba(82,183,136,0.2); border-radius: 8px; color: var(--green); font-size: 0.82rem; }
-      .reviews-table { width: 100%; border-collapse: collapse; }
-      .reviews-table th { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 0 1.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
-      .reviews-table td { padding: 1rem 1.5rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--black); }
+      .reviews-table-wrap { overflow-x: auto; }
+      .reviews-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+      .reviews-table th { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 0 1rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+      .reviews-table td { padding: 1rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--black); }
       .reviews-table tr:last-child td { border-bottom: none; }
       .reviews-table tr:hover td { background: var(--bg); }
       .stars { color: var(--gold); letter-spacing: 1px; font-size: 0.8rem; }
