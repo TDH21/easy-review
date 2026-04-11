@@ -25,6 +25,7 @@ exports.handler = async (event) => {
     try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
     const { token, rating, comment } = body;
     if (!token || !rating) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Token and rating are required' }) };
+    if (!comment || !comment.trim()) return { statusCode: 400, headers, body: JSON.stringify({ error: 'A written review is required' }) };
     const { data: request, error: lookupError } = await supabase.from('review_requests').select('id, customer_name, customer_phone, business_name, business_id, used, expires_at').eq('token', token).single();
     if (lookupError || !request) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Invalid link' }) };
     if (request.used) return { statusCode: 410, headers, body: JSON.stringify({ error: 'Already submitted' }) };

@@ -86,8 +86,8 @@
       </div>
       <div class="rating-text" id="ratingText">Tap a star to rate</div>
       <div class="form-group">
-        <label class="form-label" for="comment">Your review</label>
-        <textarea id="comment" placeholder="Tell us about your experience..." autocomplete="off"></textarea>
+        <label class="form-label" for="comment">Your review <span style="color:var(--gold);font-size:0.85em;">*</span></label>
+        <textarea id="comment" placeholder="Tell us about your experience..." autocomplete="off" required></textarea>
       </div>
       <button class="submit-btn" id="submitBtn" onclick="submitReview()">Submit Review</button>
     </div>
@@ -120,9 +120,10 @@
     }
     async function submitReview() {
       if (!selectedRating) { const t = document.getElementById('ratingText'); t.textContent = '⚠ Please select a star rating first'; t.style.color = 'var(--red)'; return; }
+      const comment = document.getElementById('comment').value.trim();
+      if (!comment) { const t = document.getElementById('ratingText'); t.textContent = '⚠ Please write a short review before submitting'; t.style.color = 'var(--red)'; document.getElementById('comment').focus(); return; }
       const btn = document.getElementById('submitBtn');
       btn.textContent = 'Submitting…'; btn.disabled = true;
-      const comment = document.getElementById('comment').value.trim();
       try {
         const res = await fetch('/api/submit-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, rating: selectedRating, comment }) });
         const data = await res.json();
