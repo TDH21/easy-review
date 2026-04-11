@@ -58,8 +58,8 @@
       .stat-change { font-size: 0.75rem; margin-top: 0.5rem; }
       .stat-change.up { color: var(--green); } .stat-change.neutral { color: var(--muted); }
       .stat-icon { position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.5rem; opacity: 0.15; }
-      .dashboard-grid { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; }
-      .dashboard-grid > * { min-width: 0; }
+      .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+      .secondary-grid > * { min-width: 0; }
       .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px var(--shadow); }
       .card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
       .card-title { font-size: 0.9rem; font-weight: 600; color: var(--black); }
@@ -120,7 +120,7 @@
       .notification { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid rgba(82,183,136,0.3); border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.85rem; color: var(--black); box-shadow: 0 4px 20px var(--shadow); }
       .notification.show { transform: translateY(0); opacity: 1; }
       @keyframes spin { to { transform: rotate(360deg); } }
-      @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .secondary-grid { grid-template-columns: 1fr; } }
       .reviews-cards { display: none; } @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .send-hero { grid-template-columns: 1fr; } .content { padding: 0.75rem; } .form-row { grid-template-columns: 1fr; } .send-btn-hero { font-size: 0.85rem; } .stat-card { padding: 1rem; } .reviews-table-wrap { display: none; } .reviews-cards { display: flex; flex-direction: column; gap: 1rem; padding: 1rem; } .review-card-mobile { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; } .review-card-mobile .rc-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem; } .review-card-mobile .rc-stars { color: var(--gold); font-size: 1rem; margin-bottom: 0.4rem; } .review-card-mobile .rc-comment { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 0.5rem; line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word; } .review-card-mobile .rc-date { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.75rem; } }
     </style>  
 </head>
@@ -175,41 +175,37 @@
         <div class="send-success" id="sendSuccess">✓ Review link sent successfully!</div>
       </div>
     </div>
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-header">
+        <div class="card-title">Reviews</div>
+        <select class="btn btn-ghost" style="font-size:0.78rem;" onchange="filterReviews(this.value)">
+          <option value="all">All ratings</option>
+          <option value="5">5 stars</option>
+          <option value="4">4 stars</option>
+          <option value="3">3 stars</option>
+          <option value="low">1-2 stars</option>
+          <option value="featured">Featured only</option>
+        </select>
+      </div>
+      <div id="reviewsContent"><div class="loading"><div class="spinner"></div> Loading reviews...</div></div><div class="reviews-cards" id="reviewsCards"></div>
+    </div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-label">Average Rating</div><div class="stat-value" id="avgRating">—</div><div class="stat-change neutral" id="avgChange">Loading...</div></div>
       <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-label">Total Reviews</div><div class="stat-value" id="totalReviews">—</div><div class="stat-change neutral" id="totalChange">Loading...</div></div>
       <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-label">5-Star Reviews</div><div class="stat-value" id="fiveStarCount">—</div><div class="stat-change neutral" id="fiveStarChange">Loading...</div></div>
       <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-label">Requests Sent</div><div class="stat-value" id="requestsSent">—</div><div class="stat-change neutral" id="requestsChange">Loading...</div></div>
     </div>
-    <div class="dashboard-grid" id="dashboardGrid">
-      <div>
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Reviews</div>
-            <select class="btn btn-ghost" style="font-size:0.78rem;" onchange="filterReviews(this.value)">
-              <option value="all">All ratings</option>
-              <option value="5">5 stars</option>
-              <option value="4">4 stars</option>
-              <option value="3">3 stars</option>
-              <option value="low">1-2 stars</option>
-              <option value="featured">Featured only</option>
-            </select>
-          </div>
-          <div id="reviewsContent"><div class="loading"><div class="spinner"></div> Loading reviews...</div></div><div class="reviews-cards" id="reviewsCards"></div>
-        </div>
+    <div class="secondary-grid">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Rating Breakdown</div></div>
+        <div class="card-body"><div class="rating-bars" id="ratingBars"><div class="loading"><div class="spinner"></div></div></div></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Rating Breakdown</div></div>
-          <div class="card-body"><div class="rating-bars" id="ratingBars"><div class="loading"><div class="spinner"></div></div></div></div>
-        </div>
-        <div class="embed-card">
-          <div class="embed-header"><span>🔗</span><div class="embed-title">Website Widget</div></div>
-          <div class="embed-body">
-            <p class="embed-desc">Send your best reviews to your website. Toggle ⭐ on any review below, then paste this code into your site.</p>
-            <div class="embed-featured-count" id="featuredCount"></div>
-            <div class="code-block"><button class="copy-btn" onclick="copyEmbed()">Copy</button><span id="embedCodeText"></span></div>
-          </div>
+      <div class="embed-card">
+        <div class="embed-header"><span>🔗</span><div class="embed-title">Website Widget</div></div>
+        <div class="embed-body">
+          <p class="embed-desc">Send your best reviews to your website. Toggle ⭐ on any review below, then paste this code into your site.</p>
+          <div class="embed-featured-count" id="featuredCount"></div>
+          <div class="code-block"><button class="copy-btn" onclick="copyEmbed()">Copy</button><span id="embedCodeText"></span></div>
         </div>
       </div>
     </div>
