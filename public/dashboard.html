@@ -215,12 +215,15 @@
   </div>
 </div>
 <div class="notification" id="notification"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://qcjyyqchtwhouylhktty.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjanlxcWNodHdob3V5bGhrdHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM4MzQ5OTIsImV4cCI6MjA1OTQxMDk5Mn0.bnIkPLXwqW2y-85GS8o-OyXLiRDUGXGDqpZcSSnPtO0';
   const SITE_URL = 'https://easyreviewer.netlify.app';
   const BUSINESS_NAME = 'Easy Review';
   let allReviews = [];
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let currentSession = null;
   async function supabaseFetch(path, options={}) {
     const res = await fetch(SUPABASE_URL+path, {headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':options.prefer||''},...options});
     if (options.method && options.method!=='GET') return res;
@@ -231,7 +234,8 @@
   function formatDate(iso){return new Date(iso).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
   async function toggleFeatured(id,cur){
     const newVal=!cur;
-    await fetch('/api/update-featured',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,featured:newVal})});
+    const tfRes=await fetch('/api/update-featured',{method:'POST',headers:getAuthHeaders({'Content-Type':'application/json'}),body:JSON.stringify({id,featured:newVal})});
+    if(tfRes.status===401){handle401();return;}
     const r=allReviews.find(x=>x.id===id);if(r)r.featured=newVal;
     updateFeaturedCount();
     showNotification(newVal?'⭐ Review featured on widget':'Review removed from widget');
@@ -265,9 +269,23 @@
     if(val==='featured')return renderReviews(allReviews.filter(r=>r.featured));
     return renderReviews(allReviews.filter(r=>r.rating===parseInt(val)));
   }
+  function getAuthHeaders(extra={}) {
+    return currentSession
+      ? { 'Authorization': 'Bearer ' + currentSession.access_token, ...extra }
+      : { ...extra };
+  }
+  function handle401() { window.location.href = 'login.html'; }
+  async function initAuth() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'login.html'; return; }
+    currentSession = session;
+    loadDashboard();
+  }
   async function loadDashboard(){
     try{
-      const res = await fetch('/api/get-reviews'); const json = await res.json(); allReviews = Array.isArray(json.reviews) ? json.reviews : [];
+      const res = await fetch('/api/get-reviews', { headers: getAuthHeaders() });
+      if (res.status === 401) { handle401(); return; }
+      const json = await res.json(); allReviews = Array.isArray(json.reviews) ? json.reviews : [];
       const requestsSent = json.requestsSent || 0;
       updateStats(allReviews, requestsSent);
       renderReviews(allReviews);renderRatingBars(allReviews);updateFeaturedCount();
@@ -280,7 +298,8 @@
     const btn=document.querySelector('.send-btn-hero');
     btn.textContent='Sending...';btn.disabled=true;
     try{
-      const res=await fetch('/api/send-sms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone:toE164(rawPhone)})});
+      const res=await fetch('/api/send-sms',{method:'POST',headers:getAuthHeaders({'Content-Type':'application/json'}),body:JSON.stringify({name,phone:toE164(rawPhone)})});
+      if(res.status===401){handle401();return;}
       const data=await res.json();
       if(data.success){
         document.getElementById('sendSuccess').style.display='block';
@@ -298,8 +317,8 @@
     n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000);
   }
   function scrollToSend(){document.getElementById('sendSection').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('sendName').focus();}
-  function handleLogout(){window.location.href='index.html';}
-  loadDashboard();
+  async function handleLogout(){await sb.auth.signOut();window.location.href='login.html';}
+  initAuth();
 </script>
 </body>
 </html>

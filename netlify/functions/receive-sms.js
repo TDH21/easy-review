@@ -39,7 +39,7 @@ exports.handler = async (event) => {
   // Look up the most recent review_request for this phone number
   const { data: reviewRequest, error: lookupError } = await supabase
     .from('review_requests')
-    .select('id, customer_name, business_name')
+    .select('id, customer_name, business_name, business_id')
     .eq('customer_phone', from)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -56,6 +56,7 @@ exports.handler = async (event) => {
       customer_phone: from,
       customer_name: reviewRequest ? reviewRequest.customer_name : null,
       business_name: reviewRequest ? reviewRequest.business_name : null,
+      business_id: reviewRequest ? reviewRequest.business_id : null,
       rating: rating,
       comment: comment || null,
       created_at: new Date().toISOString(),

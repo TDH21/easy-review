@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { getBusinessContext } = require('./_auth');
 
 exports.handler = async (event) => {
     const headers = {
@@ -10,17 +11,28 @@ exports.handler = async (event) => {
           return { statusCode: 200, headers, body: '' };
     }
 
+    // Resolve business_id: prefer auth, fall back to env var during transition
+    let businessId;
+    const { business, errorResponse } = await getBusinessContext(event, headers);
+    if (errorResponse) {
+      if (process.env.BUSINESS_ID) {
+        businessId = process.env.BUSINESS_ID;
+      } else {
+        return errorResponse;
+      }
+    } else {
+      businessId = business.id;
+    }
+
     const supabase = createClient(
           process.env.SUPABASE_URL,
           process.env.SUPABASE_SERVICE_ROLE_KEY
         );
 
-    const businessName = process.env.BUSINESS_NAME || 'Easy Review';
-
     const { data: reviews, error } = await supabase
       .from('reviews')
       .select('*')
-      .eq('business_name', businessName)
+      .eq('business_id', businessId)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -31,7 +43,7 @@ exports.handler = async (event) => {
     const { data: requests } = await supabase
       .from('review_requests')
       .select('id')
-      .eq('business_name', businessName);
+      .eq('business_id', businessId);
 
     return {
           statusCode: 200,

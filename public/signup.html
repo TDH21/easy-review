@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — Easy Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f2ed;
+      --card: #ffffff;
+      --black: #1a1a1a;
+      --gold: #c8a96e;
+      --gold-light: #d4b97e;
+      --muted: #6b6560;
+      --border: #e0dbd4;
+      --green: #52b788;
+      --red: #e07070;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 8px 40px var(--shadow);
+    }
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--black);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .logo span { color: var(--gold); }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--black);
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input::placeholder { color: rgba(0,0,0,0.3); }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.15);
+    }
+    .submit-btn {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.9rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--gold-light); transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .msg {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .msg.error { background: rgba(224,112,112,0.1); border: 1px solid rgba(224,112,112,0.3); color: var(--red); }
+    .msg.success { background: rgba(82,183,136,0.1); border: 1px solid rgba(82,183,136,0.3); color: var(--green); }
+    .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+    .login-link {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .login-link a { color: var(--gold); text-decoration: none; font-weight: 500; }
+    .login-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Easy<span>Review</span></div>
+    <h1>Create your account</h1>
+    <p class="subtitle">Start collecting reviews for your business.</p>
+
+    <form id="signupForm" onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label class="form-label" for="businessName">Business name</label>
+        <input class="form-input" id="businessName" type="text" placeholder="e.g. Gecko Plumbing" required autocomplete="organization" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" id="email" type="email" placeholder="you@yourbusiness.com" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" id="password" type="password" placeholder="At least 6 characters" required autocomplete="new-password" minlength="6" />
+      </div>
+      <button class="submit-btn" id="submitBtn" type="submit">Create account</button>
+      <div class="msg" id="msg"></div>
+    </form>
+
+    <div class="divider"></div>
+    <div class="login-link">Already have an account? <a href="login.html">Log in</a></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://qcjyyqchtwhouylhktty.supabase.co';
+    // Anon key: safe to expose client-side — only used for Auth operations.
+    // Verify this matches the current key in your Supabase dashboard → Settings → API.
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjanlxcWNodHdob3V5bGhrdHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM4MzQ5OTIsImV4cCI6MjA1OTQxMDk5Mn0.bnIkPLXwqW2y-85GS8o-OyXLiRDUGXGDqpZcSSnPtO0';
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    function showMsg(text, type) {
+      const el = document.getElementById('msg');
+      el.textContent = text;
+      el.className = 'msg ' + type;
+      el.style.display = 'block';
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      const btn        = document.getElementById('submitBtn');
+      const businessName = document.getElementById('businessName').value.trim();
+      const email      = document.getElementById('email').value.trim();
+      const password   = document.getElementById('password').value;
+
+      btn.textContent = 'Creating account…';
+      btn.disabled = true;
+      document.getElementById('msg').style.display = 'none';
+
+      // --- Step 1: Create the Supabase Auth user ---
+      const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
+
+      if (authError) {
+        showMsg(friendlyAuthError(authError.message), 'error');
+        btn.textContent = 'Create account';
+        btn.disabled = false;
+        return;
+      }
+
+      const session = authData.session;
+      if (!session) {
+        // Email confirmation is enabled in Supabase — session not available yet.
+        showMsg('Account created! Please check your email to confirm your address before logging in.', 'success');
+        btn.textContent = 'Create account';
+        btn.disabled = false;
+        return;
+      }
+
+      // --- Step 2: Create the businesses row via server-side function ---
+      const res = await fetch('/api/create-business', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + session.access_token,
+        },
+        body: JSON.stringify({ businessName }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showMsg(data.error || 'Failed to create business account. Please try again.', 'error');
+        btn.textContent = 'Create account';
+        btn.disabled = false;
+        return;
+      }
+
+      // --- Success ---
+      showMsg('Account created! Redirecting to your dashboard…', 'success');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+    }
+
+    function friendlyAuthError(msg) {
+      if (!msg) return 'Something went wrong. Please try again.';
+      const m = msg.toLowerCase();
+      if (m.includes('already registered') || m.includes('user already exists')) return 'An account with this email already exists. Try logging in instead.';
+      if (m.includes('password') && m.includes('short')) return 'Password must be at least 6 characters.';
+      if (m.includes('invalid email')) return 'Please enter a valid email address.';
+      return msg;
+    }
+  </script>
+</body>
+</html>

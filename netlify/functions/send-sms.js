@@ -1,6 +1,7 @@
 const twilio = require('twilio');
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
+const { getBusinessContext } = require('./_auth');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -14,8 +15,18 @@ exports.handler = async (event) => {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const fromNumber = process.env.TWILIO_PHONE_NUMBER;
-  const businessName = process.env.BUSINESS_NAME || 'Easy Review';
   const siteUrl = process.env.SITE_URL || 'https://easyreviewer.netlify.app';
+
+  // Resolve business context: prefer auth, fall back to env vars during transition
+  let businessId, businessName;
+  const { business, errorResponse } = await getBusinessContext(event, {});
+  if (errorResponse) {
+    businessId   = process.env.BUSINESS_ID   || null;
+    businessName = process.env.BUSINESS_NAME || 'Easy Review';
+  } else {
+    businessId   = business.id;
+    businessName = business.name;
+  }
 
   if (!accountSid || !authToken || !fromNumber) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Twilio credentials not configured' }) };
@@ -36,7 +47,7 @@ exports.handler = async (event) => {
     await client.messages.create({ body: message, from: fromNumber, to: phone });
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
     const { error: insertError } = await supabase.from('review_requests').insert([{
-      customer_name: name, customer_phone: phone, business_name: businessName,
+      customer_name: name, customer_phone: phone, business_name: businessName, business_id: businessId || null,
       token, status: 'sent', used: false, expires_at: expiresAt, created_at: new Date().toISOString(),
     }]);
     if (insertError) console.error('Supabase insert error:', insertError.message);
