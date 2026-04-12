@@ -258,12 +258,9 @@
       max-width: 700px;
     }
 
-    .steps { display: flex; flex-direction: column; margin-top: 4rem; max-width: 1100px; }
-    .step-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; padding: 4rem 0; border-bottom: 1px solid rgba(200,169,110,0.12); }
-    .step-row:last-child { border-bottom: none; }
-    .step-row.flip { direction: rtl; }
-    .step-row.flip > * { direction: ltr; }
-    .step-visual { display: flex; justify-content: center; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 4rem; max-width: 1000px; }
+    .step-item { padding: 0 2.5rem 0 0; border-right: 1px solid rgba(200,169,110,0.15); margin-right: 2.5rem; }
+    .step-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
 
     .step-num {
       font-family: 'Playfair Display', Georgia, serif;
@@ -272,12 +269,12 @@
       line-height: 1;
       margin-bottom: 1.25rem;
     }
-    .step-content h3 {
+    .step-item h3 {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 1.4rem; font-weight: 700;
       margin-bottom: 0.75rem;
     }
-    .step-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; max-width: 400px; }
+    .step-item p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
 
     /* Mock browser */
     .mock-browser { background: #fff; border: 1px solid #e0dbd4; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
@@ -559,7 +556,12 @@
     .demo-biz-input::placeholder { color: #b0a99f; }
     .demo-cols { display: flex; gap: 3rem; align-items: center; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
     .demo-col-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; text-align: center; }
-    .demo-arrow { font-size: 2rem; color: var(--gold); opacity: 0.35; align-self: center; }
+    .demo-arrow { font-size: 2rem; color: var(--gold); opacity: 0.35; align-self: center; padding-bottom: 2rem; }
+    .demo-flow { display: flex; gap: 0.75rem; align-items: flex-start; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+    .demo-stage { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .demo-stage-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; max-width: 180px; margin-bottom: 0.25rem; }
+    .demo-try-btn { display: inline-block; margin-top: 0.5rem; padding: 0.55rem 1.25rem; background: var(--black); color: var(--white); border-radius: 100px; font-size: 0.8rem; font-weight: 500; text-decoration: none; transition: background 0.2s; }
+    .demo-try-btn:hover { background: var(--green); }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -625,16 +627,38 @@
     <div class="section-tag">How it works</div>
     <h2 class="section-title">Three steps to a better reputation</h2>
     <div class="steps">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <h3>Send the request</h3>
+        <p>Enter your customer's name and mobile number. Hit send. They receive a friendly SMS from your business in seconds.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <h3>Customer replies</h3>
+        <p>They tap the link, select their star rating, write a short review, and hit send. No app, no login — done in seconds.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <h3>You see the results</h3>
+        <p>Ratings land in your dashboard instantly and automatically appear on your website. Your reputation grows on autopilot.</p>
+      </div>
+    </div>
+  </section>
 
-      <!-- Step 1 -->
-      <div class="step-row">
-        <div class="step-content">
-          <div class="step-num">01</div>
-          <h3>Send the request</h3>
-          <p>Enter your customer's name and mobile number. Hit send. They receive a friendly SMS from your business in seconds.</p>
-        </div>
-        <div class="step-visual">
-          <div class="mock-browser">
+  <!-- DEMO -->
+  <section class="section" id="demo" style="background: var(--cream);">
+    <div style="max-width:1100px;margin:0 auto;text-align:center;">
+      <div class="section-tag">Try it yourself</div>
+      <h2 class="section-title" style="margin:0 auto 1rem;">See the full experience</h2>
+      <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem;">Type your business name to personalise the preview, then open the real review form.</p>
+      <input type="text" id="demoBizName" class="demo-biz-input" placeholder="e.g. Gecko Plumbing" maxlength="50" />
+
+      <div class="demo-flow">
+
+        <!-- Stage 1: Dashboard send form -->
+        <div class="demo-stage">
+          <div class="demo-stage-label">You send the request</div>
+          <div class="mock-browser" style="width:240px;">
             <div class="mock-browser-bar">
               <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
               <div class="mock-url">dashboard — Easy Review</div>
@@ -642,7 +666,7 @@
             <div class="mock-browser-body">
               <div class="mock-send-label">Quick Action</div>
               <div class="mock-send-title">Send a Review Request</div>
-              <div class="mock-send-sub">Enter your customer's details and send them a personalised review link via SMS.</div>
+              <div class="mock-send-sub">Send a personalised review link via SMS.</div>
               <div class="mock-input-row">
                 <div class="mock-input">Jane Smith</div>
                 <div class="mock-input">0412 345 678</div>
@@ -651,98 +675,12 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 2 -->
-      <div class="step-row">
-        <div class="step-content">
-          <div class="step-num">02</div>
-          <h3>Customer replies</h3>
-          <p>They tap the link, select their star rating, write a short review, and hit send. No app, no login — done in seconds.</p>
-        </div>
-        <div class="step-visual">
-          <div class="mock-phone">
-            <div class="mock-phone-screen">
-              <div class="mock-review-header">
-                <div class="mock-review-biz">Gecko Plumbing</div>
-                <div class="mock-review-h">Leave a Review</div>
-              </div>
-              <div class="mock-review-body">
-                <div class="mock-review-prompt">How was your experience?</div>
-                <div class="mock-stars-row">★★★★★</div>
-                <div class="mock-comment-box">Really happy with the service. Arrived on time and very professional!</div>
-                <div class="mock-review-submit">Submit Review</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="step-row">
-        <div class="step-content">
-          <div class="step-num">03</div>
-          <h3>You see the results</h3>
-          <p>Ratings land in your dashboard instantly and are automatically displayed on your website. Your reputation grows on autopilot.</p>
-        </div>
-        <div class="step-visual">
-          <div class="mock-browser">
-            <div class="mock-browser-bar">
-              <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
-              <div class="mock-url">geckoplumbing.com.au</div>
-            </div>
-            <div class="mock-website-body">
-              <div class="mock-site-nav">
-                <span class="mock-site-logo">Gecko Plumbing</span>
-                <span class="mock-site-links">Home &nbsp; Services &nbsp; Contact</span>
-              </div>
-              <div class="mock-site-section">
-                <div class="mock-site-tag">CUSTOMER REVIEWS</div>
-                <div class="mock-site-heading">What Our Customers Say</div>
-                <div class="mock-widget-cards">
-                  <div class="mock-widget-card">
-                    <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Really happy with the service. Arrived on time and very professional!</div>
-                    <div class="mock-wc-stars">★★★★★</div>
-                    <div class="mock-wc-meta"><span class="mock-wc-name">Jane S.</span><span class="mock-wc-date">10 Apr 2026</span></div>
-                  </div>
-                  <div class="mock-widget-card">
-                    <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Great job, cleaned up and removed the old system. Excellent work!</div>
-                    <div class="mock-wc-stars">★★★★★</div>
-                    <div class="mock-wc-meta"><span class="mock-wc-name">Mark J.</span><span class="mock-wc-date">9 Apr 2026</span></div>
-                  </div>
-                </div>
-                <div class="mock-powered">Powered by <span style="color:#c8a96e;">Easy Review</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- DEMO -->
-  <section class="section" id="demo" style="background: var(--cream);">
-    <div style="max-width:960px;margin:0 auto;text-align:center;">
-      <div class="section-tag">Try it yourself</div>
-      <h2 class="section-title" style="margin:0 auto 1rem;">See the full experience in 30 seconds</h2>
-      <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem;">Type your business name to personalise the preview, then open the real review form your customer would see.</p>
-      <input type="text" id="demoBizName" class="demo-biz-input" placeholder="e.g. Gecko Plumbing" maxlength="50" />
-      <div class="demo-cols">
-        <div>
-          <div class="demo-col-label">SMS they receive</div>
-          <div class="phone" style="width:210px;">
-            <div class="phone-screen">
-              <div class="sms-time">Today 2:34 PM</div>
-              <div class="sms-bubble">Hi Sarah! <span id="demoSmsName">Your Business</span> would love your feedback. 😊<br><br>Tap here to leave a review:<br><span style="color:#c8a96e;font-size:0.65rem;">easyreview.app/r/a3f9...</span><br><br><span style="color:#888;font-size:0.62rem;">(Link expires in 7 days)</span></div>
-            </div>
-          </div>
-        </div>
         <div class="demo-arrow">→</div>
-        <div>
-          <div class="demo-col-label">Review form they see</div>
+
+        <!-- Stage 2: Review form -->
+        <div class="demo-stage">
+          <div class="demo-stage-label">Customer leaves a review</div>
           <div class="mock-phone">
             <div class="mock-phone-screen">
               <div class="mock-review-header">
@@ -757,12 +695,49 @@
               </div>
             </div>
           </div>
+          <a id="demoLink" href="review.html?demo=true" class="demo-try-btn" target="_blank">Try the real form →</a>
         </div>
+
+        <div class="demo-arrow">→</div>
+
+        <!-- Stage 3: Website widget -->
+        <div class="demo-stage">
+          <div class="demo-stage-label">Reviews appear on your website</div>
+          <div class="mock-browser" style="width:240px;">
+            <div class="mock-browser-bar">
+              <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+              <div class="mock-url" id="demoSiteUrl">yourbusiness.com.au</div>
+            </div>
+            <div class="mock-website-body">
+              <div class="mock-site-nav">
+                <span class="mock-site-logo" id="demoSiteNav">Your Business</span>
+                <span class="mock-site-links">Home &nbsp; Services &nbsp; Contact</span>
+              </div>
+              <div class="mock-site-section">
+                <div class="mock-site-tag">CUSTOMER REVIEWS</div>
+                <div class="mock-site-heading">What Our Customers Say</div>
+                <div class="mock-widget-cards">
+                  <div class="mock-widget-card">
+                    <div class="mock-wc-quote">"</div>
+                    <div class="mock-wc-text">Really happy with the service. Arrived on time and very professional!</div>
+                    <div class="mock-wc-stars">★★★★★</div>
+                    <div class="mock-wc-meta"><span class="mock-wc-name">Jane S.</span><span class="mock-wc-date">10 Apr 2026</span></div>
+                  </div>
+                  <div class="mock-widget-card">
+                    <div class="mock-wc-quote">"</div>
+                    <div class="mock-wc-text">Great job, cleaned up everything. Excellent work!</div>
+                    <div class="mock-wc-stars">★★★★★</div>
+                    <div class="mock-wc-meta"><span class="mock-wc-name">Mark J.</span><span class="mock-wc-date">9 Apr 2026</span></div>
+                  </div>
+                </div>
+                <div class="mock-powered">Powered by <span style="color:#c8a96e;">Easy Review</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div style="margin-top:2.5rem;">
-        <a id="demoLink" href="review.html?demo=true" class="btn-primary" target="_blank" style="display:inline-block;">Open the real review form →</a>
-        <p style="font-size:0.8rem;color:var(--muted);margin-top:1rem;">No account needed — this is the actual form your customers use.</p>
-      </div>
+      <p style="font-size:0.8rem;color:var(--muted);margin-top:2rem;">No account needed — this is the actual form your customers use.</p>
     </div>
   </section>
 
@@ -837,14 +812,18 @@
 
   <script>
     const demoBizInput = document.getElementById('demoBizName');
-    const demoSmsName = document.getElementById('demoSmsName');
     const demoPhoneBiz = document.getElementById('demoPhoneBiz');
+    const demoSiteNav = document.getElementById('demoSiteNav');
+    const demoSiteUrl = document.getElementById('demoSiteUrl');
     const demoLink = document.getElementById('demoLink');
     demoBizInput.addEventListener('input', function () {
-      const name = this.value.trim() || 'Your Business';
-      demoSmsName.textContent = name;
+      const raw = this.value.trim();
+      const name = raw || 'Your Business';
+      const slug = raw.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') || 'yourbusiness';
       demoPhoneBiz.textContent = name;
-      demoLink.href = 'review.html?demo=true&biz=' + encodeURIComponent(this.value.trim() || '');
+      demoSiteNav.textContent = name;
+      demoSiteUrl.textContent = slug + '.com.au';
+      demoLink.href = 'review.html?demo=true&biz=' + encodeURIComponent(raw);
     });
   </script>
 </body>
