@@ -1146,7 +1146,7 @@
         var wmY = hero ? 'top:8px' : 'bottom:6px';
         html += '<div style="position:absolute;left:'+wmLeft+'px;'+wmY+';'
               + 'animation:'+(hero?'erHWmFade':'erWmFade')+' '+DUR+' ease-in-out infinite;animation-delay:'+delay+';">'
-              + '<span style="font-family:\'Playfair Display\',Georgia,serif;font-size:1.5rem;font-weight:700;'
+              + '<span style="font-family:\'Playfair Display\',Georgia,serif;font-size:2rem;font-weight:700;'
               + 'color:'+wc+';white-space:nowrap;line-height:1;">Easy'
               + '<span style="color:'+gold+';">Review</span></span></div>';
 
@@ -1168,13 +1168,15 @@
         el.innerHTML = html;
 
         if (hero) {
-          // Measure actual rendered wordmark width, then add sub-stars aligned to it
+          // Measure actual rendered wordmark width, then add sub-stars centred under it
           var wmSpan = el.querySelector('span');
           var actualW = wmSpan ? wmSpan.offsetWidth : wmWidth;
-          var subR = 20, subSz = subR * 2.4;
-          var subSlot = actualW / 5;
+          var subR = 14, subSz = subR * 2.4;
+          var subGap = 10;
+          var totalStarW = 5 * subSz + 4 * subGap;
+          var starStart = wmLeft + (actualW - totalStarW) / 2;
           for (var k = 0; k < 5; k++) {
-            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
+            var sx = (starStart + k * (subSz + subGap)).toFixed(1);
             var subDiv = document.createElement('div');
             subDiv.style.cssText = 'position:absolute;left:'+sx+'px;top:'+(rowH+10)+'px;overflow:visible;';
             subDiv.innerHTML = '<svg width="'+subSz+'" height="'+subSz+'" viewBox="0 0 '+subSz+' '+subSz+'" fill="none" overflow="visible"'
@@ -1220,13 +1222,15 @@
           if (!wmSpan) return;
           var actualW = wmSpan.offsetWidth;
           var wmLeft = parseFloat(inner.querySelector('div').style.left) || 137.2;
-          var subR = 20, subSz = subR * 2.4;
-          var subSlot = actualW / 5;
+          var subR = 14, subSz = subR * 2.4;
+          var subGap = 10;
+          var totalStarW = 5 * subSz + 4 * subGap;
+          var starStart = wmLeft + (actualW - totalStarW) / 2;
           var subDivs = Array.prototype.slice.call(inner.children).filter(function(c) {
             return parseFloat(c.style.top) > 50;
           });
           subDivs.forEach(function(div, k) {
-            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
+            var sx = (starStart + k * (subSz + subGap)).toFixed(1);
             div.style.left = sx + 'px';
           });
         });
