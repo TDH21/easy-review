@@ -579,6 +579,23 @@
     .mock-rf-powered { text-align: center; font-size: 0.4rem; color: rgba(0,0,0,0.25); margin-top: 0.5rem; }
     .mock-rf-powered span { color: #c8a96e; opacity: 0.6; }
 
+    /* Widget stage highlight */
+    .demo-stage-highlight .mock-browser {
+      box-shadow: 0 0 0 2.5px rgba(200,169,110,0.55), 0 16px 40px rgba(0,0,0,0.13);
+    }
+    .demo-stage-highlight .demo-stage-label { color: var(--gold); font-weight: 700; letter-spacing: 0.06em; }
+    .demo-selling-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.35);
+      color: var(--gold); font-size: 0.7rem; font-weight: 600;
+      padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 0.6rem;
+    }
+    .mock-rating-row { display: flex; align-items: center; justify-content: center; gap: 0.3rem; margin-bottom: 0.35rem; }
+    .mock-rating-num { font-family: 'Playfair Display', Georgia, serif; font-size: 0.9rem; font-weight: 700; color: #1a1a1a; }
+    .mock-rating-stars-sm { color: #c8a96e; font-size: 0.5rem; }
+    .mock-rating-count { font-size: 0.42rem; color: #999; }
+    .mock-widget-cards-col { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem; }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .steps { grid-template-columns: 1fr; }
@@ -719,9 +736,10 @@
         <div class="demo-arrow">→</div>
 
         <!-- Stage 3: Website widget -->
-        <div class="demo-stage">
-          <div class="demo-stage-label">Reviews appear on your website</div>
-          <div class="mock-browser" style="width:240px;">
+        <div class="demo-stage demo-stage-highlight">
+          <div class="demo-selling-badge">⭐ This is what your customers see</div>
+          <div class="demo-stage-label">Live on your website — automatically</div>
+          <div class="mock-browser" style="width:270px;">
             <div class="mock-browser-bar">
               <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
               <div class="mock-url" id="demoSiteUrl">yourbusiness.com.au</div>
@@ -733,8 +751,13 @@
               </div>
               <div class="mock-site-section">
                 <div class="mock-site-tag">CUSTOMER REVIEWS</div>
+                <div class="mock-rating-row">
+                  <span class="mock-rating-num">4.9</span>
+                  <span class="mock-rating-stars-sm">★★★★★</span>
+                  <span class="mock-rating-count">Based on 24 reviews</span>
+                </div>
                 <div class="mock-site-heading">What Our Customers Say</div>
-                <div class="mock-widget-cards">
+                <div class="mock-widget-cards-col">
                   <div class="mock-widget-card">
                     <div class="mock-wc-quote">"</div>
                     <div class="mock-wc-text">Really happy with the service. Arrived on time and very professional!</div>
@@ -743,9 +766,15 @@
                   </div>
                   <div class="mock-widget-card">
                     <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Great job, cleaned up everything. Excellent work!</div>
+                    <div class="mock-wc-text">Great job, cleaned up everything and removed the old parts. Excellent work!</div>
                     <div class="mock-wc-stars">★★★★★</div>
                     <div class="mock-wc-meta"><span class="mock-wc-name">Mark J.</span><span class="mock-wc-date">9 Apr 2026</span></div>
+                  </div>
+                  <div class="mock-widget-card">
+                    <div class="mock-wc-quote">"</div>
+                    <div class="mock-wc-text">Extremely professional. Would highly recommend to anyone!</div>
+                    <div class="mock-wc-stars">★★★★★</div>
+                    <div class="mock-wc-meta"><span class="mock-wc-name">Chris T.</span><span class="mock-wc-date">7 Apr 2026</span></div>
                   </div>
                 </div>
                 <div class="mock-powered">Powered by <span style="color:#c8a96e;">Easy Review</span></div>
