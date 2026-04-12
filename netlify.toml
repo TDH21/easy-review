@@ -55,3 +55,8 @@
   from = "/api/update-business"
   to = "/.netlify/functions/update-business"
   status = 200
+
+[[redirects]]
+  from = "/api/admin-link-business"
+  to = "/.netlify/functions/admin-link-business"
+  status = 200

@@ -215,8 +215,14 @@
             <div class="edit-field">
               <input class="inline-input" id="email-${b.id}" value="${esc(b.email || '')}" />
             </div>
-            <div class="auth-email" style="margin-top:0.3rem;" title="Supabase Auth email">
-              ${b.auth_email ? '🔑 ' + esc(b.auth_email) : '<span style="color:var(--red)">No auth account</span>'}
+            <div class="auth-email" style="margin-top:0.3rem;">
+              ${b.auth_email
+                ? '🔑 ' + esc(b.auth_email)
+                : `<div class="edit-field" style="margin-top:0.4rem;">
+                    <input class="inline-input" id="linkEmail-${b.id}" type="email" placeholder="their@email.com" style="width:160px;" />
+                    <button class="save-btn" onclick="linkUser('${b.id}')">Link</button>
+                   </div>`
+              }
             </div>
           </td>
           <td>
@@ -321,6 +327,29 @@
     n.style.color = success ? 'var(--green)' : 'var(--red)';
     n.classList.add('show');
     setTimeout(() => n.classList.remove('show'), 3000);
+  }
+
+  async function linkUser(businessId) {
+    const emailInput = document.getElementById('linkEmail-' + businessId);
+    const email = emailInput.value.trim();
+    if (!email) { showNotification('Enter the user\'s email address', false); return; }
+
+    emailInput.disabled = true;
+    const res = await fetch('/api/admin-link-business', {
+      method: 'POST',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ business_id: businessId, user_email: email }),
+    });
+    emailInput.disabled = false;
+
+    if (res.status === 401) { handle401(); return; }
+    const json = await res.json();
+    if (res.ok) {
+      showNotification('✓ Business linked to ' + email);
+      loadBusinesses();
+    } else {
+      showNotification('Error: ' + (json.error || 'Link failed'), false);
+    }
   }
 
   async function sendInvite() {
