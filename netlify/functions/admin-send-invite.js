@@ -23,6 +23,15 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'name and phone are required' }) };
   }
 
+  // Normalise to E.164
+  const toE164 = (p) => {
+    p = p.replace(/[\s\-().]/g, '');
+    if (p.startsWith('0') && p.length === 10) return '+61' + p.slice(1);
+    if (p.startsWith('+')) return p;
+    return p;
+  };
+  const formattedPhone = toE164(phone);
+
   const accountSid  = process.env.TWILIO_ACCOUNT_SID;
   const authToken   = process.env.TWILIO_AUTH_TOKEN;
   const fromNumber  = process.env.TWILIO_PHONE_NUMBER;
@@ -37,7 +46,7 @@ exports.handler = async (event) => {
 
   try {
     const client = twilio(accountSid, authToken);
-    await client.messages.create({ body: message, from: fromNumber, to: phone });
+    await client.messages.create({ body: message, from: fromNumber, to: formattedPhone });
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
   } catch (err) {
     console.error('admin-send-invite Twilio error:', err);
