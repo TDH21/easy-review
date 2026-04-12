@@ -337,6 +337,17 @@
       color: var(--gold); margin-bottom: 1rem;
     }
 
+    /* Dark section overrides */
+    .section-dark { background: #0d0d0d !important; }
+    .section-dark .section-title { color: var(--white); }
+    .section-dark .step-item h3 { color: var(--white); }
+    .section-dark .step-item p { color: rgba(245,242,237,0.55); }
+    .section-dark .step-item { border-right-color: rgba(200,169,110,0.2); }
+    .section-dark .feature-card { background: rgba(255,255,255,0.04); border-color: rgba(200,169,110,0.15); }
+    .section-dark .feature-card h3 { color: var(--white); }
+    .section-dark .feature-card p { color: rgba(245,242,237,0.55); }
+    .section-dark .section-tag { color: var(--gold); }
+
     .section-title {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: clamp(2rem, 5vw, 3.5rem);
@@ -800,12 +811,12 @@
   </div>
 
   <!-- DIVIDER -->
-  <div class="section-divider" style="background:var(--white);padding-top:2rem;padding-bottom:2rem;">
+  <div class="section-divider" style="background:#0d0d0d;padding-top:2rem;padding-bottom:2rem;">
     <span class="section-divider-icon">★ ★ ★ ★ ★</span>
   </div>
 
   <!-- HOW IT WORKS -->
-  <section class="section" id="how" style="text-align:center;background:var(--white);">
+  <section class="section section-dark" id="how" style="text-align:center;">
     <div class="section-tag">How it works</div>
     <h2 class="section-title" style="margin:0 auto 0;">Three steps to a better reputation</h2>
     <div class="steps">
@@ -828,7 +839,7 @@
   </section>
 
   <!-- DIVIDER -->
-  <div class="section-divider" style="background:var(--cream);padding-top:2rem;padding-bottom:2rem;">
+  <div class="section-divider" style="background:#0d0d0d;padding-top:2rem;padding-bottom:2rem;">
     <span class="section-divider-icon">★ ★ ★ ★ ★</span>
   </div>
 
@@ -959,12 +970,12 @@
   </section>
 
   <!-- DIVIDER -->
-  <div class="section-divider" style="background:var(--white);padding-top:2rem;padding-bottom:2rem;">
+  <div class="section-divider" style="background:var(--white);padding-top:2rem;padding-bottom:2rem;border-top:3px solid #0d0d0d;">
     <span class="section-divider-icon">★ ★ ★ ★ ★</span>
   </div>
 
   <!-- FEATURES -->
-  <section class="section" id="features" style="background: var(--white);">
+  <section class="section" id="features" style="background:var(--white);">
     <div class="section-tag">Features</div>
     <h2 class="section-title">Everything you need, nothing you don't</h2>
     <div class="features-grid">
