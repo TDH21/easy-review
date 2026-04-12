@@ -22,6 +22,7 @@ exports.handler = async (event) => {
   }
 
   const businessName = (body.businessName || '').trim();
+  const businessId   = (body.businessId  || '').trim();
   if (!businessName) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Business name is required' }) };
   }
@@ -34,7 +35,25 @@ exports.handler = async (event) => {
     return { statusCode: 401, headers, body: JSON.stringify({ error: 'Invalid or expired session' }) };
   }
 
-  // --- 4. Prevent duplicate: one business per user ---
+  // --- 4a. If a businessId was provided, link that existing business instead of creating ---
+  if (businessId) {
+    const { data: linked, error: linkError } = await supabase
+      .from('businesses')
+      .update({ user_id: user.id, email: user.email })
+      .eq('id', businessId)
+      .is('user_id', null)           // only link if not already claimed
+      .select('id, name, slug')
+      .single();
+
+    if (linkError || !linked) {
+      // Business already claimed or not found — fall through to normal signup
+      console.warn('create-business: could not link business', businessId, linkError?.message);
+    } else {
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true, business: linked }) };
+    }
+  }
+
+  // --- 4b. Prevent duplicate: one business per user ---
   const { data: existing } = await supabase
     .from('businesses')
     .select('id, name')

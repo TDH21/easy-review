@@ -107,6 +107,12 @@
         <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Mobile Number</label>
         <input class="inline-input" id="invitePhone" type="tel" placeholder="0412 345 678" style="width:100%;" />
       </div>
+      <div style="flex:1;min-width:160px;">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Link to Business <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+        <select class="inline-input" id="inviteBusinessId" style="width:100%;">
+          <option value="">— New business —</option>
+        </select>
+      </div>
       <button class="save-btn" onclick="sendInvite()" id="inviteBtn" style="padding:0.5rem 1.25rem;font-size:0.85rem;white-space:nowrap;">Send Signup Link ✉️</button>
       <div id="inviteMsg" style="width:100%;font-size:0.82rem;display:none;margin-top:0.25rem;"></div>
     </div>
@@ -187,6 +193,14 @@
     document.getElementById('statUnlinked').textContent = businesses.length - linked;
 
     renderTable();
+    renderInviteDropdown();
+  }
+
+  function renderInviteDropdown() {
+    const sel = document.getElementById('inviteBusinessId');
+    const unlinked = businesses.filter(b => !b.user_id);
+    sel.innerHTML = '<option value="">— New business —</option>' +
+      unlinked.map(b => `<option value="${b.id}" data-name="${esc(b.name)}">${esc(b.name)}</option>`).join('');
   }
 
   // --- Render table ---
@@ -357,20 +371,24 @@
     const phone = document.getElementById('invitePhone').value.trim();
     const btn   = document.getElementById('inviteBtn');
     const msg   = document.getElementById('inviteMsg');
+    const sel = document.getElementById('inviteBusinessId');
+    const business_id   = sel.value || '';
+    const business_name = sel.options[sel.selectedIndex]?.dataset?.name || '';
     if (!name || !phone) { msg.textContent = 'Please enter a name and phone number'; msg.style.color = 'var(--red)'; msg.style.display = 'block'; return; }
     btn.textContent = 'Sending…'; btn.disabled = true;
     const res = await fetch('/api/admin-send-invite', {
       method: 'POST',
       headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify({ name, phone }),
+      body: JSON.stringify({ name, phone, business_id, business_name }),
     });
     btn.textContent = 'Send Signup Link ✉️'; btn.disabled = false;
     const json = await res.json();
     if (res.ok) {
-      msg.textContent = '✓ Invite sent to ' + name;
+      msg.textContent = '✓ Invite sent to ' + name + (business_name ? ' for ' + business_name : '');
       msg.style.color = 'var(--green)';
       document.getElementById('inviteName').value = '';
       document.getElementById('invitePhone').value = '';
+      sel.value = '';
     } else {
       msg.textContent = json.error || 'Failed to send invite';
       msg.style.color = 'var(--red)';

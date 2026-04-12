@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { name, phone } = body;
+  const { name, phone, business_id, business_name } = body;
   if (!name || !phone) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'name and phone are required' }) };
   }
@@ -41,7 +41,10 @@ exports.handler = async (event) => {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Twilio credentials not configured' }) };
   }
 
-  const signupUrl = siteUrl + '/signup.html';
+  let signupUrl = siteUrl + '/signup.html';
+  if (business_id && business_name) {
+    signupUrl += '?b=' + encodeURIComponent(business_id) + '&bn=' + encodeURIComponent(business_name);
+  }
   const message = `Hi ${name}! You've been invited to Easy Review — the simple way to collect customer reviews via SMS.\n\nTap here to create your free account:\n${signupUrl}`;
 
   try {

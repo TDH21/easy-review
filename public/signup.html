@@ -161,6 +161,18 @@
 
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // Pre-fill business name from invite link
+    const _params = new URLSearchParams(window.location.search);
+    const _businessId   = _params.get('b')  || '';
+    const _businessName = _params.get('bn') || '';
+    if (_businessName) {
+      const bnInput = document.getElementById('businessName');
+      bnInput.value = _businessName;
+      bnInput.readOnly = true;
+      bnInput.style.opacity = '0.6';
+      bnInput.style.cursor  = 'not-allowed';
+    }
+
     function showMsg(text, type) {
       const el = document.getElementById('msg');
       el.textContent = text;
@@ -205,7 +217,7 @@
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + session.access_token,
         },
-        body: JSON.stringify({ businessName }),
+        body: JSON.stringify({ businessName, businessId: _businessId }),
       });
 
       const data = await res.json();
