@@ -22,9 +22,27 @@ exports.handler = async (event) => {
 
   const businessId   = business.id;
   const businessName = business.name;
+  const smsLimit     = business.monthly_sms_limit ?? 50;
 
   if (!accountSid || !authToken || !fromNumber) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Twilio credentials not configured' }) };
+  }
+
+  // Check monthly SMS usage
+  const supabaseCheck = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const monthStart = new Date();
+  monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
+  const { count: smsThisMonth } = await supabaseCheck
+    .from('review_requests')
+    .select('id', { count: 'exact', head: true })
+    .eq('business_id', businessId)
+    .gte('created_at', monthStart.toISOString());
+
+  if ((smsThisMonth || 0) >= smsLimit) {
+    return {
+      statusCode: 429,
+      body: JSON.stringify({ error: `Monthly SMS limit reached (${smsThisMonth}/${smsLimit}). Contact support to increase your limit.` }),
+    };
   }
 
   const token = crypto.randomBytes(24).toString('hex');

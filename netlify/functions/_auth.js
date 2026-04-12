@@ -66,7 +66,7 @@ async function getBusinessContext(event, headers = { 'Content-Type': 'applicatio
   // --- 3. Look up the business linked to this auth user ---
   const { data: business, error: bizError } = await supabase
     .from('businesses')
-    .select('id, name, slug, email')
+    .select('id, name, slug, email, monthly_sms_limit')
     .eq('user_id', user.id)
     .maybeSingle();
 

@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { id, name, slug, email } = body;
+  const { id, name, slug, email, monthly_sms_limit } = body;
   if (!id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'id is required' }) };
 
   const { user, errorResponse } = await getAdminContext(event, headers);
@@ -50,6 +50,7 @@ exports.handler = async (event) => {
   if (name  !== undefined) updates.name  = name;
   if (slug  !== undefined) updates.slug  = slug;
   if (email !== undefined) updates.email = email;
+  if (monthly_sms_limit !== undefined) updates.monthly_sms_limit = parseInt(monthly_sms_limit, 10) || 50;
 
   if (Object.keys(updates).length === 0) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'No fields to update' }) };
@@ -59,7 +60,7 @@ exports.handler = async (event) => {
     .from('businesses')
     .update(updates)
     .eq('id', id)
-    .select('id, name, slug, email, user_id, created_at')
+    .select('id, name, slug, email, monthly_sms_limit, user_id, created_at')
     .single();
 
   if (updateError) {

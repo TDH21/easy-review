@@ -32,8 +32,12 @@ exports.handler = async (event) => {
 
     const { data: requests } = await supabase
       .from('review_requests')
-      .select('id')
+      .select('id, created_at')
       .eq('business_id', business.id);
+
+    const monthStart = new Date();
+    monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
+    const smsThisMonth = (requests || []).filter(r => new Date(r.created_at) >= monthStart).length;
 
     return {
           statusCode: 200,
@@ -41,6 +45,8 @@ exports.handler = async (event) => {
           body: JSON.stringify({
                   reviews: reviews || [],
                   requestsSent: requests ? requests.length : 0,
+                  smsThisMonth,
+                  smsLimit: business.monthly_sms_limit ?? 50,
                   business: { id: business.id, name: business.name, slug: business.slug, email: business.email },
           }),
     };

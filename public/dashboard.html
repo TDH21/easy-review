@@ -268,16 +268,16 @@
     const max=Math.max(...Object.values(counts),1);
     document.getElementById('ratingBars').innerHTML=[5,4,3,2,1].map(n=>'<div class="rating-row"><div class="rating-label-num">'+n+'</div><div class="rating-bar-wrap"><div class="rating-bar" style="width:'+(counts[n]/max*100).toFixed(0)+'%"></div></div><div class="rating-count">'+counts[n]+'</div></div>').join('');
   }
-  function updateStats(reviews,requests){
+  function updateStats(reviews,requests,smsThisMonth,smsLimit){
     const total=reviews.length,avg=total?(reviews.reduce((s,r)=>s+r.rating,0)/total).toFixed(1):'—',five=reviews.filter(r=>r.rating===5).length;
     document.getElementById('avgRating').textContent=avg;
     document.getElementById('totalReviews').textContent=total;
     document.getElementById('fiveStarCount').textContent=five;
-    document.getElementById('requestsSent').textContent=requests;
+    document.getElementById('requestsSent').textContent=(smsThisMonth??requests)+' / '+(smsLimit??50);
     document.getElementById('avgChange').textContent=total?'Based on '+total+' reviews':'No reviews yet';
     document.getElementById('totalChange').textContent='All time';
     document.getElementById('fiveStarChange').textContent=total?Math.round(five/total*100)+'% of all reviews':'—';
-    document.getElementById('requestsChange').textContent='Total sent';
+    document.getElementById('requestsChange').textContent='This month';
   }
   function filterReviews(val){
     if(val==='all')return renderReviews(allReviews);
@@ -304,7 +304,9 @@
       if (res.status === 403) { window.location.href = 'admin.html'; return; }
       const json = await res.json(); allReviews = Array.isArray(json.reviews) ? json.reviews : [];
       const requestsSent = json.requestsSent || 0;
-      updateStats(allReviews, requestsSent);
+      const smsThisMonth = json.smsThisMonth ?? requestsSent;
+      const smsLimit = json.smsLimit ?? 50;
+      updateStats(allReviews, requestsSent, smsThisMonth, smsLimit);
       renderReviews(allReviews);renderRatingBars(allReviews);updateFeaturedCount();
       if (json.business) {
         currentBusiness = json.business;

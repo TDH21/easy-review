@@ -75,6 +75,7 @@
       .content { padding: 1rem; }
       thead th:nth-child(4), tbody td:nth-child(4) { display: none; }
       thead th:nth-child(5), tbody td:nth-child(5) { display: none; }
+      thead th:nth-child(6), tbody td:nth-child(6) { display: none; }
     }
   </style>
 </head>
@@ -219,6 +220,11 @@
             </div>
           </td>
           <td>
+            <div class="edit-field">
+              <input class="inline-input" id="smslimit-${b.id}" type="number" min="0" value="${b.monthly_sms_limit ?? 50}" style="width:80px;" />
+            </div>
+          </td>
+          <td>
             <span class="linked-badge ${b.user_id ? 'linked-yes' : 'linked-no'}">
               ${b.user_id ? '✓ Linked' : '✗ Unlinked'}
             </span>
@@ -242,6 +248,7 @@
               <th>Business Name</th>
               <th>Slug</th>
               <th>Contact Email / Auth</th>
+              <th>SMS / mo</th>
               <th>Status</th>
               <th>Embed Code</th>
               <th></th>
@@ -255,9 +262,10 @@
   // --- Save a business ---
   async function saveBusiness(id) {
     const row = document.getElementById('row-' + id);
-    const name  = document.getElementById('name-'  + id).value.trim();
-    const slug  = document.getElementById('slug-'  + id).value.trim();
-    const email = document.getElementById('email-' + id).value.trim();
+    const name     = document.getElementById('name-'     + id).value.trim();
+    const slug     = document.getElementById('slug-'     + id).value.trim();
+    const email    = document.getElementById('email-'    + id).value.trim();
+    const smsLimit = document.getElementById('smslimit-' + id).value;
 
     if (!name) { showNotification('Business name cannot be empty', false); return; }
     if (!slug)  { showNotification('Slug cannot be empty', false); return; }
@@ -267,7 +275,7 @@
     const res = await fetch('/api/admin-update-business', {
       method: 'POST',
       headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify({ id, name, slug, email }),
+      body: JSON.stringify({ id, name, slug, email, monthly_sms_limit: smsLimit }),
     });
 
     row.classList.remove('row-saving');
