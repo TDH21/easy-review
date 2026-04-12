@@ -1114,7 +1114,7 @@
           ? ['erHLightUp1','erHLightUp2','erHLightUp3','erHLightUp4']
           : ['erLightUp1','erLightUp2','erLightUp3','erLightUp4'];
         // Hero uses a 2-row layout: wordmark on top, sub-stars below
-        var h       = hero ? 92 : 52;
+        var h       = hero ? 140 : 52;
         var rowH    = 48;
         var html    = '';
 
@@ -1171,7 +1171,7 @@
           // Measure actual rendered wordmark width, then add sub-stars aligned to it
           var wmSpan = el.querySelector('span');
           var actualW = wmSpan ? wmSpan.offsetWidth : wmWidth;
-          var subR = 10, subSz = subR * 2.4;
+          var subR = 20, subSz = subR * 2.4;
           var subSlot = actualW / 5;
           for (var k = 0; k < 5; k++) {
             var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
@@ -1220,7 +1220,7 @@
           if (!wmSpan) return;
           var actualW = wmSpan.offsetWidth;
           var wmLeft = parseFloat(inner.querySelector('div').style.left) || 137.2;
-          var subR = 10, subSz = subR * 2.4;
+          var subR = 20, subSz = subR * 2.4;
           var subSlot = actualW / 5;
           var subDivs = Array.prototype.slice.call(inner.children).filter(function(c) {
             return parseFloat(c.style.top) > 50;
