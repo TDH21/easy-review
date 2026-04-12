@@ -981,6 +981,12 @@
     })();
     // Init at card 3 so both sides show immediately
     erdGoTo(3);
+
+    // Always open at the top of the page (strip any hash from shared URLs)
+    if (window.location.hash) {
+      history.replaceState('', document.title, window.location.pathname + window.location.search);
+    }
+    window.addEventListener('load', function() { window.scrollTo(0, 0); });
   </script>
 </body>
 </html>
