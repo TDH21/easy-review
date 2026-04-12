@@ -14,11 +14,16 @@ exports.handler = async (event) => {
   if (event.httpMethod === 'GET') {
     const token = event.queryStringParameters?.token;
     if (!token) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Token required' }) };
-    const { data, error } = await supabase.from('review_requests').select('id, customer_name, business_name, used, expires_at').eq('token', token).single();
+    const { data, error } = await supabase.from('review_requests').select('id, customer_name, business_name, business_id, used, expires_at').eq('token', token).single();
     if (error || !data) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Invalid or expired link' }) };
     if (data.used) return { statusCode: 410, headers, body: JSON.stringify({ error: 'This review link has already been used' }) };
     if (data.expires_at && new Date(data.expires_at) < new Date()) return { statusCode: 410, headers, body: JSON.stringify({ error: 'This review link has expired' }) };
-    return { statusCode: 200, headers, body: JSON.stringify({ customer_name: data.customer_name, business_name: data.business_name, request_id: data.id }) };
+    let googleReviewUrl = null;
+    if (data.business_id) {
+      const { data: biz } = await supabase.from('businesses').select('google_review_url').eq('id', data.business_id).maybeSingle();
+      googleReviewUrl = biz?.google_review_url || null;
+    }
+    return { statusCode: 200, headers, body: JSON.stringify({ customer_name: data.customer_name, business_name: data.business_name, request_id: data.id, google_review_url: googleReviewUrl }) };
   }
 
   if (event.httpMethod === 'POST') {
@@ -49,6 +54,9 @@ exports.handler = async (event) => {
           rating: parseInt(rating, 10),
           comment,
         });
+      }
+      if (biz?.google_review_url && parseInt(rating, 10) >= 4) {
+        return { statusCode: 200, headers, body: JSON.stringify({ success: true, google_review_url: biz.google_review_url }) };
       }
     }
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };

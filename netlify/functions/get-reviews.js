@@ -47,7 +47,7 @@ exports.handler = async (event) => {
                   requestsSent: requests ? requests.length : 0,
                   smsThisMonth,
                   smsLimit: business.monthly_sms_limit ?? 50,
-                  business: { id: business.id, name: business.name, slug: business.slug, email: business.email },
+                  business: { id: business.id, name: business.name, slug: business.slug, email: business.email, google_review_url: business.google_review_url || '' },
           }),
     };
 };

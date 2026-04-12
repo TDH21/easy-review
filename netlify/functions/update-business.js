@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { name, email } = body;
+  const { name, email, google_review_url } = body;
   if (!name || !name.trim()) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Business name is required' }) };
   }
@@ -27,6 +27,7 @@ exports.handler = async (event) => {
 
   const updates = { name: name.trim() };
   if (email !== undefined) updates.email = email.trim() || null;
+  if (google_review_url !== undefined) updates.google_review_url = google_review_url.trim() || null;
 
   const { data: updated, error: updateError } = await supabase
     .from('businesses')
