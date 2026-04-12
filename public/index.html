@@ -1151,19 +1151,6 @@
               + '<span style="color:'+gold+';">Review</span></span></div>';
 
 
-        if (hero) {
-          // 5 rating stars centred under the wordmark — appear when star 5 lands
-          var subR = 10, subSz = subR * 2.4;
-          var subSlot = wmWidth / 5;
-          for (var k = 0; k < 5; k++) {
-            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
-            html += '<div style="position:absolute;left:'+sx+'px;top:'+(rowH + 10)+'px;overflow:visible;">'
-                  + '<svg width="'+subSz+'" height="'+subSz+'" viewBox="0 0 '+subSz+' '+subSz+'" fill="none" overflow="visible"'
-                  + ' style="animation:erHSubStar '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center;">'
-                  + '<path d="'+starPath(subSz/2,subSz/2,subR,subR*0.42)+'" fill="'+gold+'"/></svg></div>';
-          }
-        }
-
         // Final 5 big stars — only for compact logo, not hero
         if (!hero) {
           var finR = 18, finSz = finR * 2.4;
@@ -1179,6 +1166,23 @@
 
         el.style.cssText = 'position:relative;height:'+h+'px;width:'+containerW+'px;overflow:visible;';
         el.innerHTML = html;
+
+        if (hero) {
+          // Measure actual rendered wordmark width, then add sub-stars aligned to it
+          var wmSpan = el.querySelector('span');
+          var actualW = wmSpan ? wmSpan.offsetWidth : wmWidth;
+          var subR = 10, subSz = subR * 2.4;
+          var subSlot = actualW / 5;
+          for (var k = 0; k < 5; k++) {
+            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
+            var subDiv = document.createElement('div');
+            subDiv.style.cssText = 'position:absolute;left:'+sx+'px;top:'+(rowH+10)+'px;overflow:visible;';
+            subDiv.innerHTML = '<svg width="'+subSz+'" height="'+subSz+'" viewBox="0 0 '+subSz+' '+subSz+'" fill="none" overflow="visible"'
+                  + ' style="animation:erHSubStar '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center;">'
+                  + '<path d="'+starPath(subSz/2,subSz/2,subR,subR*0.42)+'" fill="'+gold+'"/></svg>';
+            el.appendChild(subDiv);
+          }
+        }
       }
 
       buildLogo(document.getElementById('heroLogoAnim'),   { dark: true,  delay: '-2s', hero: true, dur: '5s' });
@@ -1206,6 +1210,27 @@
       }
       scaleHeroLogo();
       window.addEventListener('resize', scaleHeroLogo);
+
+      // Reposition sub-stars after fonts load (font metrics affect text width)
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() {
+          var inner = document.getElementById('heroLogoAnim');
+          if (!inner) return;
+          var wmSpan = inner.querySelector('span');
+          if (!wmSpan) return;
+          var actualW = wmSpan.offsetWidth;
+          var wmLeft = parseFloat(inner.querySelector('div').style.left) || 137.2;
+          var subR = 10, subSz = subR * 2.4;
+          var subSlot = actualW / 5;
+          var subDivs = Array.prototype.slice.call(inner.children).filter(function(c) {
+            return parseFloat(c.style.top) > 50;
+          });
+          subDivs.forEach(function(div, k) {
+            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
+            div.style.left = sx + 'px';
+          });
+        });
+      }
     })();
 
     // Always open at the top of the page (strip any hash from shared URLs)
