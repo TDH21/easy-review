@@ -619,6 +619,40 @@
     .demo-dot.active { background: #c8a96e; transform: scale(1.25); }
     .demo-widget-powered { font-size: 0.75rem; color: rgba(0,0,0,0.25); margin-top: 1.25rem; }
 
+    /* Easy Review black coverflow widget */
+    #erdWidget { background: #0d0d0d; padding: 2.5rem 0 2rem; text-align: center; overflow: hidden; }
+    .erd-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(200,169,110,0.65); margin-bottom: 0.5rem; }
+    .erd-rating-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .erd-avg { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 700; color: #fff; }
+    .erd-stars { color: #c8a96e; font-size: 1.05rem; letter-spacing: 2px; }
+    .erd-count { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+    .erd-heading { font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 2rem; }
+    .erd-outer { overflow: hidden; width: 100%; }
+    .erd-track { display: flex; gap: 16px; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); padding: 1rem 0 1.5rem; will-change: transform; }
+    .erd-card { flex: 0 0 260px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden; transform: scale(0.78); opacity: 0.25; transition: transform 0.4s, opacity 0.4s, background 0.4s, border-color 0.4s; cursor: pointer; text-align: left; }
+    .erd-card.erd-adj { transform: scale(0.88); opacity: 0.55; }
+    .erd-card.erd-active { background: #ffffff; border-color: transparent; box-shadow: 0 4px 0 rgba(0,0,0,0.1), 0 12px 40px rgba(0,0,0,0.35), 0 32px 72px rgba(0,0,0,0.2); transform: scale(1.0); opacity: 1; cursor: default; }
+    .erd-qmark { position: absolute; top: 0.1rem; right: 0.75rem; font-size: 3.5rem; color: #c8a96e; opacity: 0.06; font-family: Georgia, serif; line-height: 1; pointer-events: none; }
+    .erd-card.erd-active .erd-qmark { opacity: 0.13; }
+    .erd-text { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.65; margin-bottom: 0.9rem; font-style: italic; position: relative; min-height: 3.6em; }
+    .erd-card.erd-active .erd-text { color: #444; }
+    .erd-cstars { color: rgba(200,169,110,0.3); font-size: 0.9rem; margin-bottom: 0.6rem; letter-spacing: 1px; }
+    .erd-card.erd-active .erd-cstars { color: #c8a96e; }
+    .erd-meta { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 0.55rem; }
+    .erd-card.erd-active .erd-meta { border-top-color: #f0ece6; }
+    .erd-name { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.25); }
+    .erd-card.erd-active .erd-name { color: #1a1a1a; }
+    .erd-role { font-size: 0.72rem; color: rgba(255,255,255,0.18); margin-top: 0.1rem; }
+    .erd-card.erd-active .erd-role { color: #888; }
+    .erd-nav-row { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 0.25rem; }
+    .erd-nav-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; color: rgba(255,255,255,0.55); transition: all 0.2s; flex-shrink: 0; }
+    .erd-nav-btn:hover:not(:disabled) { background: rgba(200,169,110,0.18); border-color: #c8a96e; color: #c8a96e; }
+    .erd-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+    .erd-dots { display: flex; gap: 4px; align-items: center; }
+    .erd-dot { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.18); transition: width 0.25s, background 0.25s; border: none; padding: 0; cursor: pointer; }
+    .erd-dot.erd-da { width: 20px; background: #c8a96e; border-radius: 3px; }
+    .erd-powered { font-size: 0.72rem; color: rgba(255,255,255,0.2); margin-top: 1rem; }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .steps { grid-template-columns: 1fr; }
@@ -763,51 +797,63 @@
             <div class="demo-site-dot" style="background:#ff6058;"></div>
             <div class="demo-site-dot" style="background:#ffbd2e;"></div>
             <div class="demo-site-dot" style="background:#28c941;"></div>
-            <div class="demo-site-url-bar" id="demoSiteUrl">yourbusiness.com.au</div>
+            <div class="demo-site-url-bar">easyreview.com.au</div>
           </div>
-          <!-- Nav -->
-          <div class="demo-site-nav-bar">
-            <span class="demo-site-logo" id="demoSiteNav">Your Business</span>
-            <span class="demo-site-links-bar">Home &nbsp;&nbsp; Services &nbsp;&nbsp; Contact</span>
+          <!-- Easy Review nav -->
+          <div style="background:#0d0d0d;padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:1rem;font-weight:700;color:#fff;letter-spacing:-0.01em;">Easy<span style="color:#c8a96e;">Review</span></span>
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.38);">How it works &nbsp;&nbsp; Demo &nbsp;&nbsp; Pricing</span>
           </div>
-          <!-- Widget -->
-          <div class="demo-widget-section">
-            <div class="demo-widget-tag">Customer Reviews</div>
-            <div class="demo-widget-rating-row">
-              <span class="demo-widget-avg">4.9</span>
-              <span class="demo-widget-stars">★★★★★</span>
-              <span class="demo-widget-count">Based on 24 reviews</span>
+          <!-- Black coverflow widget -->
+          <div id="erdWidget">
+            <div class="erd-tag">Customer Reviews</div>
+            <div class="erd-rating-row">
+              <span class="erd-avg">4.9</span>
+              <span class="erd-stars">★★★★★</span>
+              <span class="erd-count">Based on 47 reviews</span>
             </div>
-            <div class="demo-widget-heading">What Our Customers Say</div>
-            <div class="demo-carousel-wrap">
-              <button class="demo-carousel-btn prev" onclick="demoCarouselPrev()">‹</button>
-              <div class="demo-carousel-overflow">
-                <div class="demo-carousel-inner" id="demoCarouselInner">
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Really happy with the service. Arrived on time and very professional!</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Jane S.</span><span class="demo-rc-date">10 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Great job, cleaned up everything and removed the old parts. Excellent work!</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Mark J.</span><span class="demo-rc-date">9 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Extremely professional. Would highly recommend to anyone looking for quality service.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Chris T.</span><span class="demo-rc-date">7 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Fast, friendly and fair pricing. Couldn't ask for a better experience.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Sarah M.</span><span class="demo-rc-date">5 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Showed up on time and got the job done quickly. Very happy with the result.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Dave R.</span><span class="demo-rc-date">3 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Fantastic experience from start to finish. Will definitely be using again.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Lisa K.</span><span class="demo-rc-date">1 Apr 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Very thorough and professional. Explained everything clearly before starting.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Tom H.</span><span class="demo-rc-date">28 Mar 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Highly recommend! Great communication and outstanding quality of work.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Emma B.</span><span class="demo-rc-date">25 Mar 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Went above and beyond. Really impressed with the level of service provided.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Ryan P.</span><span class="demo-rc-date">22 Mar 2026</span></div></div>
-                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Outstanding service from start to finish. Will 100% be using again in the future.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Kylie W.</span><span class="demo-rc-date">20 Mar 2026</span></div></div>
-                </div>
+            <div class="erd-heading">What Businesses Say About Us</div>
+            <div class="erd-outer">
+              <div class="erd-track" id="erdTrack">
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Set up in a day, first review within 24 hours. The results are unreal.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">James K.</div><div class="erd-role">Electrician</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Our Google rating went from 4.1 to 4.8 in just three months. Couldn't be happier.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Sarah M.</div><div class="erd-role">Hair Salon Owner</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">So easy to use. I send a text after every job and the reviews just roll in.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Dan T.</div><div class="erd-role">Plumber</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">More reviews in one month than in the previous two years combined.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Rachel B.</div><div class="erd-role">Physiotherapist</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">The widget on our website looks amazing. Customers comment on it all the time.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Tom R.</div><div class="erd-role">Landscaper</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">The SMS approach is genius — customers actually respond. It just works.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Emma L.</div><div class="erd-role">Café Owner</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Setup was seamless. The team handles everything. Worth every cent.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Mike O.</div><div class="erd-role">Builder</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Doubled our 5-star reviews in six weeks. This tool pays for itself.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Lisa W.</div><div class="erd-role">Dentist</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Honest, effective, and beautifully designed. Exactly what we needed.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Chris P.</div><div class="erd-role">Pool Builder</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">I was sceptical but the results speak for themselves. 47 new reviews in two months.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Jenny H.</div><div class="erd-role">Florist</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">The best marketing investment I've made this year. Simple and it works.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Alex N.</div><div class="erd-role">Personal Trainer</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">New customers constantly mention our reviews. Easy Review drives real business.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Chloe D.</div><div class="erd-role">Vet Clinic</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Went from 12 reviews to over 80 in just a few months. Incredible.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Sam F.</div><div class="erd-role">Restaurant Owner</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Clean dashboard, great SMS rate, and the widget looks absolutely premium.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Nick V.</div><div class="erd-role">Accountant</div></div></div>
+                <div class="erd-card"><div class="erd-qmark">"</div><div class="erd-text">Finally a review tool that doesn't make the customer jump through hoops.</div><div class="erd-cstars">★★★★★</div><div class="erd-meta"><div class="erd-name">Steph A.</div><div class="erd-role">Beautician</div></div></div>
               </div>
-              <button class="demo-carousel-btn next" onclick="demoCarouselNext()">›</button>
             </div>
-            <div class="demo-dots" id="demoDots">
-              <button class="demo-dot active" onclick="demoCarouselGoTo(0)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(1)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(2)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(3)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(4)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(5)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(6)"></button>
-              <button class="demo-dot" onclick="demoCarouselGoTo(7)"></button>
+            <div class="erd-nav-row">
+              <button class="erd-nav-btn" id="erdPrev" onclick="erdPrev()">‹</button>
+              <div class="erd-dots" id="erdDots">
+                <button class="erd-dot erd-da" onclick="erdGoTo(0)"></button>
+                <button class="erd-dot" onclick="erdGoTo(1)"></button>
+                <button class="erd-dot" onclick="erdGoTo(2)"></button>
+                <button class="erd-dot" onclick="erdGoTo(3)"></button>
+                <button class="erd-dot" onclick="erdGoTo(4)"></button>
+                <button class="erd-dot" onclick="erdGoTo(5)"></button>
+                <button class="erd-dot" onclick="erdGoTo(6)"></button>
+                <button class="erd-dot" onclick="erdGoTo(7)"></button>
+                <button class="erd-dot" onclick="erdGoTo(8)"></button>
+                <button class="erd-dot" onclick="erdGoTo(9)"></button>
+                <button class="erd-dot" onclick="erdGoTo(10)"></button>
+                <button class="erd-dot" onclick="erdGoTo(11)"></button>
+                <button class="erd-dot" onclick="erdGoTo(12)"></button>
+                <button class="erd-dot" onclick="erdGoTo(13)"></button>
+                <button class="erd-dot" onclick="erdGoTo(14)"></button>
+              </div>
+              <button class="erd-nav-btn" id="erdNext" onclick="erdNext()">›</button>
             </div>
-            <div class="demo-widget-powered">Powered by <span style="color:#c8a96e;opacity:0.7;">Easy Review</span></div>
+            <div class="erd-powered">Powered by <span style="color:#c8a96e;opacity:0.75;">Easy Review</span></div>
           </div>
         </div>
       </div>
@@ -885,29 +931,56 @@
   </footer>
 
   <script>
-    // Business name live update
+    // Business name live update (phone mockup only)
     document.getElementById('demoBizName').addEventListener('input', function () {
       const raw = this.value.trim();
       const name = raw || 'Your Business';
-      const slug = raw.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') || 'yourbusiness';
       document.getElementById('demoPhoneBiz').textContent = name;
-      document.getElementById('demoSiteNav').textContent = name;
-      document.getElementById('demoSiteUrl').textContent = slug + '.com.au';
     });
 
-    // Carousel
-    let demoPos = 0;
-    const DEMO_TOTAL = 10, DEMO_VIS = 3, DEMO_MAX = DEMO_TOTAL - DEMO_VIS;
-    function demoCarouselGoTo(pos) {
-      demoPos = Math.max(0, Math.min(pos, DEMO_MAX));
-      const inner = document.getElementById('demoCarouselInner');
-      const card = inner.querySelector('.demo-review-card');
-      const cardW = card.getBoundingClientRect().width + 16;
-      inner.style.transform = 'translateX(-' + (demoPos * cardW) + 'px)';
-      document.querySelectorAll('.demo-dot').forEach((d, i) => d.classList.toggle('active', i === demoPos));
+    // Easy Review 5-card coverflow carousel
+    let erdIdx = 0;
+    const ERD_N = 15;
+    function erdGoTo(i) {
+      erdIdx = Math.max(0, Math.min(i, ERD_N - 1));
+      var outer = document.querySelector('.erd-outer');
+      var track = document.getElementById('erdTrack');
+      if (!track.children.length) return;
+      var cw = track.children[0].offsetWidth;
+      var gap = 16;
+      var offset = (outer.offsetWidth / 2) - (cw / 2) - erdIdx * (cw + gap);
+      track.style.transform = 'translateX(' + offset + 'px)';
+      Array.from(track.children).forEach(function(c, j) {
+        var d = Math.abs(j - erdIdx);
+        c.className = 'erd-card' + (d === 0 ? ' erd-active' : d === 1 ? ' erd-adj' : '');
+        if (d > 0) { c.onclick = (function(j) { return function() { erdGoTo(j); }; })(j); }
+        else { c.onclick = null; }
+      });
+      document.querySelectorAll('.erd-dot').forEach(function(d, j) {
+        d.className = 'erd-dot' + (j === erdIdx ? ' erd-da' : '');
+      });
+      document.getElementById('erdPrev').disabled = erdIdx === 0;
+      document.getElementById('erdNext').disabled = erdIdx >= ERD_N - 1;
     }
-    function demoCarouselPrev() { demoCarouselGoTo(demoPos - 1); }
-    function demoCarouselNext() { demoCarouselGoTo(demoPos + 1); }
+    function erdPrev() { erdGoTo(erdIdx - 1); }
+    function erdNext() { erdGoTo(erdIdx + 1); }
+    // Auto-advance
+    var erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 3200);
+    document.getElementById('erdTrack').addEventListener('mouseenter', function() { clearInterval(erdTimer); });
+    document.getElementById('erdTrack').addEventListener('mouseleave', function() {
+      erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 3200);
+    });
+    // Touch swipe
+    (function() {
+      var track = document.getElementById('erdTrack'), tx = 0;
+      track.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        var dx = tx - e.changedTouches[0].clientX;
+        if (Math.abs(dx) > 40) { dx > 0 ? erdNext() : erdPrev(); }
+      });
+    })();
+    // Init at card 3 so both sides show immediately
+    erdGoTo(3);
   </script>
 </body>
 </html>
