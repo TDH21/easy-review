@@ -563,6 +563,22 @@
     .demo-try-btn { display: inline-block; margin-top: 0.5rem; padding: 0.55rem 1.25rem; background: var(--black); color: var(--white); border-radius: 100px; font-size: 0.8rem; font-weight: 500; text-decoration: none; transition: background 0.2s; }
     .demo-try-btn:hover { background: var(--green); }
 
+    /* Real-form mock styles */
+    .mock-rf-screen { background: #f5f2ed; border-radius: 20px; overflow: hidden; min-height: 340px; }
+    .mock-rf-card { background: #fff; border: 1px solid #e0dbd4; border-radius: 14px; margin: 0.75rem; padding: 0.85rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .mock-rf-biz { font-family: 'Playfair Display', Georgia, serif; font-size: 0.82rem; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 0.1rem; }
+    .mock-rf-greeting { font-size: 0.5rem; color: #c8a96e; text-align: center; font-weight: 500; margin-bottom: 0.15rem; }
+    .mock-rf-sub { font-size: 0.48rem; color: #6b6560; text-align: center; margin-bottom: 0.55rem; }
+    .mock-rf-divider { height: 1px; background: #e0dbd4; margin: 0.55rem 0; }
+    .mock-rf-label { font-size: 0.42rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6b6560; text-align: center; margin-bottom: 0.45rem; }
+    .mock-rf-stars { display: flex; justify-content: center; gap: 1px; font-size: 1.15rem; color: #c8a96e; margin-bottom: 0.5rem; }
+    .mock-rf-formlabel { font-size: 0.46rem; font-weight: 500; color: #1a1a1a; margin-bottom: 0.2rem; }
+    .mock-rf-formlabel span { color: #c8a96e; }
+    .mock-rf-textarea { background: #f5f2ed; border: 1px solid #e0dbd4; border-radius: 6px; padding: 0.4rem; font-size: 0.46rem; color: #6b6560; min-height: 44px; line-height: 1.5; font-style: italic; margin-bottom: 0.5rem; width: 100%; }
+    .mock-rf-submit { background: #c8a96e; color: #000; border-radius: 6px; padding: 0.45rem; font-size: 0.58rem; font-weight: 700; text-align: center; width: 100%; }
+    .mock-rf-powered { text-align: center; font-size: 0.4rem; color: rgba(0,0,0,0.25); margin-top: 0.5rem; }
+    .mock-rf-powered span { color: #c8a96e; opacity: 0.6; }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .steps { grid-template-columns: 1fr; }
@@ -682,16 +698,18 @@
         <div class="demo-stage">
           <div class="demo-stage-label">Customer leaves a review</div>
           <div class="mock-phone">
-            <div class="mock-phone-screen">
-              <div class="mock-review-header">
-                <div class="mock-review-biz" id="demoPhoneBiz">Your Business</div>
-                <div class="mock-review-h">Leave a Review</div>
-              </div>
-              <div class="mock-review-body">
-                <div class="mock-review-prompt">How was your experience?</div>
-                <div class="mock-stars-row">★★★★★</div>
-                <div class="mock-comment-box">Really happy with the service. Will definitely use again!</div>
-                <div class="mock-review-submit">Submit Review</div>
+            <div class="mock-rf-screen">
+              <div class="mock-rf-card">
+                <div class="mock-rf-biz" id="demoPhoneBiz">Your Business</div>
+                <div class="mock-rf-greeting">Hi Sarah!</div>
+                <div class="mock-rf-sub">We'd love to hear your feedback</div>
+                <div class="mock-rf-divider"></div>
+                <div class="mock-rf-label">How would you rate your experience?</div>
+                <div class="mock-rf-stars">★★★★★</div>
+                <div class="mock-rf-formlabel">Your review <span>*</span></div>
+                <div class="mock-rf-textarea">Really happy with the service. Will definitely use again!</div>
+                <div class="mock-rf-submit">Submit Review</div>
+                <div class="mock-rf-powered">Powered by <span>EasyReview</span></div>
               </div>
             </div>
           </div>
