@@ -46,9 +46,24 @@
       font-size: 1.65rem;
       color: var(--black);
       letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
     }
 
     .nav-logo span { color: var(--gold); }
+    .nav-logo-mark { flex-shrink: 0; }
+
+    /* Section dividers */
+    .section-divider {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 0 5%;
+    }
+    .section-divider::before, .section-divider::after {
+      content: ''; flex: 1; max-width: 160px;
+      height: 1px; background: rgba(200,169,110,0.25);
+    }
+    .section-divider-icon { color: var(--gold); font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; }
 
     .nav-links {
       display: flex; gap: 2.5rem; list-style: none;
@@ -547,6 +562,7 @@
     .footer-logo {
       font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
       font-size: 1.5rem; letter-spacing: -0.01em;
+      display: flex; align-items: center; gap: 0.5rem;
     }
 
     .footer-logo span { color: var(--gold); }
@@ -693,7 +709,13 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">Easy<span>Review</span></div>
+    <div class="nav-logo">
+      <svg class="nav-logo-mark" width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" fill="rgba(200,169,110,0.12)" stroke="#c8a96e" stroke-width="1.25"/>
+        <path d="M16 9l1.76 4.57 4.24.13-3.15 2.57 1.01 4.23L16 18.2l-3.86 2.3 1.01-4.23-3.15-2.57 4.24-.13z" fill="#c8a96e"/>
+      </svg>
+      Easy<span>Review</span>
+    </div>
     <ul class="nav-links">
       <li><a href="#how">How it works</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -704,7 +726,12 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-wordmark">Easy<span>Review</span><span class="hero-wordmark-dot"></span></div>
+    <div class="hero-wordmark">
+      <svg style="vertical-align:middle;margin-right:0.4rem;margin-bottom:0.2rem;" width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" fill="rgba(200,169,110,0.12)" stroke="#c8a96e" stroke-width="1.25"/>
+        <path d="M16 9l1.76 4.57 4.24.13-3.15 2.57 1.01 4.23L16 18.2l-3.86 2.3 1.01-4.23-3.15-2.57 4.24-.13z" fill="#c8a96e"/>
+      </svg>Easy<span>Review</span>
+    </div>
     <div class="hero-badge">⭐ Trusted by local businesses across Australia</div>
     <h1>Turn customers into<br /><em>5-star reviews</em></h1>
     <p>Send a quick SMS after every visit. Customers reply with their rating in seconds. Reviews go up, reputation grows.</p>
@@ -734,8 +761,13 @@
     <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Automated — zero effort</span></div>
   </div>
 
+  <!-- DIVIDER -->
+  <div class="section-divider" style="background:var(--white);padding-top:2rem;padding-bottom:2rem;">
+    <span class="section-divider-icon">★ ★ ★</span>
+  </div>
+
   <!-- HOW IT WORKS -->
-  <section class="section" id="how" style="text-align:center;">
+  <section class="section" id="how" style="text-align:center;background:var(--white);">
     <div class="section-tag">How it works</div>
     <h2 class="section-title" style="margin:0 auto 0;">Three steps to a better reputation</h2>
     <div class="steps">
@@ -756,6 +788,11 @@
       </div>
     </div>
   </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider" style="background:var(--cream);padding-top:2rem;padding-bottom:2rem;">
+    <span class="section-divider-icon">★ ★ ★</span>
+  </div>
 
   <!-- DEMO -->
   <section class="section" id="demo" style="background: var(--cream);">
@@ -883,6 +920,11 @@
     </div>
   </section>
 
+  <!-- DIVIDER -->
+  <div class="section-divider" style="background:var(--white);padding-top:2rem;padding-bottom:2rem;">
+    <span class="section-divider-icon">★ ★ ★</span>
+  </div>
+
   <!-- FEATURES -->
   <section class="section" id="features" style="background: var(--white);">
     <div class="section-tag">Features</div>
@@ -910,6 +952,11 @@
       </div>
     </div>
   </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider" style="background:var(--cream);padding-top:2rem;padding-bottom:2rem;">
+    <span class="section-divider-icon">★ ★ ★</span>
+  </div>
 
   <!-- PRICING -->
   <section class="section" id="pricing" style="background:var(--cream);">
@@ -948,7 +995,13 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">Easy<span>Review</span></div>
+    <div class="footer-logo">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" fill="rgba(200,169,110,0.12)" stroke="#c8a96e" stroke-width="1.25"/>
+        <path d="M16 9l1.76 4.57 4.24.13-3.15 2.57 1.01 4.23L16 18.2l-3.86 2.3 1.01-4.23-3.15-2.57 4.24-.13z" fill="#c8a96e"/>
+      </svg>
+      Easy<span>Review</span>
+    </div>
     <p>© 2026 Easy Review. Made in Australia 🇦🇺</p>
   </footer>
 
