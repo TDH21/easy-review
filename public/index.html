@@ -41,11 +41,13 @@
     }
 
     /* Animated logo wrapper — sets layout footprint while inner div scales */
-    .nav-logo { display:block; width:178px; height:29px; overflow:visible; position:relative; }
-    .nav-logo-inner { position:absolute; top:0; left:0; transform:scale(0.55); transform-origin:left top; }
+    .nav-wordmark {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem; font-weight: 700; line-height: 1;
+      color: var(--black); text-decoration: none; white-space: nowrap;
+    }
+    .nav-wordmark .g { color: var(--gold); }
 
-    .hero-wordmark { margin-bottom:1.5rem; animation:fadeUp 0.5s ease both; display:block; overflow:visible; position:relative; height:72px; }
-    .hero-wordmark-inner { position:absolute; top:0; left:50%; transform:translateX(-50%) scale(1.3); transform-origin:center top; }
 
     .footer-logo { display:block; width:150px; height:24px; overflow:visible; position:relative; }
     .footer-logo-inner { position:absolute; top:0; left:0; transform:scale(0.46); transform-origin:left top; }
@@ -58,6 +60,7 @@
        81–94% (1s)  : 5 stars fade out
        94–100%(0.5s): dark pause before loop
     ─────────────────────────────────────────────────────────────────────── */
+    /* Compact logo keyframes (8s loop) */
     @keyframes erLightUp1 { 0%,3%   {opacity:.1;filter:none;} 7%,34%  {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
     @keyframes erLightUp2 { 0%,7%   {opacity:.1;filter:none;} 11%,34% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
     @keyframes erLightUp3 { 0%,11%  {opacity:.1;filter:none;} 15%,34% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
@@ -81,6 +84,29 @@
       70%     {filter:drop-shadow(0 0 8px #c8a96e66);transform:scale(1);}
       82%     {opacity:1;transform:scale(1.08);filter:drop-shadow(0 0 14px #c8a96e);}
       92%,100%{opacity:0;transform:scale(0.7);filter:none;}
+    }
+
+    /* Hero bar keyframes (4s loop — staircase+hold fills 65%, short dark pause 35%) */
+    @keyframes erHLightUp1 { 0%,4%  {opacity:.1;filter:none;} 8%,60%  {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 78%,100%{opacity:0;filter:none;} }
+    @keyframes erHLightUp2 { 0%,8%  {opacity:.1;filter:none;} 12%,60% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 78%,100%{opacity:0;filter:none;} }
+    @keyframes erHLightUp3 { 0%,12% {opacity:.1;filter:none;} 16%,60% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 78%,100%{opacity:0;filter:none;} }
+    @keyframes erHLightUp4 { 0%,16% {opacity:.1;filter:none;} 20%,60% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 78%,100%{opacity:0;filter:none;} }
+    @keyframes erHGlow5 {
+      0%,18%  {opacity:.1;filter:none;transform:translate(0,0) scale(1);}
+      22%     {opacity:1;filter:drop-shadow(0 0 12px #c8a96e) drop-shadow(0 0 24px #c8a96e55);transform:translate(0,0) scale(1.25);}
+      25%     {opacity:1;filter:drop-shadow(0 0 8px #c8a96e66);transform:translate(22px,-32px) scale(1.2) rotate(-12deg);}
+      28%     {opacity:1;filter:drop-shadow(0 0 6px #c8a96e44);transform:translate(80px,-56px) scale(1.15) rotate(-18deg);}
+      31%     {opacity:1;filter:drop-shadow(0 0 5px #c8a96e33);transform:translate(148px,-28px) scale(1.1) rotate(-7deg);}
+      34%     {opacity:1;filter:drop-shadow(0 0 14px #c8a96e) drop-shadow(0 0 28px #c8a96e55);transform:translate(var(--er-land),0) scale(1.15) rotate(0deg);}
+      36%,60% {opacity:1;filter:drop-shadow(0 0 8px #c8a96e88);transform:translate(var(--er-land),0) scale(1);}
+      78%,100%{opacity:0;filter:none;transform:translate(var(--er-land),0) scale(0.7);}
+    }
+    @keyframes erHWmFade { 0%,60%{opacity:1;} 78%,100%{opacity:0;} }
+    @keyframes erHSubStar {
+      0%,34%  {opacity:0;transform:scale(0.2);filter:none;}
+      38%     {opacity:1;transform:scale(1.2);filter:drop-shadow(0 0 8px #c8a96e) drop-shadow(0 0 18px #c8a96e55);}
+      41%,60% {opacity:1;transform:scale(1);filter:drop-shadow(0 0 5px #c8a96e88);}
+      78%,100%{opacity:0;transform:scale(0.5);filter:none;}
     }
 
     /* Section dividers */
@@ -121,7 +147,7 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      padding: 8rem 5% 4rem;
+      padding: 5rem 5% 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -133,7 +159,22 @@
                   radial-gradient(ellipse 60% 40% at 80% 80%, rgba(45, 106, 79, 0.08) 0%, transparent 60%);
     }
 
-    /* hero-wordmark styles moved to animated logo section above */
+    /* Logo bar — full-width dark band between nav and hero */
+    .hero-logo-wrap {
+      display: block;
+      background: #0d0d0d;
+      width: 100%;
+      padding: 1.25rem 0;
+      margin-top: 72px; /* clear fixed nav */
+      overflow: visible;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.5s ease both;
+    }
+    .hero-logo-inner {
+      position: relative;
+      overflow: visible;
+    }
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -713,7 +754,7 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo"><div class="nav-logo-inner" id="navLogoAnim"></div></div>
+    <a href="#" class="nav-wordmark">Easy<span class="g">Review</span></a>
     <ul class="nav-links">
       <li><a href="#how">How it works</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -722,9 +763,13 @@
     <a href="#demo" class="nav-cta">Try the demo</a>
   </nav>
 
+  <!-- LOGO BAR -->
+  <div class="hero-logo-wrap">
+    <div class="hero-logo-inner" id="heroLogoAnim"></div>
+  </div>
+
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-wordmark"><div class="hero-wordmark-inner" id="heroLogoAnim"></div></div>
     <div class="hero-badge">⭐ Trusted by local businesses across Australia</div>
     <h1>Turn customers into<br /><em>5-star reviews</em></h1>
     <p>Send a quick SMS after every visit. Customers reply with their rating in seconds. Reviews go up, reputation grows.</p>
@@ -961,8 +1006,8 @@
     <div style="max-width:420px;margin:3rem auto 0;">
       <div class="price-card featured" style="text-align:center;">
         <div class="price-name">Professional</div>
-        <div class="price-amount">$20<span style="font-size:1rem;font-weight:400;">/mo</span></div>
-        <div class="price-muted" style="margin-top:0.4rem;">+ one-off $79 setup fee</div>
+        <div class="price-amount">$65<span style="font-size:1rem;font-weight:400;">/mo</span></div>
+        <div class="price-muted" style="margin-top:0.4rem;">+ one-off $180 setup fee</div>
         <div class="price-divider"></div>
         <ul class="price-features" style="text-align:left;">
           <li class="price-feature">100 SMS review requests per month</li>
@@ -1047,7 +1092,6 @@
     // ── Animated logo builder ────────────────────────────────────────────────
     (function() {
       var gold = '#c8a96e';
-      var DUR  = '8s';
 
       function starPath(cx, cy, r, ir) {
         ir = ir || r * 0.42;
@@ -1062,19 +1106,26 @@
       }
 
       function buildLogo(el, opts) {
-        var dark   = opts && opts.dark;
-        var delay  = (opts && opts.delay) || '0s';
-        var wc     = dark ? '#ffffff' : '#1a1a1a';
-        var sizes  = [5, 7, 9.5, 13, 18];
-        var xOff   = [0, 16, 34, 57, 84];
-        var anims  = ['erLightUp1','erLightUp2','erLightUp3','erLightUp4'];
-        var h      = 52;
-        var html   = '';
+        var dark    = opts && opts.dark;
+        var delay   = (opts && opts.delay) || '0s';
+        var hero    = opts && opts.hero;
+        var DUR     = (opts && opts.dur) || '8s';
+        var wc      = dark ? '#ffffff' : '#1a1a1a';
+        var sizes   = [5, 7, 9.5, 13, 18];
+        var xOff    = [0, 16, 34, 57, 84];
+        var anims   = hero
+          ? ['erHLightUp1','erHLightUp2','erHLightUp3','erHLightUp4']
+          : ['erLightUp1','erLightUp2','erLightUp3','erLightUp4'];
+        // Hero uses a 2-row layout: wordmark on top, sub-stars below
+        var h       = hero ? 92 : 52;
+        var rowH    = 48;
+        var html    = '';
 
-        // Stars 1-4
+        // Stars 1-4 — bottom-aligned within the top row
         for (var i = 0; i < 4; i++) {
           var r = sizes[i], sz = r * 2.4;
-          html += '<div style="position:absolute;left:'+xOff[i]+'px;bottom:0;overflow:visible;">'
+          var yPos = hero ? 'top:' + (rowH - sz).toFixed(1) + 'px' : 'bottom:0';
+          html += '<div style="position:absolute;left:'+xOff[i]+'px;'+yPos+';overflow:visible;">'
                 + '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 '+sz+' '+sz+'" fill="none" overflow="visible"'
                 + ' style="animation:'+anims[i]+' '+DUR+' ease-in-out infinite;animation-delay:'+delay+';">'
                 + '<path d="'+starPath(sz/2,sz/2,r,r*0.42)+'" fill="'+gold+'"/></svg></div>';
@@ -1082,41 +1133,82 @@
 
         // Star 5 – launcher
         var r5 = sizes[4], sz5 = r5 * 2.4;
-        var wmLeft  = xOff[4] + sz5 + 10;
-        var wmWidth = 158; // approx px width of "EasyReview" at 1.5rem Playfair
-        var landX   = (wmLeft + wmWidth - sz5 * 0.5 - xOff[4]).toFixed(0);
-        var containerW = wmLeft + wmWidth + 30;
+        var wmLeft    = xOff[4] + sz5 + 10;  // ~137px
+        var wmWidth   = 158;
+        var wmCenterX = wmLeft + wmWidth / 2; // ~216px
+        var containerW = hero ? wmCenterX * 2 : wmLeft + wmWidth + 30;
+        var landX = (wmLeft + wmWidth - sz5 * 0.5 - xOff[4]).toFixed(0);
+        var yPos5 = hero ? 'top:' + (rowH - sz5).toFixed(1) + 'px' : 'bottom:0';
 
-        html += '<div style="position:absolute;left:'+xOff[4]+'px;bottom:0;overflow:visible;">'
+        html += '<div style="position:absolute;left:'+xOff[4]+'px;'+yPos5+';overflow:visible;">'
               + '<svg width="'+sz5+'" height="'+sz5+'" viewBox="0 0 '+sz5+' '+sz5+'" fill="none" overflow="visible"'
-              + ' style="--er-land:'+landX+'px;animation:erGlow5 '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center bottom;">'
+              + ' style="--er-land:'+landX+'px;animation:'+(hero?'erHGlow5':'erGlow5')+' '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center bottom;">'
               + '<path d="'+starPath(sz5/2,sz5/2,r5,r5*0.42)+'" fill="'+gold+'"/></svg></div>';
 
-        // Wordmark
-        html += '<div style="position:absolute;left:'+wmLeft+'px;bottom:6px;'
-              + 'animation:erWmFade '+DUR+' ease-in-out infinite;animation-delay:'+delay+';">'
+        // Wordmark — top of row in hero, bottom-aligned otherwise
+        var wmY = hero ? 'top:8px' : 'bottom:6px';
+        html += '<div style="position:absolute;left:'+wmLeft+'px;'+wmY+';'
+              + 'animation:'+(hero?'erHWmFade':'erWmFade')+' '+DUR+' ease-in-out infinite;animation-delay:'+delay+';">'
               + '<span style="font-family:\'Playfair Display\',Georgia,serif;font-size:1.5rem;font-weight:700;'
               + 'color:'+wc+';white-space:nowrap;line-height:1;">Easy'
               + '<span style="color:'+gold+';">Review</span></span></div>';
 
-        // Final 5 stars
-        var finR = 18, finSz = finR * 2.4;
-        var slot = containerW / 5;
-        for (var j = 0; j < 5; j++) {
-          var fx = (slot * j + (slot - finSz) / 2).toFixed(1);
-          html += '<div style="position:absolute;left:'+fx+'px;bottom:6px;overflow:visible;">'
-                + '<svg width="'+finSz+'" height="'+finSz+'" viewBox="0 0 '+finSz+' '+finSz+'" fill="none" overflow="visible"'
-                + ' style="animation:erFinal '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center;">'
-                + '<path d="'+starPath(finSz/2,finSz/2,finR,finR*0.42)+'" fill="'+gold+'"/></svg></div>';
+
+        if (hero) {
+          // 5 rating stars centred under the wordmark — appear when star 5 lands
+          var subR = 10, subSz = subR * 2.4;
+          var subSlot = wmWidth / 5;
+          for (var k = 0; k < 5; k++) {
+            var sx = (wmLeft + subSlot * k + (subSlot - subSz) / 2).toFixed(1);
+            html += '<div style="position:absolute;left:'+sx+'px;top:'+(rowH + 10)+'px;overflow:visible;">'
+                  + '<svg width="'+subSz+'" height="'+subSz+'" viewBox="0 0 '+subSz+' '+subSz+'" fill="none" overflow="visible"'
+                  + ' style="animation:erHSubStar '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center;">'
+                  + '<path d="'+starPath(subSz/2,subSz/2,subR,subR*0.42)+'" fill="'+gold+'"/></svg></div>';
+          }
+        }
+
+        // Final 5 big stars — only for compact logo, not hero
+        if (!hero) {
+          var finR = 18, finSz = finR * 2.4;
+          var slot = containerW / 5;
+          for (var j = 0; j < 5; j++) {
+            var fx = (slot * j + (slot - finSz) / 2).toFixed(1);
+            html += '<div style="position:absolute;left:'+fx+'px;bottom:6px;overflow:visible;">'
+                  + '<svg width="'+finSz+'" height="'+finSz+'" viewBox="0 0 '+finSz+' '+finSz+'" fill="none" overflow="visible"'
+                  + ' style="animation:erFinal '+DUR+' ease-in-out infinite;animation-delay:'+delay+';transform-origin:center;">'
+                  + '<path d="'+starPath(finSz/2,finSz/2,finR,finR*0.42)+'" fill="'+gold+'"/></svg></div>';
+          }
         }
 
         el.style.cssText = 'position:relative;height:'+h+'px;width:'+containerW+'px;overflow:visible;';
         el.innerHTML = html;
       }
 
-      buildLogo(document.getElementById('navLogoAnim'),    { dark: false, delay: '0s'    });
-      buildLogo(document.getElementById('heroLogoAnim'),   { dark: false, delay: '0.3s'  });
+      buildLogo(document.getElementById('heroLogoAnim'),   { dark: true,  delay: '-2s', hero: true, dur: '5s' });
       buildLogo(document.getElementById('footerLogoAnim'), { dark: false, delay: '0.6s'  });
+
+      // Scale hero logo to fill the full bar width, centred on the wordmark
+      function scaleHeroLogo() {
+        var inner = document.getElementById('heroLogoAnim');
+        var wrap  = inner && inner.parentElement;
+        if (!inner || !wrap) return;
+        var logoW = parseFloat(inner.style.width)  || 432;
+        var logoH = parseFloat(inner.style.height) || 52;
+        var scale = (wrap.offsetWidth * 0.92) / logoW;
+        // Container is symmetric: its centre = wordmark centre
+        // Centre the element in the bar, scale from its own centre
+        inner.style.position      = 'absolute';
+        inner.style.left          = '50%';
+        inner.style.marginLeft    = (-logoW / 2) + 'px';
+        inner.style.transform     = 'scale(' + scale + ')';
+        inner.style.transformOrigin = 'center top';
+        wrap.style.position      = 'relative';
+        wrap.style.paddingTop    = '1.5rem';
+        wrap.style.paddingBottom = '1.5rem';
+        wrap.style.minHeight     = (logoH * scale + 48) + 'px';
+      }
+      scaleHeroLogo();
+      window.addEventListener('resize', scaleHeroLogo);
     })();
 
     // Always open at the top of the page (strip any hash from shared URLs)
