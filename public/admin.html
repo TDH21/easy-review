@@ -95,6 +95,22 @@
     <p>Manage all registered businesses on the Easy Review platform.</p>
   </div>
 
+  <div class="card" style="margin-bottom:2rem;">
+    <div class="card-header"><div class="card-title">Invite a Business</div></div>
+    <div class="card-body" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
+      <div style="flex:1;min-width:160px;">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Contact Name</label>
+        <input class="inline-input" id="inviteName" type="text" placeholder="Glenn" style="width:100%;" />
+      </div>
+      <div style="flex:1;min-width:160px;">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Mobile Number</label>
+        <input class="inline-input" id="invitePhone" type="tel" placeholder="0412 345 678" style="width:100%;" />
+      </div>
+      <button class="save-btn" onclick="sendInvite()" id="inviteBtn" style="padding:0.5rem 1.25rem;font-size:0.85rem;white-space:nowrap;">Send Signup Link ✉️</button>
+      <div id="inviteMsg" style="width:100%;font-size:0.82rem;display:none;margin-top:0.25rem;"></div>
+    </div>
+  </div>
+
   <div class="stats-row" id="statsRow">
     <div class="stat-card"><div class="stat-label">Total Businesses</div><div class="stat-value" id="statTotal">—</div></div>
     <div class="stat-card"><div class="stat-label">Linked to Auth User</div><div class="stat-value" id="statLinked">—</div></div>
@@ -297,6 +313,33 @@
     n.style.color = success ? 'var(--green)' : 'var(--red)';
     n.classList.add('show');
     setTimeout(() => n.classList.remove('show'), 3000);
+  }
+
+  async function sendInvite() {
+    const name  = document.getElementById('inviteName').value.trim();
+    const phone = document.getElementById('invitePhone').value.trim();
+    const btn   = document.getElementById('inviteBtn');
+    const msg   = document.getElementById('inviteMsg');
+    if (!name || !phone) { msg.textContent = 'Please enter a name and phone number'; msg.style.color = 'var(--red)'; msg.style.display = 'block'; return; }
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    const res = await fetch('/api/admin-send-invite', {
+      method: 'POST',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ name, phone }),
+    });
+    btn.textContent = 'Send Signup Link ✉️'; btn.disabled = false;
+    const json = await res.json();
+    if (res.ok) {
+      msg.textContent = '✓ Invite sent to ' + name;
+      msg.style.color = 'var(--green)';
+      document.getElementById('inviteName').value = '';
+      document.getElementById('invitePhone').value = '';
+    } else {
+      msg.textContent = json.error || 'Failed to send invite';
+      msg.style.color = 'var(--red)';
+    }
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 4000);
   }
 
   initAuth();
