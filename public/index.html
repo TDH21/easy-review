@@ -321,6 +321,24 @@
     .mock-rrow-name { font-size: 0.6rem; font-weight: 600; color: #333; white-space: nowrap; }
     .mock-rrow-comment { font-size: 0.58rem; color: #888; font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
 
+    /* Mock website (step 3) */
+    .mock-website-body { }
+    .mock-site-nav { background: #1a2744; padding: 0.55rem 1rem; display: flex; align-items: center; justify-content: space-between; }
+    .mock-site-logo { font-size: 0.65rem; font-weight: 700; color: #fff; }
+    .mock-site-links { font-size: 0.55rem; color: rgba(255,255,255,0.6); }
+    .mock-site-section { padding: 1.1rem 1rem; background: #f8f9fb; }
+    .mock-site-tag { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 0.3rem; text-align: center; }
+    .mock-site-heading { font-size: 0.9rem; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 0.9rem; }
+    .mock-widget-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .mock-widget-card { background: #fff; border: 1px solid #e8e3dc; border-radius: 10px; padding: 0.7rem; position: relative; overflow: hidden; }
+    .mock-wc-quote { position: absolute; top: 0.2rem; right: 0.5rem; font-size: 2rem; color: #c8a96e; opacity: 0.12; font-family: Georgia, serif; line-height: 1; }
+    .mock-wc-text { font-size: 0.58rem; color: #444; line-height: 1.5; margin-bottom: 0.4rem; font-style: italic; }
+    .mock-wc-stars { color: #c8a96e; font-size: 0.65rem; margin-bottom: 0.35rem; }
+    .mock-wc-meta { display: flex; justify-content: space-between; border-top: 1px solid #f0ece6; padding-top: 0.35rem; }
+    .mock-wc-name { font-size: 0.55rem; font-weight: 600; color: #333; }
+    .mock-wc-date { font-size: 0.52rem; color: #aaa; }
+    .mock-powered { text-align: center; font-size: 0.52rem; color: #bbb; }
+
     @media (max-width: 860px) {
       .step-row { grid-template-columns: 1fr; gap: 2rem; }
       .step-row.flip { direction: ltr; }
@@ -650,19 +668,31 @@
           <div class="mock-browser">
             <div class="mock-browser-bar">
               <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
-              <div class="mock-url">dashboard — Easy Review</div>
+              <div class="mock-url">geckoplumbing.com.au</div>
             </div>
-            <div class="mock-browser-body">
-              <div class="mock-stat-grid">
-                <div class="mock-stat-card"><div class="mock-stat-lbl">Avg Rating</div><div class="mock-stat-val">4.9</div></div>
-                <div class="mock-stat-card"><div class="mock-stat-lbl">Reviews</div><div class="mock-stat-val">24</div></div>
-                <div class="mock-stat-card"><div class="mock-stat-lbl">5-Star</div><div class="mock-stat-val">18</div></div>
-                <div class="mock-stat-card"><div class="mock-stat-lbl">Sent</div><div class="mock-stat-val">31</div></div>
+            <div class="mock-website-body">
+              <div class="mock-site-nav">
+                <span class="mock-site-logo">Gecko Plumbing</span>
+                <span class="mock-site-links">Home &nbsp; Services &nbsp; Contact</span>
               </div>
-              <div class="mock-review-rows">
-                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★★</span><span class="mock-rrow-name">Jane S.</span><span class="mock-rrow-comment">"Amazing, would highly recommend!"</span></div>
-                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★★</span><span class="mock-rrow-name">Mark J.</span><span class="mock-rrow-comment">"Very professional, great work"</span></div>
-                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★☆</span><span class="mock-rrow-name">Sarah L.</span><span class="mock-rrow-comment">"Friendly team and fair pricing"</span></div>
+              <div class="mock-site-section">
+                <div class="mock-site-tag">CUSTOMER REVIEWS</div>
+                <div class="mock-site-heading">What Our Customers Say</div>
+                <div class="mock-widget-cards">
+                  <div class="mock-widget-card">
+                    <div class="mock-wc-quote">"</div>
+                    <div class="mock-wc-text">Really happy with the service. Arrived on time and very professional!</div>
+                    <div class="mock-wc-stars">★★★★★</div>
+                    <div class="mock-wc-meta"><span class="mock-wc-name">Jane S.</span><span class="mock-wc-date">10 Apr 2026</span></div>
+                  </div>
+                  <div class="mock-widget-card">
+                    <div class="mock-wc-quote">"</div>
+                    <div class="mock-wc-text">Great job, cleaned up and removed the old system. Excellent work!</div>
+                    <div class="mock-wc-stars">★★★★★</div>
+                    <div class="mock-wc-meta"><span class="mock-wc-name">Mark J.</span><span class="mock-wc-date">9 Apr 2026</span></div>
+                  </div>
+                </div>
+                <div class="mock-powered">Powered by <span style="color:#c8a96e;">Easy Review</span></div>
               </div>
             </div>
           </div>
