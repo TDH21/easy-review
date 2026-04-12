@@ -628,8 +628,8 @@
     .erd-count { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
     .erd-heading { font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 2rem; }
     .erd-outer { overflow: hidden; width: 100%; }
-    .erd-track { display: flex; gap: 16px; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); padding: 1rem 0 1.5rem; will-change: transform; }
-    .erd-card { flex: 0 0 260px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden; transform: scale(0.78); opacity: 0.25; transition: transform 0.4s, opacity 0.4s, background 0.4s, border-color 0.4s; cursor: pointer; text-align: left; }
+    .erd-track { display: flex; gap: 16px; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1); padding: 1rem 0 1.5rem; will-change: transform; }
+    .erd-card { flex: 0 0 260px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden; transform: scale(0.78); opacity: 0.25; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1), opacity 0.7s cubic-bezier(0.4,0,0.2,1), background 0.7s ease, border-color 0.7s ease; cursor: pointer; text-align: left; }
     .erd-card.erd-adj { transform: scale(0.88); opacity: 0.55; }
     .erd-card.erd-active { background: #ffffff; border-color: transparent; box-shadow: 0 4px 0 rgba(0,0,0,0.1), 0 12px 40px rgba(0,0,0,0.35), 0 32px 72px rgba(0,0,0,0.2); transform: scale(1.0); opacity: 1; cursor: default; }
     .erd-qmark { position: absolute; top: 0.1rem; right: 0.75rem; font-size: 3.5rem; color: #c8a96e; opacity: 0.06; font-family: Georgia, serif; line-height: 1; pointer-events: none; }
@@ -965,10 +965,10 @@
     function erdPrev() { erdGoTo(erdIdx - 1); }
     function erdNext() { erdGoTo(erdIdx + 1); }
     // Auto-advance
-    var erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 3200);
+    var erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 5500);
     document.getElementById('erdTrack').addEventListener('mouseenter', function() { clearInterval(erdTimer); });
     document.getElementById('erdTrack').addEventListener('mouseleave', function() {
-      erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 3200);
+      erdTimer = setInterval(function() { erdGoTo(erdIdx < ERD_N - 1 ? erdIdx + 1 : 0); }, 5500);
     });
     // Touch swipe
     (function() {
