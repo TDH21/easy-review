@@ -242,57 +242,35 @@
 
     .btn-secondary:hover { color: var(--gold); }
 
-    /* PHONE MOCKUP */
-    .hero-visual {
+    /* HERO STEPS */
+    .hero-steps {
+      display: flex; align-items: flex-start; justify-content: center;
+      gap: 0;
       margin-top: 4rem;
-      position: relative;
+      width: 100%; max-width: 820px;
       animation: fadeUp 0.8s 0.4s ease both;
     }
-
-    .phone-wrap {
-      display: flex; gap: 1.5rem; align-items: flex-end;
-      justify-content: center;
+    .hero-step {
+      flex: 1; text-align: left; padding: 0 2.5rem;
     }
-
-    .phone {
-      width: 200px;
-      background: var(--black);
-      border-radius: 28px;
-      padding: 12px;
-      box-shadow: 0 32px 64px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.05);
+    .hero-step-divider {
+      width: 1px; background: rgba(200,169,110,0.25);
+      align-self: stretch; flex-shrink: 0;
     }
-
-    .phone-screen {
-      background: #1a1a1a;
-      border-radius: 20px;
-      padding: 1rem;
-      min-height: 280px;
-    }
-
-    .sms-bubble {
-      background: #2a2a2a;
-      border-radius: 14px 14px 14px 4px;
-      padding: 0.75rem 1rem;
-      font-size: 0.72rem;
-      color: #e0e0e0;
-      line-height: 1.5;
+    .hero-step-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5rem; font-weight: 700;
+      color: var(--gold); line-height: 1;
       margin-bottom: 0.75rem;
     }
-
-    .sms-bubble.reply {
-      background: var(--green);
-      border-radius: 14px 14px 4px 14px;
-      color: white;
-      text-align: right;
-      margin-left: auto;
-      max-width: 80%;
+    .hero-step h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--black); margin-bottom: 0.5rem;
     }
-
-    .sms-time {
-      font-size: 0.6rem;
-      color: #666;
-      text-align: center;
-      margin-bottom: 0.75rem;
+    .hero-step p {
+      font-size: 0.88rem; color: var(--muted);
+      line-height: 1.65; margin: 0; max-width: none;
     }
 
     .stars-row {
@@ -789,15 +767,23 @@
       <a href="#get-started" class="btn-secondary">Get in touch →</a>
     </div>
 
-    <div class="hero-visual">
-      <div class="phone-wrap">
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="sms-time">Today 2:34 PM</div>
-            <div class="sms-bubble">Hi Sarah! Gecko Plumbing would love your feedback. 😊<br><br>Tap here to leave a review:<br><span style="color:#c8a96e;font-size:0.65rem;">easyreview.app/r/a3f9...</span><br><br><span style="color:#888;font-size:0.62rem;">(Link expires in 7 days)</span></div>
-            <div class="sms-bubble reply" style="font-size:0.65rem;">Thanks for your review! 🙏<br>Your feedback means a lot.</div>
-          </div>
-        </div>
+    <div class="hero-steps">
+      <div class="hero-step">
+        <div class="hero-step-num">01</div>
+        <h3>Send the request</h3>
+        <p>Enter your customer's name and number. They receive a friendly SMS in seconds.</p>
+      </div>
+      <div class="hero-step-divider"></div>
+      <div class="hero-step">
+        <div class="hero-step-num">02</div>
+        <h3>Customer replies</h3>
+        <p>They tap the link, leave a star rating and short review. No app, no login.</p>
+      </div>
+      <div class="hero-step-divider"></div>
+      <div class="hero-step">
+        <div class="hero-step-num">03</div>
+        <h3>You see the results</h3>
+        <p>Ratings land in your dashboard and appear on your website automatically.</p>
       </div>
     </div>
   </section>
