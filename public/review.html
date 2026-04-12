@@ -62,11 +62,13 @@
       .google-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #4285F4; color: #fff; border: none; border-radius: 10px; padding: 0.9rem 1.75rem; font-size: 1rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; text-decoration: none; transition: background 0.15s; margin-bottom: 1rem; width: 100%; justify-content: center; }
       .google-btn:hover { background: #3367d6; }
       .google-skip { display: block; text-align: center; font-size: 0.82rem; color: var(--muted); cursor: pointer; text-decoration: underline; }
+      .demo-banner { background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.35); border-radius: 10px; padding: 0.6rem 1rem; margin-bottom: 1.25rem; text-align: center; font-size: 0.8rem; color: var(--gold); font-weight: 500; display: none; }
   </style>
 </head>
 <body>
   <div class="page-bg"></div>
   <div class="card">
+    <div class="demo-banner" id="demoBanner">⭐ Demo mode — nothing is saved. This is exactly what your customers see.</div>
     <div class="state active" id="stateLoading">
       <div class="loading-wrap">
         <div class="spinner"></div>
@@ -126,7 +128,7 @@
   </div>
   <script>
     const RATING_LABELS = { 1: '😟 Poor', 2: '😐 Below average', 3: '🙂 Average', 4: '😊 Good', 5: '🤩 Excellent!' };
-    let selectedRating = 0, token = '', businessName = '', googleReviewUrl = '';
+    let selectedRating = 0, token = '', businessName = '', googleReviewUrl = '', isDemo = false;
     function showState(id) { document.querySelectorAll('.state').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
     function selectStar(val) {
       selectedRating = val;
@@ -140,6 +142,11 @@
       const comment = document.getElementById('comment').value.trim();
       if (!comment) { const t = document.getElementById('ratingText'); t.textContent = '⚠ Please write a short review before submitting'; t.style.color = 'var(--red)'; document.getElementById('comment').focus(); return; }
       const btn = document.getElementById('submitBtn');
+      if (isDemo) {
+        document.getElementById('successMsg').textContent = 'Your ' + selectedRating + '-star review has been submitted. ' + businessName + ' really appreciates your time! 🙏';
+        showState('stateSuccess');
+        return;
+      }
       btn.textContent = 'Submitting…'; btn.disabled = true;
       try {
         const res = await fetch('/api/submit-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, rating: selectedRating, comment }) });
@@ -158,6 +165,19 @@
     }
     async function init() {
       const params = new URLSearchParams(window.location.search);
+
+      // Demo mode
+      if (params.get('demo') === 'true') {
+        isDemo = true;
+        businessName = params.get('biz') || 'Your Business';
+        document.getElementById('bizName').textContent = businessName;
+        document.getElementById('customerGreeting').textContent = 'Hi Sarah!';
+        document.title = 'Review ' + businessName;
+        document.getElementById('demoBanner').style.display = 'block';
+        showState('stateForm');
+        return;
+      }
+
       token = params.get('token');
       if (!token) { showState('stateError'); document.getElementById('errorTitle').textContent = 'No Review Link Found'; document.getElementById('errorMsg').textContent = 'Please use the link sent to you via SMS.'; return; }
       try {

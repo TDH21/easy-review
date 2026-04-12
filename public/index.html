@@ -540,6 +540,27 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* DEMO SECTION */
+    .demo-biz-input {
+      padding: 0.9rem 1.75rem;
+      border: 2px solid rgba(200, 169, 110, 0.4);
+      border-radius: 100px;
+      font-size: 1.05rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      width: 340px;
+      max-width: 100%;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .demo-biz-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,110,0.12); }
+    .demo-biz-input::placeholder { color: #b0a99f; }
+    .demo-cols { display: flex; gap: 3rem; align-items: center; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+    .demo-col-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; text-align: center; }
+    .demo-arrow { font-size: 2rem; color: var(--gold); opacity: 0.35; align-self: center; }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .steps { grid-template-columns: 1fr; }
@@ -562,10 +583,10 @@
     <div class="nav-logo">Easy<span>Review</span></div>
     <ul class="nav-links">
       <li><a href="#how">How it works</a></li>
-      <li><a href="#features">Features</a></li>
+      <li><a href="#demo">Demo</a></li>
       <li><a href="#pricing">Pricing</a></li>
     </ul>
-    <a href="signup.html" class="nav-cta">Get started free</a>
+    <a href="#demo" class="nav-cta">Try the demo</a>
   </nav>
 
   <!-- HERO -->
@@ -574,7 +595,7 @@
     <h1>Turn customers into<br /><em>5-star reviews</em></h1>
     <p>Send a quick SMS after every visit. Customers reply with their rating in seconds. Reviews go up, reputation grows.</p>
     <div class="hero-actions">
-      <a href="signup.html" class="btn-primary">Start for free</a>
+      <a href="#demo" class="btn-primary">Try the demo</a>
       <a href="#how" class="btn-secondary">See how it works →</a>
     </div>
 
@@ -702,8 +723,51 @@
     </div>
   </section>
 
+  <!-- DEMO -->
+  <section class="section" id="demo" style="background: var(--cream);">
+    <div style="max-width:960px;margin:0 auto;text-align:center;">
+      <div class="section-tag">Try it yourself</div>
+      <h2 class="section-title" style="margin:0 auto 1rem;">See the full experience in 30 seconds</h2>
+      <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem;">Type your business name to personalise the preview, then open the real review form your customer would see.</p>
+      <input type="text" id="demoBizName" class="demo-biz-input" placeholder="e.g. Gecko Plumbing" maxlength="50" />
+      <div class="demo-cols">
+        <div>
+          <div class="demo-col-label">SMS they receive</div>
+          <div class="phone" style="width:210px;">
+            <div class="phone-screen">
+              <div class="sms-time">Today 2:34 PM</div>
+              <div class="sms-bubble">Hi Sarah! <span id="demoSmsName">Your Business</span> would love your feedback. 😊<br><br>Tap here to leave a review:<br><span style="color:#c8a96e;font-size:0.65rem;">easyreview.app/r/a3f9...</span><br><br><span style="color:#888;font-size:0.62rem;">(Link expires in 7 days)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-arrow">→</div>
+        <div>
+          <div class="demo-col-label">Review form they see</div>
+          <div class="mock-phone">
+            <div class="mock-phone-screen">
+              <div class="mock-review-header">
+                <div class="mock-review-biz" id="demoPhoneBiz">Your Business</div>
+                <div class="mock-review-h">Leave a Review</div>
+              </div>
+              <div class="mock-review-body">
+                <div class="mock-review-prompt">How was your experience?</div>
+                <div class="mock-stars-row">★★★★★</div>
+                <div class="mock-comment-box">Really happy with the service. Will definitely use again!</div>
+                <div class="mock-review-submit">Submit Review</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;">
+        <a id="demoLink" href="review.html?demo=true" class="btn-primary" target="_blank" style="display:inline-block;">Open the real review form →</a>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:1rem;">No account needed — this is the actual form your customers use.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- FEATURES -->
-  <section class="section" id="features" style="background: var(--cream);">
+  <section class="section" id="features" style="background: var(--white);">
     <div class="section-tag">Features</div>
     <h2 class="section-title">Everything you need, nothing you don't</h2>
     <div class="features-grid">
@@ -731,63 +795,37 @@
   </section>
 
   <!-- PRICING -->
-  <section class="section" id="pricing">
-    <div class="section-tag">Pricing</div>
-    <h2 class="section-title">Simple pricing, no surprises</h2>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-name">Starter</div>
-        <div class="price-amount">Free</div>
-        <div class="price-muted">Forever — no card needed</div>
+  <section class="section" id="pricing" style="background:var(--cream);">
+    <div style="text-align:center;">
+      <div class="section-tag">Pricing</div>
+      <h2 class="section-title" style="margin:0 auto 0.75rem;">Simple pricing, no surprises</h2>
+      <p style="color:var(--muted);font-size:0.95rem;">Everything included. No lock-in contracts.</p>
+    </div>
+    <div style="max-width:420px;margin:3rem auto 0;">
+      <div class="price-card featured" style="text-align:center;">
+        <div class="price-name">Professional</div>
+        <div class="price-amount">$20<span style="font-size:1rem;font-weight:400;">/mo</span></div>
+        <div class="price-muted" style="margin-top:0.4rem;">+ one-off $79 setup fee</div>
         <div class="price-divider"></div>
-        <ul class="price-features">
-          <li class="price-feature">50 SMS requests/month</li>
-          <li class="price-feature">Basic dashboard</li>
-          <li class="price-feature">1 business location</li>
-          <li class="price-feature">Email support</li>
+        <ul class="price-features" style="text-align:left;">
+          <li class="price-feature">100 SMS review requests per month</li>
+          <li class="price-feature">Full dashboard &amp; review history</li>
+          <li class="price-feature">Reviews displayed on your website</li>
+          <li class="price-feature">Google Review redirect</li>
+          <li class="price-feature">Personal support</li>
         </ul>
-        <a href="signup.html" class="price-btn">Get started</a>
+        <a href="#get-started" class="price-btn">Get in touch</a>
       </div>
-
-      <div class="price-card featured">
-        <div class="popular-badge">Most popular</div>
-        <div class="price-name">Growth</div>
-        <div class="price-amount">$49<span style="font-size:1rem;font-weight:400;">/mo</span></div>
-        <div class="price-muted">Everything you need to scale</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li class="price-feature">500 SMS requests/month</li>
-          <li class="price-feature">Full dashboard & analytics</li>
-          <li class="price-feature">3 business locations</li>
-          <li class="price-feature">Priority support</li>
-          <li class="price-feature">Google Review integration</li>
-        </ul>
-        <a href="signup.html" class="price-btn">Start free trial</a>
-      </div>
-
-      <div class="price-card">
-        <div class="price-name">Pro</div>
-        <div class="price-amount">$99<span style="font-size:1rem;font-weight:400;">/mo</span></div>
-        <div class="price-muted">For multi-location businesses</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li class="price-feature">Unlimited SMS requests</li>
-          <li class="price-feature">Advanced analytics</li>
-          <li class="price-feature">Unlimited locations</li>
-          <li class="price-feature">Dedicated account manager</li>
-          <li class="price-feature">API access</li>
-        </ul>
-        <a href="#get-started" class="price-btn">Contact us</a>
-      </div>
+      <p style="text-align:center;font-size:0.8rem;color:var(--muted);margin-top:1.25rem;">The setup fee covers us installing the review widget on your website — we handle everything.</p>
     </div>
   </section>
 
   <!-- CTA -->
   <div class="cta-section" id="get-started">
     <h2>Ready to get more <em>5-star reviews?</em></h2>
-    <p>Join hundreds of Australian businesses growing their reputation with Easy Review.</p>
+    <p>We set everything up for you. You just send the SMS.</p>
     <div class="cta-form">
-      <a href="signup.html" class="cta-btn" style="text-decoration:none;">Get started free →</a>
+      <a href="mailto:hello@easyreview.com.au" class="cta-btn" style="text-decoration:none;">Get in touch →</a>
     </div>
   </div>
 
@@ -797,5 +835,17 @@
     <p>© 2026 Easy Review. Made in Australia 🇦🇺</p>
   </footer>
 
+  <script>
+    const demoBizInput = document.getElementById('demoBizName');
+    const demoSmsName = document.getElementById('demoSmsName');
+    const demoPhoneBiz = document.getElementById('demoPhoneBiz');
+    const demoLink = document.getElementById('demoLink');
+    demoBizInput.addEventListener('input', function () {
+      const name = this.value.trim() || 'Your Business';
+      demoSmsName.textContent = name;
+      demoPhoneBiz.textContent = name;
+      demoLink.href = 'review.html?demo=true&biz=' + encodeURIComponent(this.value.trim() || '');
+    });
+  </script>
 </body>
 </html>
