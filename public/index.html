@@ -258,37 +258,73 @@
       max-width: 700px;
     }
 
-    .steps {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 2px; margin-top: 4rem;
-      background: rgba(200, 169, 110, 0.1);
-      border: 1px solid rgba(200, 169, 110, 0.15);
-      border-radius: 20px; overflow: hidden;
-    }
-
-    .step {
-      background: var(--white);
-      padding: 2.5rem;
-      transition: background 0.2s;
-    }
-
-    .step:hover { background: var(--cream); }
+    .steps { display: flex; flex-direction: column; margin-top: 4rem; max-width: 1100px; }
+    .step-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; padding: 4rem 0; border-bottom: 1px solid rgba(200,169,110,0.12); }
+    .step-row:last-child { border-bottom: none; }
+    .step-row.flip { direction: rtl; }
+    .step-row.flip > * { direction: ltr; }
+    .step-visual { display: flex; justify-content: center; }
 
     .step-num {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 4rem; font-weight: 700;
       color: var(--gold);
       line-height: 1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
-
-    .step h3 {
+    .step-content h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.15rem; font-weight: 700;
+      font-size: 1.4rem; font-weight: 700;
       margin-bottom: 0.75rem;
     }
+    .step-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; max-width: 400px; }
 
-    .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    /* Mock browser */
+    .mock-browser { background: #fff; border: 1px solid #e0dbd4; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
+    .mock-browser-bar { background: #f5f2ed; border-bottom: 1px solid #e0dbd4; padding: 0.6rem 0.875rem; display: flex; align-items: center; gap: 5px; }
+    .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-dot:nth-child(1) { background: #ff6058; }
+    .mock-dot:nth-child(2) { background: #ffbd2e; }
+    .mock-dot:nth-child(3) { background: #28c941; }
+    .mock-url { flex: 1; background: #eae6e0; border-radius: 5px; padding: 0.2rem 0.7rem; font-size: 0.62rem; color: #999; margin-left: 0.5rem; }
+    .mock-browser-body { padding: 1.25rem; }
+
+    /* Mock send form */
+    .mock-send-label { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #c8a96e; margin-bottom: 0.3rem; }
+    .mock-send-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.4rem; }
+    .mock-send-sub { font-size: 0.62rem; color: #888; line-height: 1.5; margin-bottom: 0.9rem; }
+    .mock-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .mock-input { background: #f5f2ed; border: 1.5px solid #e0dbd4; border-radius: 6px; padding: 0.45rem 0.65rem; font-size: 0.62rem; color: #444; }
+    .mock-send-btn { background: #c8a96e; color: #1a1a1a; border-radius: 7px; padding: 0.55rem; font-size: 0.68rem; font-weight: 700; text-align: center; margin-top: 0.25rem; }
+
+    /* Mock phone */
+    .mock-phone { width: 190px; background: #1a1a1a; border-radius: 28px; padding: 10px; box-shadow: 0 24px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.04); }
+    .mock-phone-screen { background: #fff; border-radius: 20px; overflow: hidden; min-height: 320px; }
+    .mock-review-header { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 1rem; text-align: center; }
+    .mock-review-biz { font-size: 0.52rem; font-weight: 600; color: #c8a96e; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
+    .mock-review-h { font-size: 0.82rem; font-weight: 700; color: #fff; }
+    .mock-review-body { padding: 1rem; }
+    .mock-review-prompt { font-size: 0.62rem; color: #666; text-align: center; margin-bottom: 0.6rem; }
+    .mock-stars-row { display: flex; gap: 3px; justify-content: center; font-size: 1.2rem; color: #c8a96e; margin-bottom: 0.7rem; }
+    .mock-comment-box { background: #f5f2ed; border: 1.5px solid #e0dbd4; border-radius: 7px; padding: 0.5rem; font-size: 0.58rem; color: #777; min-height: 55px; line-height: 1.5; font-style: italic; margin-bottom: 0.6rem; }
+    .mock-review-submit { background: #c8a96e; color: #1a1a1a; border-radius: 7px; padding: 0.5rem; font-size: 0.65rem; font-weight: 700; text-align: center; }
+
+    /* Mock dashboard */
+    .mock-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem; margin-bottom: 0.85rem; }
+    .mock-stat-card { background: #f5f2ed; border: 1px solid #e0dbd4; border-radius: 7px; padding: 0.5rem 0.4rem; }
+    .mock-stat-lbl { font-size: 0.48rem; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 0.15rem; }
+    .mock-stat-val { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; color: #1a1a1a; }
+    .mock-review-rows {}
+    .mock-rrow { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0; border-bottom: 1px solid #f0ece6; }
+    .mock-rrow:last-child { border-bottom: none; }
+    .mock-rrow-stars { color: #c8a96e; font-size: 0.65rem; white-space: nowrap; }
+    .mock-rrow-name { font-size: 0.6rem; font-weight: 600; color: #333; white-space: nowrap; }
+    .mock-rrow-comment { font-size: 0.58rem; color: #888; font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+
+    @media (max-width: 860px) {
+      .step-row { grid-template-columns: 1fr; gap: 2rem; }
+      .step-row.flip { direction: ltr; }
+    }
 
     /* FEATURES */
     .features-grid {
@@ -529,8 +565,8 @@
         <div class="phone">
           <div class="phone-screen">
             <div class="sms-time">Today 2:34 PM</div>
-            <div class="sms-bubble">Hi Sarah! Thanks for visiting us today. We'd love your feedback — reply with a rating from 1–5. Example: "5 Great service!"</div>
-            <div class="sms-bubble reply">5 Absolutely loved it! 🙌<div class="stars-row">⭐⭐⭐⭐⭐</div></div>
+            <div class="sms-bubble">Hi Sarah! Gecko Plumbing would love your feedback. 😊<br><br>Tap here to leave a review:<br><span style="color:#c8a96e;font-size:0.65rem;">easyreview.app/r/a3f9...</span><br><br><span style="color:#888;font-size:0.62rem;">(Link expires in 7 days)</span></div>
+            <div class="sms-bubble reply" style="font-size:0.65rem;">Thanks for your review! 🙏<br>Your feedback means a lot.</div>
           </div>
         </div>
       </div>
@@ -550,21 +586,89 @@
     <div class="section-tag">How it works</div>
     <h2 class="section-title">Three steps to a better reputation</h2>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Send the request</h3>
-        <p>Enter your customer's name and mobile number. Hit send. They receive a friendly SMS from your business in seconds.</p>
+
+      <!-- Step 1 -->
+      <div class="step-row">
+        <div class="step-content">
+          <div class="step-num">01</div>
+          <h3>Send the request</h3>
+          <p>Enter your customer's name and mobile number. Hit send. They receive a friendly SMS from your business in seconds.</p>
+        </div>
+        <div class="step-visual">
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+              <div class="mock-url">dashboard — Easy Review</div>
+            </div>
+            <div class="mock-browser-body">
+              <div class="mock-send-label">Quick Action</div>
+              <div class="mock-send-title">Send a Review Request</div>
+              <div class="mock-send-sub">Enter your customer's details and send them a personalised review link via SMS.</div>
+              <div class="mock-input-row">
+                <div class="mock-input">Jane Smith</div>
+                <div class="mock-input">0412 345 678</div>
+              </div>
+              <div class="mock-send-btn">Send Review Link ✉️</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Customer replies</h3>
-        <p>They tap the link, select their star rating, write a short review, and hit send. No app, no login — done in seconds.</p>
+
+      <!-- Step 2 -->
+      <div class="step-row flip">
+        <div class="step-content">
+          <div class="step-num">02</div>
+          <h3>Customer replies</h3>
+          <p>They tap the link, select their star rating, write a short review, and hit send. No app, no login — done in seconds.</p>
+        </div>
+        <div class="step-visual">
+          <div class="mock-phone">
+            <div class="mock-phone-screen">
+              <div class="mock-review-header">
+                <div class="mock-review-biz">Gecko Plumbing</div>
+                <div class="mock-review-h">Leave a Review</div>
+              </div>
+              <div class="mock-review-body">
+                <div class="mock-review-prompt">How was your experience?</div>
+                <div class="mock-stars-row">★★★★★</div>
+                <div class="mock-comment-box">Really happy with the service. Arrived on time and very professional!</div>
+                <div class="mock-review-submit">Submit Review</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>You see the results</h3>
-        <p>Ratings land in your dashboard instantly and are automatically displayed on your website. Your reputation grows on autopilot.</p>
+
+      <!-- Step 3 -->
+      <div class="step-row">
+        <div class="step-content">
+          <div class="step-num">03</div>
+          <h3>You see the results</h3>
+          <p>Ratings land in your dashboard instantly and are automatically displayed on your website. Your reputation grows on autopilot.</p>
+        </div>
+        <div class="step-visual">
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+              <div class="mock-url">dashboard — Easy Review</div>
+            </div>
+            <div class="mock-browser-body">
+              <div class="mock-stat-grid">
+                <div class="mock-stat-card"><div class="mock-stat-lbl">Avg Rating</div><div class="mock-stat-val">4.9</div></div>
+                <div class="mock-stat-card"><div class="mock-stat-lbl">Reviews</div><div class="mock-stat-val">24</div></div>
+                <div class="mock-stat-card"><div class="mock-stat-lbl">5-Star</div><div class="mock-stat-val">18</div></div>
+                <div class="mock-stat-card"><div class="mock-stat-lbl">Sent</div><div class="mock-stat-val">31</div></div>
+              </div>
+              <div class="mock-review-rows">
+                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★★</span><span class="mock-rrow-name">Jane S.</span><span class="mock-rrow-comment">"Amazing, would highly recommend!"</span></div>
+                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★★</span><span class="mock-rrow-name">Mark J.</span><span class="mock-rrow-comment">"Very professional, great work"</span></div>
+                <div class="mock-rrow"><span class="mock-rrow-stars">★★★★☆</span><span class="mock-rrow-name">Sarah L.</span><span class="mock-rrow-comment">"Friendly team and fair pricing"</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
