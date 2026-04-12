@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Easy Review — Logo Animation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f0ebe2; font-family: 'Inter', sans-serif; padding: 3rem 5%; }
+    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+    .sub { color: #888; font-size: 0.9rem; margin-bottom: 3rem; }
+    .cards { display: flex; flex-direction: column; gap: 2rem; max-width: 600px; }
+    .card { background: #fff; border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .card-dark { background: #0d0d0d; }
+    .card-num  { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #c8a96e; margin-bottom: 0.4rem; }
+    .card-name { font-size: 1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 2rem; }
+    .card-dark .card-num  { color: #c8a96e; }
+    .card-dark .card-name { color: #fff; }
+    .wordmark { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; font-weight: 700; line-height: 1; white-space: nowrap; }
+    .wordmark .g { color: #c8a96e; }
+
+    /*
+      8s loop:
+        0   – 2s  (0–25%)  : staircase lights up + star 5 fires + lands
+        2   – 2.8s(25–35%) : brief hold — all lit + wordmark visible
+        2.8 – 3.5s(35–44%) : everything fades out
+        3.5 – 6.5s(44–81%) : 5 big stars (3 seconds)
+        6.5 – 7.5s(81–94%) : 5 stars fade out
+        7.5 – 8s  (94–100%): dark pause before next loop
+    */
+
+    @keyframes lightUp1 { 0%,3%   {opacity:.1;filter:none;} 7%,34%  {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
+    @keyframes lightUp2 { 0%,7%   {opacity:.1;filter:none;} 11%,34% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
+    @keyframes lightUp3 { 0%,11%  {opacity:.1;filter:none;} 15%,34% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
+    @keyframes lightUp4 { 0%,15%  {opacity:.1;filter:none;} 18%,34% {opacity:1;filter:drop-shadow(0 0 5px #c8a96e99);} 42%,100%{opacity:0;filter:none;} }
+
+    /* Star 5: charge → arc over wordmark → land at end of "Review" → hold → fade */
+    @keyframes glow5 {
+      0%,16%   { opacity:.1;  filter:none; transform:translate(0,0) scale(1); }
+      20%      { opacity:1;   filter:drop-shadow(0 0 12px #c8a96e) drop-shadow(0 0 24px #c8a96e55); transform:translate(0,0) scale(1.25); }
+      /* arc over "Easy" */
+      22%      { opacity:1;   filter:drop-shadow(0 0 8px #c8a96e66); transform:translate(22px,-32px) scale(1.2) rotate(-12deg); }
+      /* peak — above text */
+      24%      { opacity:1;   filter:drop-shadow(0 0 6px #c8a96e44); transform:translate(80px,-56px) scale(1.15) rotate(-18deg); }
+      /* descend over "Review" */
+      25.5%    { opacity:1;   filter:drop-shadow(0 0 5px #c8a96e33); transform:translate(148px,-28px) scale(1.1) rotate(-7deg); }
+      /* land at end of wordmark */
+      27%      { opacity:1;   filter:drop-shadow(0 0 14px #c8a96e) drop-shadow(0 0 28px #c8a96e55); transform:translate(var(--land), 0) scale(1.15) rotate(0deg); }
+      /* hold */
+      28%,34%  { opacity:1;   filter:drop-shadow(0 0 8px #c8a96e88); transform:translate(var(--land), 0) scale(1); }
+      /* fade with everything else */
+      42%,100% { opacity:0;   filter:none; transform:translate(var(--land), 0) scale(0.7); }
+    }
+
+    /* Wordmark: visible during buildup + hold, fades with everything */
+    @keyframes wmFade {
+      0%,34%  { opacity:1; }
+      42%,100%{ opacity:0; }
+    }
+
+    /* Final 5 stars: pop in, glow for 3s, fade out */
+    @keyframes finalStar {
+      0%,42%  { opacity:0; transform:scale(0.4); filter:none; }
+      46%     { opacity:1; transform:scale(1.25); filter:drop-shadow(0 0 18px #c8a96e) drop-shadow(0 0 36px #c8a96e55); }
+      50%,78% { opacity:1; transform:scale(1);   filter:drop-shadow(0 0 8px #c8a96e88); }
+      /* gentle pulse mid-hold */
+      62%     { filter:drop-shadow(0 0 16px #c8a96e) drop-shadow(0 0 32px #c8a96e44); transform:scale(1.06); }
+      70%     { filter:drop-shadow(0 0 8px #c8a96e66); transform:scale(1); }
+      82%     { opacity:1; transform:scale(1.08); filter:drop-shadow(0 0 14px #c8a96e); }
+      92%,100%{ opacity:0; transform:scale(0.7); filter:none; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Easy Review — Logo Animation</h1>
+<p class="sub">Rising staircase → star fires over text → 5-star moment</p>
+<div class="cards">
+  <div class="card">
+    <div class="card-num">09 — Light</div>
+    <div class="card-name">Rising staircase animated</div>
+    <div id="stageLight"></div>
+  </div>
+  <div class="card card-dark">
+    <div class="card-num">09 — Dark</div>
+    <div class="card-name" style="color:#fff;">Rising staircase animated</div>
+    <div id="stageDark"></div>
+  </div>
+</div>
+
+<script>
+  const gold = '#c8a96e';
+  const DUR  = '8s';
+
+  function star(cx, cy, r, ir) {
+    ir = ir || r * 0.42;
+    let d = '';
+    for (let i = 0; i < 5; i++) {
+      const oa = (i * 72 - 90) * Math.PI / 180;
+      const ia = ((i * 72 + 36) - 90) * Math.PI / 180;
+      d += (i===0?'M':'L') + (cx+r*Math.cos(oa)).toFixed(2)+','+(cy+r*Math.sin(oa)).toFixed(2)
+         + 'L'+(cx+ir*Math.cos(ia)).toFixed(2)+','+(cy+ir*Math.sin(ia)).toFixed(2);
+    }
+    return d+'Z';
+  }
+
+  function buildStage(darkMode) {
+    const wc   = darkMode ? '#fff' : '#1a1a1a';
+    const delay= darkMode ? '0.2s' : '0s';
+
+    // Staircase star sizes and x positions (bottom-aligned)
+    const sizes = [5, 7, 9.5, 13, 18];
+    const xOff  = [0, 16, 34, 57, 84];
+    const base  = 52; // stage height in px
+
+    // Stars 1-4
+    const animNames = ['lightUp1','lightUp2','lightUp3','lightUp4'];
+    let html = '';
+    for (let i = 0; i < 4; i++) {
+      const r = sizes[i], sz = r * 2.4;
+      html += `<div style="position:absolute;left:${xOff[i]}px;bottom:0;overflow:visible;">
+        <svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" fill="none" overflow="visible"
+          style="animation:${animNames[i]} ${DUR} ease-in-out infinite;animation-delay:${delay};">
+          <path d="${star(sz/2,sz/2,r,r*0.42)}" fill="${gold}"/></svg></div>`;
+    }
+
+    // Star 5 — the launcher
+    const r5 = sizes[4], sz5 = r5 * 2.4;
+    // Wordmark starts after star 5 position
+    const wmLeft = xOff[4] + sz5 + 10; // ~137px
+    // End of "EasyReview" ~1.5rem Playfair ≈ 155px wide
+    const wmWidth = 158;
+    // How far star 5 center needs to travel to reach end of wordmark
+    const landX = wmLeft + wmWidth - sz5/2 - xOff[4];
+
+    html += `<div style="position:absolute;left:${xOff[4]}px;bottom:0;overflow:visible;">
+      <svg width="${sz5}" height="${sz5}" viewBox="0 0 ${sz5} ${sz5}" fill="none" overflow="visible"
+        style="--land:${landX.toFixed(0)}px;animation:glow5 ${DUR} ease-in-out infinite;animation-delay:${delay};transform-origin:center bottom;">
+        <path d="${star(sz5/2,sz5/2,r5,r5*0.42)}" fill="${gold}"/></svg></div>`;
+
+    // Wordmark
+    html += `<div style="position:absolute;left:${wmLeft}px;bottom:6px;
+      animation:wmFade ${DUR} ease-in-out infinite;animation-delay:${delay};">
+      <span class="wordmark" style="color:${wc};">Easy<span class="g">Review</span></span></div>`;
+
+    // Final 5 stars — evenly spaced across the full container
+    const containerW = wmLeft + wmWidth + 30;
+    const finR = 18, finSz = finR * 2.4;
+    const slot = containerW / 5;
+    for (let i = 0; i < 5; i++) {
+      const fx = slot * i + (slot - finSz) / 2;
+      html += `<div style="position:absolute;left:${fx.toFixed(1)}px;bottom:6px;overflow:visible;">
+        <svg width="${finSz}" height="${finSz}" viewBox="0 0 ${finSz} ${finSz}" fill="none" overflow="visible"
+          style="animation:finalStar ${DUR} ease-in-out infinite;animation-delay:${delay};transform-origin:center;">
+          <path d="${star(finSz/2,finSz/2,finR,finR*0.42)}" fill="${gold}"/></svg></div>`;
+    }
+
+    const stage = document.createElement('div');
+    stage.style.cssText = `position:relative;height:${base}px;overflow:visible;width:${containerW}px;`;
+    stage.innerHTML = html;
+    return stage;
+  }
+
+  document.getElementById('stageLight').appendChild(buildStage(false));
+  document.getElementById('stageDark').appendChild(buildStage(true));
+</script>
+</body>
+</html>
