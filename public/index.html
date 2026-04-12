@@ -579,22 +579,45 @@
     .mock-rf-powered { text-align: center; font-size: 0.4rem; color: rgba(0,0,0,0.25); margin-top: 0.5rem; }
     .mock-rf-powered span { color: #c8a96e; opacity: 0.6; }
 
-    /* Widget stage highlight */
-    .demo-stage-highlight .mock-browser {
-      box-shadow: 0 0 0 2.5px rgba(200,169,110,0.55), 0 16px 40px rgba(0,0,0,0.13);
-    }
-    .demo-stage-highlight .demo-stage-label { color: var(--gold); font-weight: 700; letter-spacing: 0.06em; }
+    /* Full-width website widget demo */
     .demo-selling-badge {
       display: inline-flex; align-items: center; gap: 0.35rem;
       background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.35);
-      color: var(--gold); font-size: 0.7rem; font-weight: 600;
-      padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 0.6rem;
+      color: var(--gold); font-size: 0.72rem; font-weight: 600;
+      padding: 0.3rem 0.85rem; border-radius: 100px; margin-bottom: 0.6rem;
     }
-    .mock-rating-row { display: flex; align-items: center; justify-content: center; gap: 0.3rem; margin-bottom: 0.35rem; }
-    .mock-rating-num { font-family: 'Playfair Display', Georgia, serif; font-size: 0.9rem; font-weight: 700; color: #1a1a1a; }
-    .mock-rating-stars-sm { color: #c8a96e; font-size: 0.5rem; }
-    .mock-rating-count { font-size: 0.42rem; color: #999; }
-    .mock-widget-cards-col { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .demo-website-full { border-radius: 14px; overflow: hidden; border: 1px solid #e0dbd4; box-shadow: 0 0 0 2.5px rgba(200,169,110,0.4), 0 20px 56px rgba(0,0,0,0.12); margin-top: 1rem; text-align: left; }
+    .demo-site-bar { background: #f5f2ed; border-bottom: 1px solid #e0dbd4; padding: 0.6rem 0.875rem; display: flex; align-items: center; gap: 5px; }
+    .demo-site-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .demo-site-url-bar { flex: 1; background: #eae6e0; border-radius: 5px; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #999; margin-left: 0.5rem; }
+    .demo-site-nav-bar { background: #1a2744; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .demo-site-logo { font-size: 1rem; font-weight: 700; color: #fff; }
+    .demo-site-links-bar { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    .demo-widget-section { padding: 3rem 2rem 2rem; background: #f8f9fb; text-align: center; }
+    .demo-widget-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+    .demo-widget-rating-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .demo-widget-avg { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 700; color: #1a1a1a; }
+    .demo-widget-stars { color: #c8a96e; font-size: 1.1rem; }
+    .demo-widget-count { font-size: 0.85rem; color: #888; }
+    .demo-widget-heading { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1.5rem; }
+    .demo-carousel-wrap { position: relative; padding: 0 3rem; }
+    .demo-carousel-overflow { overflow: hidden; }
+    .demo-carousel-inner { display: flex; gap: 1rem; transition: transform 0.4s ease; }
+    .demo-review-card { flex: 0 0 calc((100% - 2rem) / 3); background: #fff; border: 1px solid #e8e3dc; border-radius: 16px; padding: 1.5rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .demo-rc-quote { position: absolute; top: 0.25rem; right: 0.85rem; font-size: 4.5rem; color: #c8a96e; opacity: 0.1; font-family: Georgia, serif; line-height: 1; }
+    .demo-rc-text { font-size: 0.9rem; color: #444; line-height: 1.65; margin-bottom: 1rem; font-style: italic; position: relative; }
+    .demo-rc-stars { color: #c8a96e; font-size: 1rem; margin-bottom: 0.75rem; }
+    .demo-rc-meta { display: flex; justify-content: space-between; border-top: 1px solid #f0ece6; padding-top: 0.6rem; }
+    .demo-rc-name { font-size: 0.82rem; font-weight: 600; color: #333; }
+    .demo-rc-date { font-size: 0.78rem; color: #aaa; }
+    .demo-carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; border: 1px solid #e0dbd4; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; color: #666; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 2; }
+    .demo-carousel-btn:hover { background: #c8a96e; color: #fff; border-color: #c8a96e; }
+    .demo-carousel-btn.prev { left: 0; }
+    .demo-carousel-btn.next { right: 0; }
+    .demo-dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 1.25rem; }
+    .demo-dot { width: 8px; height: 8px; border-radius: 50%; background: #d9d4ce; cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; padding: 0; }
+    .demo-dot.active { background: #c8a96e; transform: scale(1.25); }
+    .demo-widget-powered { font-size: 0.75rem; color: rgba(0,0,0,0.25); margin-top: 1.25rem; }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -683,12 +706,11 @@
     <div style="max-width:1100px;margin:0 auto;text-align:center;">
       <div class="section-tag">Try it yourself</div>
       <h2 class="section-title" style="margin:0 auto 1rem;">See the full experience</h2>
-      <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem;">Type your business name to personalise the preview, then open the real review form.</p>
+      <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem;">Type your business name to personalise the preview.</p>
       <input type="text" id="demoBizName" class="demo-biz-input" placeholder="e.g. Gecko Plumbing" maxlength="50" />
 
-      <div class="demo-flow">
-
-        <!-- Stage 1: Dashboard send form -->
+      <!-- Two stages: send + review form -->
+      <div class="demo-flow" style="margin-top:2.5rem;">
         <div class="demo-stage">
           <div class="demo-stage-label">You send the request</div>
           <div class="mock-browser" style="width:240px;">
@@ -711,7 +733,6 @@
 
         <div class="demo-arrow">→</div>
 
-        <!-- Stage 2: Review form -->
         <div class="demo-stage">
           <div class="demo-stage-label">Customer leaves a review</div>
           <div class="mock-phone">
@@ -730,61 +751,67 @@
               </div>
             </div>
           </div>
-          <a id="demoLink" href="review.html?demo=true" class="demo-try-btn" target="_blank">Try the real form →</a>
         </div>
+      </div>
 
-        <div class="demo-arrow">→</div>
-
-        <!-- Stage 3: Website widget -->
-        <div class="demo-stage demo-stage-highlight">
-          <div class="demo-selling-badge">⭐ This is what your customers see</div>
-          <div class="demo-stage-label">Live on your website — automatically</div>
-          <div class="mock-browser" style="width:270px;">
-            <div class="mock-browser-bar">
-              <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
-              <div class="mock-url" id="demoSiteUrl">yourbusiness.com.au</div>
+      <!-- Full-width website widget preview -->
+      <div style="margin-top:3rem;text-align:center;">
+        <div class="demo-selling-badge">⭐ This is what appears on your website — automatically</div>
+        <div class="demo-website-full">
+          <!-- Browser chrome -->
+          <div class="demo-site-bar">
+            <div class="demo-site-dot" style="background:#ff6058;"></div>
+            <div class="demo-site-dot" style="background:#ffbd2e;"></div>
+            <div class="demo-site-dot" style="background:#28c941;"></div>
+            <div class="demo-site-url-bar" id="demoSiteUrl">yourbusiness.com.au</div>
+          </div>
+          <!-- Nav -->
+          <div class="demo-site-nav-bar">
+            <span class="demo-site-logo" id="demoSiteNav">Your Business</span>
+            <span class="demo-site-links-bar">Home &nbsp;&nbsp; Services &nbsp;&nbsp; Contact</span>
+          </div>
+          <!-- Widget -->
+          <div class="demo-widget-section">
+            <div class="demo-widget-tag">Customer Reviews</div>
+            <div class="demo-widget-rating-row">
+              <span class="demo-widget-avg">4.9</span>
+              <span class="demo-widget-stars">★★★★★</span>
+              <span class="demo-widget-count">Based on 24 reviews</span>
             </div>
-            <div class="mock-website-body">
-              <div class="mock-site-nav">
-                <span class="mock-site-logo" id="demoSiteNav">Your Business</span>
-                <span class="mock-site-links">Home &nbsp; Services &nbsp; Contact</span>
-              </div>
-              <div class="mock-site-section">
-                <div class="mock-site-tag">CUSTOMER REVIEWS</div>
-                <div class="mock-rating-row">
-                  <span class="mock-rating-num">4.9</span>
-                  <span class="mock-rating-stars-sm">★★★★★</span>
-                  <span class="mock-rating-count">Based on 24 reviews</span>
+            <div class="demo-widget-heading">What Our Customers Say</div>
+            <div class="demo-carousel-wrap">
+              <button class="demo-carousel-btn prev" onclick="demoCarouselPrev()">‹</button>
+              <div class="demo-carousel-overflow">
+                <div class="demo-carousel-inner" id="demoCarouselInner">
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Really happy with the service. Arrived on time and very professional!</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Jane S.</span><span class="demo-rc-date">10 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Great job, cleaned up everything and removed the old parts. Excellent work!</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Mark J.</span><span class="demo-rc-date">9 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Extremely professional. Would highly recommend to anyone looking for quality service.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Chris T.</span><span class="demo-rc-date">7 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Fast, friendly and fair pricing. Couldn't ask for a better experience.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Sarah M.</span><span class="demo-rc-date">5 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Showed up on time and got the job done quickly. Very happy with the result.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Dave R.</span><span class="demo-rc-date">3 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Fantastic experience from start to finish. Will definitely be using again.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Lisa K.</span><span class="demo-rc-date">1 Apr 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Very thorough and professional. Explained everything clearly before starting.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Tom H.</span><span class="demo-rc-date">28 Mar 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Highly recommend! Great communication and outstanding quality of work.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Emma B.</span><span class="demo-rc-date">25 Mar 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Went above and beyond. Really impressed with the level of service provided.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Ryan P.</span><span class="demo-rc-date">22 Mar 2026</span></div></div>
+                  <div class="demo-review-card"><div class="demo-rc-quote">"</div><div class="demo-rc-text">Outstanding service from start to finish. Will 100% be using again in the future.</div><div class="demo-rc-stars">★★★★★</div><div class="demo-rc-meta"><span class="demo-rc-name">Kylie W.</span><span class="demo-rc-date">20 Mar 2026</span></div></div>
                 </div>
-                <div class="mock-site-heading">What Our Customers Say</div>
-                <div class="mock-widget-cards-col">
-                  <div class="mock-widget-card">
-                    <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Really happy with the service. Arrived on time and very professional!</div>
-                    <div class="mock-wc-stars">★★★★★</div>
-                    <div class="mock-wc-meta"><span class="mock-wc-name">Jane S.</span><span class="mock-wc-date">10 Apr 2026</span></div>
-                  </div>
-                  <div class="mock-widget-card">
-                    <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Great job, cleaned up everything and removed the old parts. Excellent work!</div>
-                    <div class="mock-wc-stars">★★★★★</div>
-                    <div class="mock-wc-meta"><span class="mock-wc-name">Mark J.</span><span class="mock-wc-date">9 Apr 2026</span></div>
-                  </div>
-                  <div class="mock-widget-card">
-                    <div class="mock-wc-quote">"</div>
-                    <div class="mock-wc-text">Extremely professional. Would highly recommend to anyone!</div>
-                    <div class="mock-wc-stars">★★★★★</div>
-                    <div class="mock-wc-meta"><span class="mock-wc-name">Chris T.</span><span class="mock-wc-date">7 Apr 2026</span></div>
-                  </div>
-                </div>
-                <div class="mock-powered">Powered by <span style="color:#c8a96e;">Easy Review</span></div>
               </div>
+              <button class="demo-carousel-btn next" onclick="demoCarouselNext()">›</button>
             </div>
+            <div class="demo-dots" id="demoDots">
+              <button class="demo-dot active" onclick="demoCarouselGoTo(0)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(1)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(2)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(3)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(4)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(5)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(6)"></button>
+              <button class="demo-dot" onclick="demoCarouselGoTo(7)"></button>
+            </div>
+            <div class="demo-widget-powered">Powered by <span style="color:#c8a96e;opacity:0.7;">Easy Review</span></div>
           </div>
         </div>
-
       </div>
-      <p style="font-size:0.8rem;color:var(--muted);margin-top:2rem;">No account needed — this is the actual form your customers use.</p>
+
     </div>
   </section>
 
@@ -858,20 +885,29 @@
   </footer>
 
   <script>
-    const demoBizInput = document.getElementById('demoBizName');
-    const demoPhoneBiz = document.getElementById('demoPhoneBiz');
-    const demoSiteNav = document.getElementById('demoSiteNav');
-    const demoSiteUrl = document.getElementById('demoSiteUrl');
-    const demoLink = document.getElementById('demoLink');
-    demoBizInput.addEventListener('input', function () {
+    // Business name live update
+    document.getElementById('demoBizName').addEventListener('input', function () {
       const raw = this.value.trim();
       const name = raw || 'Your Business';
       const slug = raw.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') || 'yourbusiness';
-      demoPhoneBiz.textContent = name;
-      demoSiteNav.textContent = name;
-      demoSiteUrl.textContent = slug + '.com.au';
-      demoLink.href = 'review.html?demo=true&biz=' + encodeURIComponent(raw);
+      document.getElementById('demoPhoneBiz').textContent = name;
+      document.getElementById('demoSiteNav').textContent = name;
+      document.getElementById('demoSiteUrl').textContent = slug + '.com.au';
     });
+
+    // Carousel
+    let demoPos = 0;
+    const DEMO_TOTAL = 10, DEMO_VIS = 3, DEMO_MAX = DEMO_TOTAL - DEMO_VIS;
+    function demoCarouselGoTo(pos) {
+      demoPos = Math.max(0, Math.min(pos, DEMO_MAX));
+      const inner = document.getElementById('demoCarouselInner');
+      const card = inner.querySelector('.demo-review-card');
+      const cardW = card.getBoundingClientRect().width + 16;
+      inner.style.transform = 'translateX(-' + (demoPos * cardW) + 'px)';
+      document.querySelectorAll('.demo-dot').forEach((d, i) => d.classList.toggle('active', i === demoPos));
+    }
+    function demoCarouselPrev() { demoCarouselGoTo(demoPos - 1); }
+    function demoCarouselNext() { demoCarouselGoTo(demoPos + 1); }
   </script>
 </body>
 </html>
