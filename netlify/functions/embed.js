@@ -35,18 +35,6 @@ exports.handler = async (event) => {
     };
   }
 
-  // Fetch business name
-  const { data: biz } = await supabase
-    .from('businesses')
-    .select('name')
-    .eq(isUUID ? 'id' : 'name', isUUID ? businessId : decodeURIComponent(businessId))
-    .maybeSingle();
-
-  const businessName = biz ? biz.name : '';
-  const avgRating = reviews.length
-    ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
-    : '5.0';
-
   const safe = (s) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const stars = (r) => '★'.repeat(r) + '☆'.repeat(5 - r);
   const date = (d) => d ? new Date(d).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
@@ -68,18 +56,9 @@ exports.handler = async (event) => {
     if (!el) return;
 
     var cards = ${cardsJson};
-    var bizName = ${JSON.stringify(businessName)};
-    var avg = ${JSON.stringify(avgRating)};
-    var total = ${reviews.length};
 
     var css = [
       '#er-root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:100%;box-sizing:border-box;}',
-      '#er-header{text-align:center;margin-bottom:1.75rem;}',
-      '#er-avg{display:inline-flex;align-items:center;gap:0.5rem;background:#fffbf5;border:1px solid #f0e8d8;border-radius:100px;padding:0.5rem 1.25rem;margin-bottom:0.5rem;}',
-      '#er-avg-num{font-size:1.5rem;font-weight:700;color:#1a1a1a;line-height:1;}',
-      '#er-avg-stars{color:#c8a96e;font-size:1.1rem;letter-spacing:1px;}',
-      '#er-avg-count{font-size:0.78rem;color:#888;margin-top:0.1rem;}',
-      '#er-heading{font-size:0.85rem;color:#666;margin:0;}',
       '#er-wrap{position:relative;padding:0 44px;}',
       '#er-track-outer{overflow:hidden;border-radius:4px;}',
       '#er-track{display:flex;transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);gap:1rem;}',
@@ -108,15 +87,7 @@ exports.handler = async (event) => {
     style.textContent = css;
     document.head.appendChild(style);
 
-    var header = bizName
-      ? '<div id="er-header">' +
-          '<div id="er-avg"><span id="er-avg-num">' + avg + '</span><span id="er-avg-stars">★★★★★</span></div>' +
-          '<p id="er-heading">What ' + bizName + ' customers say</p>' +
-        '</div>'
-      : '';
-
-    el.innerHTML = header +
-      '<div id="er-wrap">' +
+    el.innerHTML = '<div id="er-wrap">' +
         '<button class="er-btn" id="er-prev">&#8592;</button>' +
         '<div id="er-track-outer"><div id="er-track">' + cards + '</div></div>' +
         '<button class="er-btn" id="er-next">&#8594;</button>' +
