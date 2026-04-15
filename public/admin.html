@@ -282,7 +282,10 @@
           </td>
           <td style="white-space:nowrap;">
             <button class="save-btn" onclick="saveBusiness('${b.id}')">Save</button>
-            <button class="btn btn-outline" onclick="viewReviews('${b.id}','${esc(b.name)}')" style="margin-left:0.4rem;padding:0.3rem 0.7rem;font-size:0.75rem;">Reviews</button>
+          </td>
+          <td style="white-space:nowrap;">
+            <button class="btn btn-outline" onclick="viewReviews('${b.id}','${esc(b.name)}')" style="padding:0.3rem 0.7rem;font-size:0.78rem;">⭐ Reviews</button>
+            <a href="dashboard.html?preview=${b.id}" target="_blank" class="btn btn-outline" style="padding:0.3rem 0.7rem;font-size:0.78rem;margin-left:0.4rem;text-decoration:none;display:inline-block;">📊 Dashboard</a>
           </td>
         </tr>`;
     }).join('');
@@ -299,6 +302,7 @@
               <th>Status</th>
               <th>Embed Code</th>
               <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>

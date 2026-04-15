@@ -1,5 +1,6 @@
 const { createClient } = require('@supabase/supabase-js');
 const { getBusinessContext } = require('./_auth');
+const { getAdminContext } = require('./_adminAuth');
 
 exports.handler = async (event) => {
     const headers = {
@@ -11,13 +12,38 @@ exports.handler = async (event) => {
           return { statusCode: 200, headers, body: '' };
     }
 
-    const { business, errorResponse } = await getBusinessContext(event, headers);
-    if (errorResponse) return errorResponse;
-
     const supabase = createClient(
           process.env.SUPABASE_URL,
           process.env.SUPABASE_SERVICE_ROLE_KEY
-        );
+    );
+
+    let business;
+
+    // Try normal business auth first
+    const bizCtx = await getBusinessContext(event, headers);
+    if (!bizCtx.errorResponse) {
+        business = bizCtx.business;
+    } else if (bizCtx.errorResponse.statusCode === 403) {
+        // User is an admin — allow preview with ?business_id= param
+        const adminCtx = await getAdminContext(event, headers);
+        if (adminCtx.errorResponse) return adminCtx.errorResponse;
+
+        const bizId = (event.queryStringParameters || {}).business_id;
+        if (!bizId) return bizCtx.errorResponse; // no business_id, return original 403
+
+        const { data: biz, error: bizError } = await supabase
+            .from('businesses')
+            .select('*')
+            .eq('id', bizId)
+            .maybeSingle();
+
+        if (bizError || !biz) {
+            return { statusCode: 404, headers, body: JSON.stringify({ error: 'Business not found' }) };
+        }
+        business = biz;
+    } else {
+        return bizCtx.errorResponse;
+    }
 
     const { data: reviews, error } = await supabase
       .from('reviews')

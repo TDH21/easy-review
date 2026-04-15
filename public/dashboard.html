@@ -146,11 +146,14 @@
   </div>
 </aside>
 <div class="main">
+  <div id="adminPreviewBar" style="display:none;background:#1a1a1a;color:#c8a96e;font-size:0.82rem;font-weight:500;padding:0.5rem 2rem;display:flex;align-items:center;justify-content:space-between;">
+    <span>👁 Admin preview mode</span>
+    <a href="admin.html" style="color:#c8a96e;text-decoration:underline;font-size:0.8rem;">← Back to Admin</a>
+  </div>
   <div class="topbar">
     <div class="topbar-title">Overview</div>
     <div class="topbar-actions">
       <button class="btn btn-ghost" onclick="loadDashboard()">↻ Refresh</button>
-      
     </div>
   </div>
   <div class="content">
@@ -303,9 +306,13 @@
   }
   async function loadDashboard(){
     try{
-      const res = await fetch('/api/get-reviews', { headers: getAuthHeaders() });
+      const previewId = new URLSearchParams(window.location.search).get('preview');
+      if (previewId) document.getElementById('adminPreviewBar').style.display = 'flex';
+      const url = previewId ? '/api/get-reviews?business_id=' + encodeURIComponent(previewId) : '/api/get-reviews';
+      const res = await fetch(url, { headers: getAuthHeaders() });
       if (res.status === 401) { handle401(); return; }
-      if (res.status === 403) { window.location.href = 'admin.html'; return; }
+      if (res.status === 403 && !previewId) { window.location.href = 'admin.html'; return; }
+      if (res.status === 403 && previewId) { window.location.href = 'admin.html'; return; }
       const json = await res.json(); allReviews = Array.isArray(json.reviews) ? json.reviews : [];
       const requestsSent = json.requestsSent || 0;
       const smsThisMonth = json.smsThisMonth ?? requestsSent;
