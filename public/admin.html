@@ -68,6 +68,19 @@
     .empty-state { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
     .notification { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid rgba(82,183,136,0.3); border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.85rem; color: var(--black); box-shadow: 0 4px 20px var(--shadow); opacity: 0; transform: translateY(8px); transition: all 0.2s; pointer-events: none; }
     .notification.show { opacity: 1; transform: translateY(0); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal { background: var(--surface); border-radius: 16px; width: 100%; max-width: 680px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .modal-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; }
+    .modal-close { background: none; border: none; font-size: 1.25rem; color: var(--muted); cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 6px; }
+    .modal-close:hover { background: var(--bg); color: var(--black); }
+    .modal-body { padding: 1.25rem 1.5rem; overflow-y: auto; }
+    .review-card { border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+    .review-card:last-child { margin-bottom: 0; }
+    .review-stars { color: var(--gold); font-size: 1rem; margin-bottom: 0.4rem; }
+    .review-comment { font-size: 0.88rem; color: var(--black); line-height: 1.6; margin-bottom: 0.6rem; }
+    .review-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+    .review-featured { display: inline-block; font-size: 0.68rem; font-weight: 600; background: rgba(200,169,110,0.15); color: var(--gold); border-radius: 100px; padding: 0.15rem 0.5rem; margin-left: 0.5rem; }
     .auth-email { font-size: 0.78rem; color: var(--muted); }
     .row-saving { opacity: 0.5; pointer-events: none; }
     @media (max-width: 900px) {
@@ -137,6 +150,17 @@
 </div>
 
 <div class="notification" id="notification"></div>
+
+<!-- Reviews modal -->
+<div class="modal-overlay" id="reviewsModal" style="display:none;" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Reviews</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -256,8 +280,9 @@
               &lt;script src=&hellip;embed?id=${esc(b.name)}&hellip;&gt;
             </div>
           </td>
-          <td>
+          <td style="white-space:nowrap;">
             <button class="save-btn" onclick="saveBusiness('${b.id}')">Save</button>
+            <button class="btn btn-outline" onclick="viewReviews('${b.id}','${esc(b.name)}')" style="margin-left:0.4rem;padding:0.3rem 0.7rem;font-size:0.75rem;">Reviews</button>
           </td>
         </tr>`;
     }).join('');
@@ -397,6 +422,46 @@
     }
     msg.style.display = 'block';
     setTimeout(() => { msg.style.display = 'none'; }, 4000);
+  }
+
+  // --- View Reviews modal ---
+  async function viewReviews(businessId, businessName) {
+    document.getElementById('modalTitle').textContent = businessName + ' — Reviews';
+    document.getElementById('modalBody').innerHTML = '<div class="loading"><div class="spinner"></div> Loading…</div>';
+    document.getElementById('reviewsModal').style.display = 'flex';
+
+    const { data: reviews, error } = await sb
+      .from('reviews')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+
+    if (error || !reviews) {
+      document.getElementById('modalBody').innerHTML = '<p style="color:var(--red);font-size:0.88rem;">Failed to load reviews.</p>';
+      return;
+    }
+
+    if (reviews.length === 0) {
+      document.getElementById('modalBody').innerHTML = '<p style="color:var(--muted);font-size:0.88rem;text-align:center;padding:2rem 0;">No reviews yet.</p>';
+      return;
+    }
+
+    const stars = r => '★'.repeat(r) + '☆'.repeat(5 - r);
+    const html = reviews.map(r => `
+      <div class="review-card">
+        <div class="review-stars">${stars(r.rating)}</div>
+        <div class="review-comment">${esc(r.comment || '')}</div>
+        <div class="review-meta">
+          <span>${esc(r.customer_name || 'Anonymous')}${r.featured ? '<span class="review-featured">★ Featured</span>' : ''}</span>
+          <span>${new Date(r.created_at).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' })}</span>
+        </div>
+      </div>`).join('');
+
+    document.getElementById('modalBody').innerHTML = `<p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">${reviews.length} review${reviews.length !== 1 ? 's' : ''}</p>` + html;
+  }
+
+  function closeModal() {
+    document.getElementById('reviewsModal').style.display = 'none';
   }
 
   initAuth();
