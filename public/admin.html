@@ -246,10 +246,9 @@
               <input class="inline-input" id="name-${b.id}" value="${esc(b.name)}" />
             </div>
           </td>
-          <td>
-            <div class="edit-field">
-              <input class="inline-input" id="slug-${b.id}" value="${esc(b.slug || '')}" />
-            </div>
+          <td style="white-space:nowrap;">
+            <button class="btn btn-outline" onclick="viewReviews('${b.id}','${esc(b.name)}')" style="padding:0.3rem 0.7rem;font-size:0.78rem;">⭐ Reviews</button>
+            <a href="dashboard.html?preview=${b.id}" target="_blank" class="btn btn-outline" style="padding:0.3rem 0.7rem;font-size:0.78rem;margin-left:0.4rem;text-decoration:none;display:inline-block;">📊 Dashboard</a>
           </td>
           <td>
             <div class="edit-field">
@@ -283,9 +282,10 @@
           <td style="white-space:nowrap;">
             <button class="save-btn" onclick="saveBusiness('${b.id}')">Save</button>
           </td>
-          <td style="white-space:nowrap;">
-            <button class="btn btn-outline" onclick="viewReviews('${b.id}','${esc(b.name)}')" style="padding:0.3rem 0.7rem;font-size:0.78rem;">⭐ Reviews</button>
-            <a href="dashboard.html?preview=${b.id}" target="_blank" class="btn btn-outline" style="padding:0.3rem 0.7rem;font-size:0.78rem;margin-left:0.4rem;text-decoration:none;display:inline-block;">📊 Dashboard</a>
+          <td>
+            <div class="edit-field">
+              <input class="inline-input" id="slug-${b.id}" value="${esc(b.slug || '')}" />
+            </div>
           </td>
         </tr>`;
     }).join('');
@@ -296,13 +296,13 @@
           <thead>
             <tr>
               <th>Business Name</th>
-              <th>Slug</th>
+              <th>Actions</th>
               <th>Contact Email / Auth</th>
               <th>SMS / mo</th>
               <th>Status</th>
               <th>Embed Code</th>
               <th></th>
-              <th>Actions</th>
+              <th>Slug</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
