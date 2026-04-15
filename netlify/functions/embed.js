@@ -79,21 +79,21 @@ exports.handler = async (event) => {
 
   /* ---- CSS ---- */
   var css =
-    /* Full-width breakout + gold background */
+    /* Full-width breakout + navy background */
     '#er-root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;' +
-      'background:linear-gradient(150deg,#c8a96e 0%,#b8965a 100%);' +
+      'background:linear-gradient(150deg,#132b4d 0%,#0c1e37 100%);' +
       'padding:4rem 0 3rem;box-sizing:border-box;overflow:hidden;' +
       'width:100vw;position:relative;left:50%;transform:translateX(-50%);}' +
 
     /* Header */
     '#er-header{text-align:center;padding:0 1.5rem;margin-bottom:2.5rem;}' +
-    '#er-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55);margin-bottom:0.75rem;}' +
+    '#er-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;}' +
     '#er-rating-row{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.6rem;}' +
-    '#er-avg{font-family:"Playfair Display",Georgia,serif;font-size:2rem;font-weight:700;color:#1a1a1a;line-height:1;}' +
-    '#er-rat-stars{color:#fff;font-size:1.05rem;letter-spacing:2px;text-shadow:0 1px 3px rgba(0,0,0,0.2);}' +
-    '#er-rat-count{font-size:0.82rem;color:rgba(0,0,0,0.45);}' +
-    '#er-gold-line{width:36px;height:2px;background:rgba(0,0,0,0.2);margin:0 auto 1rem;}' +
-    '#er-heading{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;color:#1a1a1a;margin:0;}' +
+    '#er-avg{font-family:"Playfair Display",Georgia,serif;font-size:2rem;font-weight:700;color:#ffffff;line-height:1;}' +
+    '#er-rat-stars{color:#c8a96e;font-size:1.05rem;letter-spacing:2px;text-shadow:0 1px 3px rgba(0,0,0,0.3);}' +
+    '#er-rat-count{font-size:0.82rem;color:rgba(255,255,255,0.45);}' +
+    '#er-gold-line{width:36px;height:2px;background:rgba(255,255,255,0.2);margin:0 auto 1rem;}' +
+    '#er-heading{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;color:#ffffff;margin:0;}' +
 
     /* Carousel */
     '#er-carousel{position:relative;padding:2rem 60px;}' +
@@ -139,20 +139,20 @@ exports.handler = async (event) => {
 
     /* Nav buttons */
     '.er-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;' +
-      'border:1.5px solid rgba(0,0,0,0.18);background:rgba(0,0,0,0.12);color:rgba(0,0,0,0.65);font-size:1.4rem;' +
+      'border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:1.4rem;' +
       'cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:3;padding:0;line-height:1;}' +
-    '.er-btn:hover:not([disabled]){background:rgba(0,0,0,0.75);color:#c8a96e;border-color:transparent;}' +
+    '.er-btn:hover:not([disabled]){background:rgba(255,255,255,0.18);color:#c8a96e;border-color:rgba(255,255,255,0.4);}' +
     '.er-btn[disabled]{opacity:0.2;cursor:default;}' +
     '#er-prev{left:0;}#er-next{right:0;}' +
 
     /* Dots */
     '#er-dots{display:flex;justify-content:center;gap:7px;margin-top:1.5rem;}' +
-    '.er-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,0.2);border:none;padding:0;cursor:pointer;transition:all 0.25s;}' +
-    '.er-dot.er-da{background:rgba(0,0,0,0.65);width:24px;border-radius:3px;}' +
+    '.er-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;padding:0;cursor:pointer;transition:all 0.25s;}' +
+    '.er-dot.er-da{background:rgba(255,255,255,0.85);width:24px;border-radius:3px;}' +
 
     /* Footer */
-    '#er-footer{text-align:center;margin-top:1.5rem;font-size:0.65rem;color:rgba(0,0,0,0.35);letter-spacing:0.05em;}' +
-    '#er-footer a{color:rgba(0,0,0,0.55);text-decoration:none;}' +
+    '#er-footer{text-align:center;margin-top:1.5rem;font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em;}' +
+    '#er-footer a{color:rgba(255,255,255,0.45);text-decoration:none;}' +
 
     /* Floating badge (stays dark) */
     '#er-badge{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}' +
