@@ -256,8 +256,12 @@
   function formatDate(iso){return new Date(iso).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
   async function toggleFeatured(id,cur){
     const newVal=!cur;
-    const tfRes=await fetch('/api/update-featured',{method:'POST',headers:getAuthHeaders({'Content-Type':'application/json'}),body:JSON.stringify({id,featured:newVal})});
+    const previewId = new URLSearchParams(window.location.search).get('preview');
+    const payload = {id, featured: newVal};
+    if (previewId) payload.business_id = previewId;
+    const tfRes=await fetch('/api/update-featured',{method:'POST',headers:getAuthHeaders({'Content-Type':'application/json'}),body:JSON.stringify(payload)});
     if(tfRes.status===401){handle401();return;}
+    if(!tfRes.ok){showNotification('Failed to save — please try again',false);return;}
     const r=allReviews.find(x=>x.id===id);if(r)r.featured=newVal;
     updateFeaturedCount();
     showNotification(newVal?'⭐ Review featured on widget':'Review removed from widget');
