@@ -258,7 +258,7 @@ exports.handler = async (event) => {
     }, {passive:true});
 
     window.addEventListener('resize', function(){ goTo(idx); });
-    setTimeout(function(){ goTo(0); }, 80);
+    setTimeout(function(){ goTo(2); }, 80);
   }
 
   /* ---- FLOATING BADGE ---- */
