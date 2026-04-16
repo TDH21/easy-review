@@ -155,7 +155,7 @@ exports.handler = async (event) => {
     '#er-footer a{color:rgba(255,255,255,0.45);text-decoration:none;}' +
 
     /* Floating badge (stays dark) */
-    '#er-badge{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}' +
+    '#er-badge{position:fixed;bottom:5.5rem;right:1.5rem;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}' +
     '#er-bp{background:#0d0d0d;border:1px solid rgba(200,169,110,0.38);border-radius:60px;padding:0.55rem 0.8rem 0.55rem 0.75rem;' +
       'display:flex;align-items:center;gap:0.55rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.55);transition:transform 0.2s,box-shadow 0.2s;}' +
     '#er-bp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.65);}' +
@@ -171,7 +171,7 @@ exports.handler = async (event) => {
 
     /* Responsive */
     '@media(max-width:860px){.er-card{flex:0 0 260px;}#er-carousel{padding:2rem 50px;}}' +
-    '@media(max-width:520px){.er-card{flex:0 0 80vw;}#er-carousel{padding:2rem 40px;}#er-badge{bottom:1rem;right:1rem;}#er-brev{max-width:120px;}}';
+    '@media(max-width:520px){.er-card{flex:0 0 80vw;}#er-carousel{padding:2rem 40px;}#er-badge{bottom:5rem;right:1rem;}#er-brev{max-width:120px;}}';
 
   if (!document.getElementById('er-style')) {
     var st = document.createElement('style'); st.id = 'er-style'; st.textContent = css; document.head.appendChild(st);
