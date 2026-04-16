@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Wave Café / Wine Bar — Scarborough</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --cream:   #eeeae4;
+      --cream2:  #e6e1da;
+      --teal:    #2d6b78;
+      --teal-dk: #1e4450;
+      --teal-xdk:#13303a;
+      --text:    #1a1a1a;
+      --muted:   #5a7a80;
+    }
+
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: #faf8f4;
-      color: #1a1a1a;
+      background: var(--cream);
+      color: var(--text);
       overflow-x: hidden;
     }
 
@@ -21,32 +31,25 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(250,248,244,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      padding: 0 2rem;
+      background: rgba(238,234,228,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(45,107,120,0.1);
+      padding: 0 2.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 68px;
     }
-    nav .logo img {
-      height: 36px;
-      display: block;
-    }
-    nav .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    nav .logo img { height: 32px; display: block; }
+    nav .nav-links { display: flex; gap: 2.2rem; list-style: none; }
     nav .nav-links a {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #1a1a1a;
+      color: var(--teal);
       text-decoration: none;
-      opacity: 0.7;
+      opacity: 0.75;
       transition: opacity 0.2s;
     }
     nav .nav-links a:hover { opacity: 1; }
@@ -54,128 +57,124 @@
     /* ---- HERO ---- */
     .hero {
       position: relative;
-      height: 90vh;
-      min-height: 520px;
+      height: 88vh;
+      min-height: 500px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: #2b2b28;
+      background: var(--teal-xdk);
     }
+    /* Teal gradient fallback (hero images lazy-load) */
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('https://images.squarespace-cdn.com/content/v1/66a8913553fe5456d67f08fe/1722483600000-PLACEHOLDER/hero.jpg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.55;
-    }
-    /* Warm overlay fallback if image doesn't load */
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(160deg, #3d3428 0%, #2b2b28 50%, #1e2a1e 100%);
-      opacity: 0.7;
+      background: linear-gradient(160deg, #1e4a52 0%, #13303a 55%, #0e2530 100%);
     }
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
       padding: 2rem;
-      max-width: 700px;
+      max-width: 680px;
     }
     .hero-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 500;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 1.2rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 1.4rem;
     }
     .hero-title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
       font-weight: 400;
       color: #fff;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
+      line-height: 1.15;
+      margin-bottom: 1.6rem;
+      letter-spacing: -0.01em;
+    }
+    .hero-wave {
+      display: block;
+      margin: 0 auto 1.6rem;
+      opacity: 0.55;
     }
     .hero-tagline {
       font-size: 1rem;
       font-weight: 300;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.7;
-      max-width: 520px;
-      margin: 0 auto 2.5rem;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.75;
+      max-width: 500px;
+      margin: 0 auto 2.6rem;
     }
     .hero-cta {
       display: inline-block;
-      padding: 0.85rem 2.2rem;
-      border: 1.5px solid rgba(255,255,255,0.5);
+      padding: 0.9rem 2.4rem;
+      border: 1.5px solid rgba(255,255,255,0.4);
       color: #fff;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
     }
     .hero-cta:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.75);
     }
 
     /* ---- INFO STRIP ---- */
     .info-strip {
-      background: #1a1a18;
-      color: rgba(255,255,255,0.75);
+      background: var(--teal-dk);
+      color: rgba(255,255,255,0.65);
       display: flex;
       justify-content: center;
       gap: 4rem;
-      padding: 1.4rem 2rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
+      padding: 1.3rem 2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
     }
     .info-strip span { display: flex; align-items: center; gap: 0.5rem; }
     .info-strip strong { color: #fff; }
 
-    /* ---- ABOUT SECTION ---- */
+    /* ---- ABOUT ---- */
     .about {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 6rem 2rem;
       text-align: center;
     }
     .section-label {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 600;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #8a7f6e;
+      color: var(--teal);
       margin-bottom: 1rem;
     }
     .about h2 {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: clamp(1.8rem, 4vw, 2.8rem);
       font-weight: 400;
-      color: #1a1a1a;
-      line-height: 1.3;
+      color: var(--text);
+      line-height: 1.25;
       margin-bottom: 1.5rem;
     }
     .about p {
       font-size: 1rem;
       font-weight: 300;
-      line-height: 1.8;
+      line-height: 1.85;
       color: #4a4a4a;
-      max-width: 620px;
+      max-width: 580px;
       margin: 0 auto;
     }
 
     /* ---- MENU CARDS ---- */
     .menu-section {
-      background: #f2ede6;
+      background: var(--cream2);
       padding: 5rem 2rem;
     }
     .menu-section .section-label { text-align: center; }
@@ -185,94 +184,108 @@
       font-weight: 400;
       text-align: center;
       margin-bottom: 3rem;
-      color: #1a1a1a;
+      color: var(--text);
     }
     .menu-cards {
       display: flex;
       gap: 2rem;
-      max-width: 800px;
+      max-width: 780px;
       margin: 0 auto;
     }
     .menu-card {
       flex: 1;
-      background: #fff;
-      border-radius: 4px;
+      background: var(--cream);
+      border: 1px solid rgba(45,107,120,0.12);
+      border-radius: 3px;
       padding: 2.5rem 2rem;
       text-align: center;
     }
     .menu-card .time {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 600;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #8a7f6e;
+      color: var(--teal);
       margin-bottom: 0.75rem;
     }
     .menu-card h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 400;
       margin-bottom: 0.75rem;
-      color: #1a1a1a;
+      color: var(--text);
     }
     .menu-card p {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: #6a6a6a;
-      line-height: 1.6;
+      line-height: 1.65;
       margin-bottom: 1.5rem;
     }
     .menu-card a {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #1a1a1a;
+      color: var(--teal);
       text-decoration: none;
-      border-bottom: 1px solid currentColor;
+      border-bottom: 1px solid rgba(45,107,120,0.4);
       padding-bottom: 2px;
+      transition: border-color 0.2s;
     }
+    .menu-card a:hover { border-color: var(--teal); }
 
-    /* ---- EASY REVIEW WIDGET ---- */
+    /* ---- WAVE SEPARATOR ---- */
+    .wave-separator {
+      display: block;
+      width: 100%;
+      line-height: 0;
+      background: var(--cream2); /* matches section above */
+    }
+    .wave-separator svg { display: block; width: 100%; }
+
+    /* ---- WIDGET WRAPPER ---- */
     #easy-review-widget {
-      /* widget will full-width breakout itself */
+      /* widget breaks out full-width itself */
     }
 
     /* ---- FOOTER ---- */
     footer {
-      background: #1a1a18;
-      color: rgba(255,255,255,0.45);
+      background: var(--teal-xdk);
+      color: rgba(255,255,255,0.4);
       padding: 3rem 2rem;
       text-align: center;
     }
     footer .footer-logo img {
-      height: 28px;
-      margin-bottom: 1.5rem;
-      opacity: 0.6;
+      height: 26px;
+      margin-bottom: 1.6rem;
+      opacity: 0.55;
+      filter: brightness(0) invert(1);
     }
     footer .footer-links {
       display: flex;
       justify-content: center;
       gap: 2rem;
       list-style: none;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.4rem;
     }
     footer .footer-links a {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.38);
       text-decoration: none;
+      transition: color 0.2s;
     }
     footer .footer-links a:hover { color: rgba(255,255,255,0.8); }
     footer address {
       font-style: normal;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       line-height: 1.8;
     }
 
     @media (max-width: 640px) {
       .menu-cards { flex-direction: column; }
-      .info-strip { flex-direction: column; gap: 0.75rem; text-align: center; }
+      .info-strip { flex-direction: column; gap: 0.6rem; text-align: center; }
       nav .nav-links { display: none; }
     }
   </style>
@@ -299,6 +312,11 @@
     <div class="hero-content">
       <p class="hero-label">Café &amp; Wine Bar — Scarborough</p>
       <h1 class="hero-title">Little Wave</h1>
+      <!-- Wave motif matching the logo -->
+      <svg class="hero-wave" width="120" height="20" viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 10 C15 2, 25 18, 40 10 C55 2, 65 18, 80 10 C95 2, 105 18, 120 10"
+              stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
       <p class="hero-tagline">With views over the pine trees and the beach, we bring back the simple pleasures of dropping in, catching up and hanging out.</p>
       <a href="#" class="hero-cta">View Menu</a>
     </div>
@@ -306,9 +324,9 @@
 
   <!-- INFO STRIP -->
   <div class="info-strip">
-    <span><strong>Open</strong> Mon – Sun, 6 AM til Late</span>
-    <span><strong>Walk-ins</strong> Welcome — No bookings required</span>
-    <span><strong>190 The Esplanade,</strong> Scarborough WA</span>
+    <span><strong>Open</strong>&nbsp;Mon – Sun, 6 AM til Late</span>
+    <span><strong>Walk-ins</strong>&nbsp;Welcome — No bookings required</span>
+    <span><strong>190 The Esplanade,</strong>&nbsp;Scarborough WA</span>
   </div>
 
   <!-- ABOUT -->
@@ -338,6 +356,14 @@
     </div>
   </section>
 
+  <!-- WAVE SEPARATOR: cream → teal -->
+  <div class="wave-separator">
+    <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,36 C120,72 240,0 360,36 C480,72 600,0 720,36 C840,72 960,0 1080,36 C1200,72 1320,0 1440,36 L1440,72 L0,72 Z"
+            fill="#1e4450"/>
+    </svg>
+  </div>
+
   <!-- EASY REVIEW WIDGET -->
   <div id="easy-review-widget"></div>
 
@@ -356,7 +382,7 @@
     <address>190 The Esplanade, Scarborough WA 6019</address>
   </footer>
 
-  <!-- EASY REVIEW INLINE WIDGET SCRIPT (demo — no API call needed) -->
+  <!-- EASY REVIEW INLINE WIDGET (demo) -->
   <script>
   (function(){
     if (!document.getElementById('er-gfont')) {
@@ -373,7 +399,7 @@
       { name: 'James T.',   date: '10 Apr 2026', rating: 5, text: 'The Later menu is brilliant — the share plates are beautifully done and the wine list is really well curated. Came for drinks, stayed for dinner. Will be back.' },
       { name: 'Mia R.',     date: '8 Apr 2026',  rating: 5, text: 'Best breakfast spot in Scarborough. The food is fresh, service is lovely and the atmosphere is just right. Great to have somewhere this good so close to the beach.' },
       { name: 'Tom & Lisa', date: '5 Apr 2026',  rating: 5, text: 'Stumbled in on a Sunday and it was the highlight of our weekend. The views, the food, the coffee — everything was spot on. Highly recommend.' },
-      { name: 'Priya K.',   date: '2 Apr 2026',  rating: 4, text: 'Lovely café with a great atmosphere. The team are friendly and the flat white was one of the best I\'ve had. Will definitely be making this my regular.' },
+      { name: 'Priya K.',   date: '2 Apr 2026',  rating: 4, text: "Lovely café with a great atmosphere. The team are friendly and the flat white was one of the best I've had. Will definitely be making this my regular." },
     ].map(function(r) {
       var s = '\u2605'.repeat(r.rating);
       return '<div class="er-card">' +
@@ -393,64 +419,65 @@
       { n: 'James T.',   t: 'The Later menu is brilliant — share plates beautifully done and a great wine list.' },
     ];
 
+    /* Little Wave teal palette for the widget */
     var css =
       '#er-root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;' +
-        'background:linear-gradient(150deg,#132b4d 0%,#0c1e37 100%);' +
+        'background:linear-gradient(150deg,#1e4450 0%,#13303a 100%);' +
         'padding:4rem 0 3rem;box-sizing:border-box;overflow:hidden;' +
         'width:100vw;position:relative;left:50%;transform:translateX(-50%);}' +
       '#er-header{text-align:center;padding:0 1.5rem;margin-bottom:2.5rem;}' +
-      '#er-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;}' +
+      '#er-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.75rem;}' +
       '#er-rating-row{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.6rem;}' +
       '#er-avg{font-family:"Playfair Display",Georgia,serif;font-size:2rem;font-weight:700;color:#ffffff;line-height:1;}' +
-      '#er-rat-stars{color:#c8a96e;font-size:1.05rem;letter-spacing:2px;text-shadow:0 1px 3px rgba(0,0,0,0.3);}' +
-      '#er-rat-count{font-size:0.82rem;color:rgba(255,255,255,0.45);}' +
-      '#er-gold-line{width:36px;height:2px;background:rgba(255,255,255,0.2);margin:0 auto 1rem;}' +
+      '#er-rat-stars{color:#a8d4cc;font-size:1.05rem;letter-spacing:2px;text-shadow:0 1px 3px rgba(0,0,0,0.25);}' +
+      '#er-rat-count{font-size:0.82rem;color:rgba(255,255,255,0.4);}' +
+      '#er-gold-line{width:36px;height:2px;background:rgba(168,212,204,0.35);margin:0 auto 1rem;}' +
       '#er-heading{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;color:#ffffff;margin:0;}' +
       '#er-carousel{position:relative;padding:2rem 60px;}' +
       '#er-track-outer{overflow:hidden;}' +
       '#er-track{display:flex;gap:20px;align-items:center;transition:transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;}' +
-      '.er-card{flex:0 0 300px;background:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.5);border-radius:18px;padding:1.75rem 1.5rem 1.4rem;box-sizing:border-box;position:relative;overflow:hidden;' +
+      '.er-card{flex:0 0 300px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:1.75rem 1.5rem 1.4rem;box-sizing:border-box;position:relative;overflow:hidden;' +
         'transition:transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94),opacity 0.55s ease,box-shadow 0.55s ease,background 0.55s ease;' +
         'transform:scale(0.82);opacity:0.35;cursor:pointer;user-select:none;}' +
       '.er-card.er-adj{transform:scale(0.91);opacity:0.65;}' +
-      '.er-card.er-active{background:#ffffff;border:none;' +
-        'box-shadow:0 4px 0 rgba(0,0,0,0.06),0 12px 40px rgba(0,0,0,0.18),0 32px 72px rgba(0,0,0,0.12);' +
+      '.er-card.er-active{background:#eeeae4;border:none;' +
+        'box-shadow:0 4px 0 rgba(0,0,0,0.06),0 12px 40px rgba(0,0,0,0.2),0 32px 72px rgba(0,0,0,0.14);' +
         'transform:scale(1.07);opacity:1;cursor:default;z-index:2;}' +
-      '.er-quote{position:absolute;top:-0.25rem;right:0.75rem;font-size:6rem;line-height:1;font-family:Georgia,serif;pointer-events:none;color:#c8a96e;opacity:0.15;}' +
-      '.er-card.er-active .er-quote{opacity:0.1;}' +
-      '.er-text{margin:0 0 1.1rem;font-size:0.85rem;line-height:1.72;color:rgba(255,255,255,0.75);font-style:italic;position:relative;}' +
-      '.er-card.er-active .er-text{color:#2a2a2a;font-size:0.95rem;}' +
-      '.er-stars{color:rgba(255,255,255,0.6);font-size:0.92rem;letter-spacing:2px;margin-bottom:1rem;}' +
-      '.er-card.er-active .er-stars{color:#c8a96e;}' +
-      '.er-meta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.25);padding-top:0.85rem;}' +
-      '.er-card.er-active .er-meta{border-top-color:#ede8e1;}' +
-      '.er-name{font-family:"Dancing Script",cursive;font-size:1.05rem;font-weight:600;color:rgba(255,255,255,0.65);}' +
-      '.er-card.er-active .er-name{color:#1a1a1a;font-size:1.1rem;}' +
-      '.er-date{font-size:0.7rem;color:rgba(255,255,255,0.4);}' +
-      '.er-card.er-active .er-date{color:#b0a89e;}' +
+      '.er-quote{position:absolute;top:-0.25rem;right:0.75rem;font-size:6rem;line-height:1;font-family:Georgia,serif;pointer-events:none;color:#2d6b78;opacity:0.08;}' +
+      '.er-card.er-active .er-quote{opacity:0.07;}' +
+      '.er-text{margin:0 0 1.1rem;font-size:0.85rem;line-height:1.72;color:rgba(255,255,255,0.72);font-style:italic;position:relative;}' +
+      '.er-card.er-active .er-text{color:#2a3a3c;font-size:0.95rem;}' +
+      '.er-stars{color:rgba(168,212,204,0.7);font-size:0.92rem;letter-spacing:2px;margin-bottom:1rem;}' +
+      '.er-card.er-active .er-stars{color:#2d6b78;}' +
+      '.er-meta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.2);padding-top:0.85rem;}' +
+      '.er-card.er-active .er-meta{border-top-color:rgba(45,107,120,0.2);}' +
+      '.er-name{font-family:"Dancing Script",cursive;font-size:1.05rem;font-weight:600;color:rgba(255,255,255,0.6);}' +
+      '.er-card.er-active .er-name{color:#1e4450;font-size:1.1rem;}' +
+      '.er-date{font-size:0.7rem;color:rgba(255,255,255,0.35);}' +
+      '.er-card.er-active .er-date{color:#8aabad;}' +
       '.er-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;' +
-        'border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:1.4rem;' +
+        'border:1.5px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);font-size:1.4rem;' +
         'cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:3;padding:0;line-height:1;}' +
-      '.er-btn:hover:not([disabled]){background:rgba(255,255,255,0.18);color:#c8a96e;border-color:rgba(255,255,255,0.4);}' +
+      '.er-btn:hover:not([disabled]){background:rgba(168,212,204,0.18);color:#a8d4cc;border-color:rgba(168,212,204,0.45);}' +
       '.er-btn[disabled]{opacity:0.2;cursor:default;}' +
       '#er-prev{left:0;}#er-next{right:0;}' +
       '#er-dots{display:flex;justify-content:center;gap:7px;margin-top:1.5rem;}' +
-      '.er-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;padding:0;cursor:pointer;transition:all 0.25s;}' +
-      '.er-dot.er-da{background:rgba(255,255,255,0.85);width:24px;border-radius:3px;}' +
-      '#er-footer{text-align:center;margin-top:1.5rem;font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em;}' +
-      '#er-footer a{color:rgba(255,255,255,0.45);text-decoration:none;}' +
+      '.er-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;padding:0;cursor:pointer;transition:all 0.25s;}' +
+      '.er-dot.er-da{background:rgba(168,212,204,0.85);width:24px;border-radius:3px;}' +
+      '#er-footer{text-align:center;margin-top:1.5rem;font-size:0.65rem;color:rgba(255,255,255,0.25);letter-spacing:0.05em;}' +
+      '#er-footer a{color:rgba(168,212,204,0.5);text-decoration:none;}' +
       '#er-badge{position:fixed;bottom:5.5rem;right:1.5rem;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}' +
-      '#er-bp{background:#0d0d0d;border:1px solid rgba(200,169,110,0.38);border-radius:60px;padding:0.55rem 0.8rem 0.55rem 0.75rem;' +
-        'display:flex;align-items:center;gap:0.55rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.55);transition:transform 0.2s,box-shadow 0.2s;}' +
-      '#er-bp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.65);}' +
+      '#er-bp{background:#13303a;border:1px solid rgba(168,212,204,0.35);border-radius:60px;padding:0.55rem 0.8rem 0.55rem 0.75rem;' +
+        'display:flex;align-items:center;gap:0.55rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.5);transition:transform 0.2s,box-shadow 0.2s;}' +
+      '#er-bp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.6);}' +
       '#er-bl{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;}' +
       '#er-ba{color:#fff;font-weight:700;font-size:0.88rem;line-height:1;}' +
-      '#er-bs{color:#c8a96e;font-size:0.58rem;letter-spacing:1px;}' +
-      '#er-bsep{width:1px;height:28px;background:rgba(200,169,110,0.22);flex-shrink:0;}' +
+      '#er-bs{color:#a8d4cc;font-size:0.58rem;letter-spacing:1px;}' +
+      '#er-bsep{width:1px;height:28px;background:rgba(168,212,204,0.2);flex-shrink:0;}' +
       '#er-brev{max-width:168px;}' +
-      '#er-btxt{color:rgba(255,255,255,0.65);font-size:0.68rem;line-height:1.38;font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}' +
-      '#er-bname{color:rgba(255,255,255,0.3);font-size:0.6rem;margin-top:2px;}' +
-      '#er-bclose{color:rgba(255,255,255,0.28);font-size:0.9rem;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;background:none;border:none;}' +
+      '#er-btxt{color:rgba(255,255,255,0.62);font-size:0.68rem;line-height:1.38;font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}' +
+      '#er-bname{color:rgba(255,255,255,0.28);font-size:0.6rem;margin-top:2px;}' +
+      '#er-bclose{color:rgba(255,255,255,0.25);font-size:0.9rem;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;background:none;border:none;}' +
       '#er-bclose:hover{color:#fff;}' +
       '@media(max-width:860px){.er-card{flex:0 0 260px;}#er-carousel{padding:2rem 50px;}}' +
       '@media(max-width:520px){.er-card{flex:0 0 80vw;}#er-carousel{padding:2rem 40px;}#er-badge{bottom:5rem;right:1rem;}#er-brev{max-width:120px;}}';
@@ -503,9 +530,7 @@
           c.className = 'er-card' + (d === 0 ? ' er-active' : d === 1 ? ' er-adj' : '');
           if (d > 0) {
             c.onclick = (function(j){ return function(){ stopAuto(); goTo(j); startAuto(); }; })(j);
-          } else {
-            c.onclick = null;
-          }
+          } else { c.onclick = null; }
         });
         prevBtn.disabled = idx === 0;
         nextBtn.disabled = idx >= n - 1;
